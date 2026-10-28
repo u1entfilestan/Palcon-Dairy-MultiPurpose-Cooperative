@@ -1,0 +1,2776 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Palcon Dairy Multi-Purpose Cooperative | Kooperatiba ng Gatas</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f7f2',
+              100: '#e4f0e7',
+              200: '#c8e2d1',
+              300: '#a3ceb2',
+              400: '#6fae88',
+              500: '#f59e0b',
+              600: '#098541',
+              700: '#0BA652',
+              800: '#098541',
+              900: '#0b3d2c',
+              dark: '#08281d',
+            },
+            mint: {
+              50: '#f6faf7',
+              100: '#e8f3ec',
+              200: '#d5e9dc',
+              300: '#b8dbc4',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f0f7f2;
+      color: #13382c;
+    }
+    .hero-bg-gradient {
+      background: linear-gradient(180deg, #f0f7f2 0%, #e6f0e9 100%);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #e8f3ec;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #a3ceb2;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-[#0BA652] selection:text-white">
+
+  <!-- ================= HEADER & NAV ================= -->
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-brand-100 shadow-sm transition-all duration-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Logo & Brand Name -->
+      <a href="#" onclick="switchTab('home')" class="flex items-center gap-3 group">
+        <img src="palcon-logo.png" 
+             alt="Palcon Dairy Logo" 
+             style="width: 0.9in; height: 0.9in;" 
+             class="object-contain group-hover:scale-105 transition-transform shrink-0" 
+             onerror="this.onerror=null; this.outerHTML='<div style=\'width: 0.9in; height: 0.9in;\' class=\'bg-[#0BA652] text-white font-bold flex items-center justify-center rounded\'>PD</div>';">
+
+        <div>
+          <h1 class="font-extrabold text-brand-900 text-lg sm:text-xl leading-snug tracking-tight">
+            Palcon Dairy <span class="hidden sm:inline">Multi-Purpose Cooperative</span>
+          </h1>
+          <p class="text-xs font-semibold text-[#0BA652] tracking-wide" id="nav-subtitle">Kooperatiba ng Gatas</p>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+        <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-2 py-1 text-sm font-medium text-[#0BA652] border-b-2 border-[#0BA652] transition">Home</button>
+        <button onclick="switchTab('about')" id="nav-about" class="nav-btn px-2 py-1 text-sm font-medium text-gray-600 hover:text-brand-900 border-b-2 border-transparent transition">About Us</button>
+        <button onclick="switchTab('products')" id="nav-products" class="nav-btn px-2 py-1 text-sm font-medium text-gray-600 hover:text-brand-900 border-b-2 border-transparent transition">Products & Services</button>
+        <button onclick="switchTab('gallery')" id="nav-gallery" class="nav-btn px-2 py-1 text-sm font-medium text-gray-600 hover:text-brand-900 border-b-2 border-transparent transition">Gallery</button>
+        <button onclick="switchTab('youth')" id="nav-youth" class="nav-btn px-2 py-1 text-sm font-medium text-gray-600 hover:text-brand-900 border-b-2 border-transparent transition">Youth Hub</button>
+        <button onclick="switchTab('contact')" id="nav-contact" class="nav-btn px-1 py-2 text-sm font-medium text-gray-600 hover:text-brand-900 border-b-2 border-transparent transition">Contact Us</button>
+        <button onclick="switchTab('store')" id="nav-store" class="nav-btn px-2 py-1 text-sm font-medium text-gray-600 hover:text-brand-900 border-b-2 border-transparent transition flex items-center gap-1.5">
+          <span>Coop Store</span>
+          <span id="cart-badge" class="hidden bg-[#0BA652] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+        </button>
+      </nav>
+
+      <!-- Right Action Tools -->
+      <div class="hidden sm:flex items-center space-x-3">
+        <!-- Language Switcher -->
+        <button onclick="toggleLanguage()" class="bg-brand-100 hover:bg-brand-200 text-brand-800 font-semibold text-xs sm:text-sm px-4 py-2 rounded-full flex items-center gap-2 transition shadow-xs">
+          <i data-lucide="globe" class="w-4 h-4 text-[#0BA652]"></i>
+          <span id="lang-btn-text">Filipino</span>
+        </button>
+
+        <!-- Member Login / Portal Button -->
+        <button onclick="switchTab('portal')" class="bg-[#0BA652] hover:bg-[#098541] text-white font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-full flex items-center gap-2 transition shadow-md hover:shadow-lg">
+          <i data-lucide="user" class="w-4 h-4"></i>
+          <span id="login-btn-text">Member Login</span>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="flex items-center space-x-2 md:hidden">
+        <button onclick="toggleLanguage()" class="bg-brand-100 text-brand-800 p-2 rounded-full">
+          <i data-lucide="globe" class="w-4 h-4"></i>
+        </button>
+        <button onclick="toggleMobileMenu()" class="text-brand-900 p-2 rounded-lg hover:bg-brand-100 transition">
+          <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-brand-100 px-4 pt-2 pb-6 space-y-2 shadow-xl">
+      <button onclick="switchTab('home')" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold text-brand-800 hover:bg-brand-50">Home</button>
+      <button onclick="switchTab('about')" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold text-gray-700 hover:bg-brand-50">About Us</button>
+      <button onclick="switchTab('products')" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold text-gray-700 hover:bg-brand-50">Products & Services</button>
+      <button onclick="switchTab('gallery')" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold text-gray-700 hover:bg-brand-50">Gallery & Projects</button>
+      <button onclick="switchTab('youth')" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold text-gray-700 hover:bg-brand-50">Youth Hub</button>
+      <button onclick="switchTab('contact')" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold text-gray-700 hover:bg-brand-50">Contact Us</button>
+      <button onclick="switchTab('store')" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold text-gray-700 hover:bg-brand-50 flex justify-between items-center">
+        <span>Coop Store & Feeds</span>
+        <span class="bg-[#0BA652] text-white text-xs font-bold px-2 py-0.5 rounded-full" id="mobile-cart-badge">0</span>
+      </button>
+      <div class="pt-2 border-t border-gray-100">
+        <button onclick="switchTab('portal')" class="w-full bg-[#0BA652] text-white font-semibold py-3 rounded-full flex items-center justify-center gap-2">
+          <i data-lucide="user" class="w-4 h-4"></i>
+          <span id="mobile-login-text">Member Login & Portal</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT AREA ================= -->
+  <main class="flex-grow">
+    
+    <!-- PAGE 1: HOME PAGE -->
+    <div id="page-home" class="page-content">
+      
+      <!-- HERO SECTION -->
+      <section class="hero-bg-gradient pt-8 pb-12 md:py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <!-- Left Hero Content -->
+            <div class="lg:col-span-6 space-y-6">
+              
+              <!-- Badge -->
+              <div class="inline-flex items-center gap-2 bg-[#dbeee1] text-[#11533c] font-semibold text-xs sm:text-sm px-4 py-1.5 rounded-full border border-brand-200">
+                <i data-lucide="shield-check" class="w-4 h-4 text-[#0BA652]"></i>
+                <span id="hero-badge">CDA Accredited Primary Dairy Cooperative</span>
+              </div>
+
+              <!-- Main Title -->
+              <h1 id="hero-title" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f3d2e] leading-[1.15] tracking-tight">
+                Empowering Local Dairy Farmers & Enriching Filipino Communities
+              </h1>
+
+              <!-- Description -->
+              <p id="hero-desc" class="text-gray-600 text-base sm:text-lg leading-relaxed max-w-xl">
+                Palcon Dairy Multi-Purpose Cooperative brings together smallholder dairy farmers, offering fair milk pricing, modern cattle feeding, accessible micro-loans, savings options, and youth agri-entrepreneurship programs.
+              </p>
+
+              <!-- CTA Action Buttons -->
+              <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+                <button onclick="switchTab('portal')" class="bg-[#0BA652] hover:bg-[#098541] text-white font-bold text-sm sm:text-base px-6 py-3.5 rounded-full flex items-center justify-center gap-2 transition shadow-md hover:shadow-lg">
+                  <i data-lucide="users" class="w-5 h-5"></i>
+                  <span id="hero-cta-portal">Member Portal & Services</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                </button>
+
+                <button onclick="switchTab('store')" class="border-2 border-[#0BA652] text-[#0BA652] hover:bg-[#e4f0e7] font-bold text-sm sm:text-base px-6 py-3.5 rounded-full flex items-center justify-center gap-2 transition">
+                  <i data-lucide="store" class="w-5 h-5"></i>
+                  <span id="hero-cta-store">Explore Coop Store & Feeds</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                </button>
+              </div>
+
+            </div>
+
+            <!-- Right Hero Image with Floating Glassmorphism Overlay -->
+            <div class="lg:col-span-6 relative mt-4 lg:mt-0">
+              <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+                <img 
+                  src="hero-farm-milk.jpg" 
+                  alt="Filipino Dairy Farmer handling milk collection" 
+                  class="w-full h-[360px] sm:h-[420px] object-cover"
+                  onerror="this.onerror=null; this.src='https://placehold.co/800x600/0BA652/ffffff?text=Palcon+Dairy+Farmers';"
+                />
+                
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+
+                <div class="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-emerald-100/80 shadow-lg">
+                  <div class="grid grid-cols-2 divide-x divide-emerald-100">
+                    
+                    <div class="flex items-center gap-3 pr-2 sm:pr-4">
+                      <div class="w-11 h-11 rounded-full bg-brand-100 flex items-center justify-center shrink-0">
+                        <i data-lucide="milk" class="w-6 h-6 text-[#0BA652]"></i>
+                      </div>
+                      <div>
+                        <div class="text-xl sm:text-2xl font-extrabold text-brand-900 tracking-tight">1,250+ L</div>
+                        <div class="text-xs font-semibold text-gray-500" id="stat-milk-label">Daily Milk Collected</div>
+                      </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 pl-3 sm:pl-6">
+                      <div class="w-11 h-11 rounded-full bg-brand-100 flex items-center justify-center shrink-0 font-bold text-[#0BA652] text-lg">
+                        ₱
+                      </div>
+                      <div>
+                        <div class="text-xl sm:text-2xl font-extrabold text-brand-900 tracking-tight">₱45.00/L</div>
+                        <div class="text-xs font-semibold text-gray-500" id="stat-payout-label">Guaranteed Payout Rate</div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- KEY FEATURE CARDS BAR -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-12">
+            
+            <div onclick="switchTab('products')" class="cursor-pointer bg-[#e8f3ec] rounded-2xl p-6 border border-[#d2e6d9] hover:border-brand-400 hover:shadow-md transition flex items-center justify-between group">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-brand-100 flex items-center justify-center shrink-0 border border-brand-200">
+                  <i data-lucide="coins" class="w-6 h-6 text-[#0BA652]"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-brand-900 text-base sm:text-lg group-hover:text-[#0BA652] transition" id="card1-title">Fair Milk Pricing</h3>
+                  <p class="text-xs sm:text-sm text-gray-600 mt-0.5" id="card1-desc">We ensure stable and competitive milk prices for our farmers.</p>
+                </div>
+              </div>
+              <i data-lucide="arrow-right" class="w-5 h-5 text-[#0BA652] group-hover:translate-x-1 transition shrink-0 ml-2"></i>
+            </div>
+
+            <div onclick="switchTab('products')" class="cursor-pointer bg-[#e8f3ec] rounded-2xl p-6 border border-[#d2e6d9] hover:border-brand-400 hover:shadow-md transition flex items-center justify-between group">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-brand-100 flex items-center justify-center shrink-0 border border-brand-200">
+                  <i data-lucide="sprout" class="w-6 h-6 text-[#0BA652]"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-brand-900 text-base sm:text-lg group-hover:text-[#0BA652] transition" id="card2-title">Farmer Support</h3>
+                  <p class="text-xs sm:text-sm text-gray-600 mt-0.5" id="card2-desc">Access to micro-loans, quality inputs, training, and continuous assistance.</p>
+                </div>
+              </div>
+              <i data-lucide="arrow-right" class="w-5 h-5 text-[#0BA652] group-hover:translate-x-1 transition shrink-0 ml-2"></i>
+            </div>
+
+            <div onclick="switchTab('youth')" class="cursor-pointer bg-[#e8f3ec] rounded-2xl p-6 border border-[#d2e6d9] hover:border-brand-400 hover:shadow-md transition flex items-center justify-between group">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-brand-100 flex items-center justify-center shrink-0 border border-brand-200">
+                  <i data-lucide="users" class="w-6 h-6 text-[#0BA652]"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-brand-900 text-base sm:text-lg group-hover:text-[#0BA652] transition" id="card3-title">Youth Agri-Entrepreneurship</h3>
+                  <p class="text-xs sm:text-sm text-gray-600 mt-0.5" id="card3-desc">Creating opportunities for the next generation of dairy farmers.</p>
+                </div>
+              </div>
+              <i data-lucide="arrow-right" class="w-5 h-5 text-[#0BA652] group-hover:translate-x-1 transition shrink-0 ml-2"></i>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- EXTRA HIGHLIGHTS SECTION -->
+      <section class="py-12 bg-white border-t border-b border-brand-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center max-w-2xl mx-auto mb-10">
+            <span class="text-xs font-bold uppercase tracking-widest text-[#0BA652]" id="home-sec2-subtitle">COMMUNITY IMPACT</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-900 mt-1" id="home-sec2-title">Nurturing Local Dairy Excellence</h2>
+            <p class="text-gray-600 text-sm sm:text-base mt-2" id="home-sec2-desc">Providing pure, fresh milk products while expanding livelihood opportunities for agrarian communities.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
+            <div class="p-5 rounded-2xl bg-brand-50 border border-brand-100">
+              <div class="text-3xl font-black text-[#0BA652]">56</div>
+              <div class="text-sm font-bold text-brand-900 mt-1" id="stat1-name">Active Farmer Members</div>
+              <div class="text-xs text-gray-500 mt-0.5" id="stat1-sub">Benefiting from fair trade</div>
+            </div>
+            <div class="p-5 rounded-2xl bg-brand-50 border border-brand-100">
+              <div class="text-3xl font-black text-[#0BA652]">100%</div>
+              <div class="text-sm font-bold text-brand-900 mt-1" id="stat2-name">Fresh Cow Milk</div>
+              <div class="text-xs text-gray-500 mt-0.5" id="stat2-sub">No added preservatives</div>
+            </div>
+            <div class="p-5 rounded-2xl bg-brand-50 border border-brand-100">
+              <div class="text-3xl font-black text-[#0BA652]">₱3.2M</div>
+              <div class="text-sm font-bold text-brand-900 mt-1" id="stat3-name">Micro-Loans Released</div>
+              <div class="text-xs text-gray-500 mt-0.5" id="stat3-sub">Empowering farm growth</div>
+            </div>
+            <div class="p-5 rounded-2xl bg-brand-50 border border-brand-100">
+              <div class="text-3xl font-black text-[#0BA652]">365 Days</div>
+              <div class="text-sm font-bold text-brand-900 mt-1" id="stat4-name">Year-Round Milk</div>
+              <div class="text-xs text-gray-500 mt-0.5" id="stat4-sub">Continuous daily production</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LATEST NEWS & ANNOUNCEMENTS FEED -->
+      <section class="py-16 bg-[#f0f7f2]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-6">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-widest text-[#0BA652] bg-brand-100 px-3 py-1 rounded-full" id="news-badge">COOP UPDATES</span>
+              <h2 class="text-3xl font-extrabold text-brand-900 mt-3" id="news-section-title">Latest News & Announcements Feed</h2>
+              <p class="text-gray-600 text-sm sm:text-base mt-1" id="news-section-sub">Stay informed with dividend schedules, milk collection advisories, and cooperative events.</p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <div class="relative">
+                <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                <input type="text" id="news-search-input" onkeyup="filterNews()" placeholder="Search updates..." class="pl-9 pr-4 py-2 bg-white rounded-full border border-brand-200 text-xs sm:text-sm focus:outline-none focus:border-[#0BA652] w-full sm:w-48 shadow-xs">
+              </div>
+
+              <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0" id="news-category-filters">
+                <button onclick="setNewsFilter('all')" id="filter-btn-all" class="news-filter-btn px-3.5 py-2 rounded-full text-xs font-bold bg-[#0BA652] text-white shadow-xs transition">All</button>
+                <button onclick="setNewsFilter('announcement')" id="filter-btn-announcement" class="news-filter-btn px-3.5 py-2 rounded-full text-xs font-bold bg-white text-gray-600 hover:text-[#0BA652] border border-brand-200 transition">Announcements</button>
+                <button onclick="setNewsFilter('event')" id="filter-btn-event" class="news-filter-btn px-3.5 py-2 rounded-full text-xs font-bold bg-white text-gray-600 hover:text-[#0BA652] border border-brand-200 transition">Events</button>
+                <button onclick="setNewsFilter('advisory')" id="filter-btn-advisory" class="news-filter-btn px-3.5 py-2 rounded-full text-xs font-bold bg-white text-gray-600 hover:text-[#0BA652] border border-brand-200 transition">Advisories</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="news-cards-container">
+            
+            <article class="news-item bg-white rounded-3xl overflow-hidden border border-brand-100 shadow-xs hover:shadow-md transition flex flex-col justify-between group" data-category="announcement">
+              <div>
+                <div class="relative h-48 overflow-hidden bg-brand-100">
+                  <img src="https://images.unsplash.com/photo-1596733430284-f7437764b1a9?auto=format&fit=crop&w=600&q=80" alt="Annual General Assembly" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                  <span class="absolute top-3 left-3 bg-amber-500 text-white text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full shadow-xs">Announcement</span>
+                </div>
+                <div class="p-6">
+                  <div class="flex items-center gap-2 text-xs text-gray-500 mb-2 font-medium">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#0BA652]"></i>
+                    <span>October 20, 2026</span>
+                    <span>•</span>
+                    <i data-lucide="clock" class="w-3.5 h-3.5 text-[#0BA652]"></i>
+                    <span>3 min read</span>
+                  </div>
+                  <h3 class="font-bold text-brand-900 text-lg leading-snug group-hover:text-[#0BA652] transition" id="news1-title">
+                    Annual General Assembly & Q4 Patronage Dividend Schedule
+                  </h3>
+                  <p class="text-xs sm:text-sm text-gray-600 mt-2 leading-relaxed" id="news1-desc">
+                    All cooperative members are invited to attend our Annual General Assembly on November 15, 2026. Official patronage dividend payouts will be released following the board report.
+                  </p>
+                </div>
+              </div>
+              <div class="px-6 pb-6 pt-2 border-t border-gray-50 flex items-center justify-between">
+                <span class="text-xs font-semibold text-[#0BA652]">Palcon Board of Directors</span>
+                <button onclick="switchTab('portal')" class="text-xs font-bold text-[#0BA652] group-hover:translate-x-1 transition flex items-center gap-1">
+                  Read More <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </article>
+
+            <article class="news-item bg-white rounded-3xl overflow-hidden border border-brand-100 shadow-xs hover:shadow-md transition flex flex-col justify-between group" data-category="advisory">
+              <div>
+                <div class="relative h-48 overflow-hidden bg-brand-100">
+                  <img src="https://images.unsplash.com/photo-1527153857715-3908f2bae5e8?auto=format&fit=crop&w=600&q=80" alt="Milk Collection" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                  <span class="absolute top-3 left-3 bg-[#0BA652] text-white text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full shadow-xs">Advisory</span>
+                </div>
+                <div class="p-6">
+                  <div class="flex items-center gap-2 text-xs text-gray-500 mb-2 font-medium">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#0BA652]"></i>
+                    <span>October 15, 2026</span>
+                    <span>•</span>
+                    <i data-lucide="clock" class="w-3.5 h-3.5 text-[#0BA652]"></i>
+                    <span>2 min read</span>
+                  </div>
+                  <h3 class="font-bold text-brand-900 text-lg leading-snug group-hover:text-[#0BA652] transition" id="news2-title">
+                    Updated Cold-Chain Collection Hours & Payout Rates
+                  </h3>
+                  <p class="text-xs sm:text-sm text-gray-600 mt-2 leading-relaxed" id="news2-desc">
+                    To maintain optimal milk quality, morning collection centers will open at 4:30 AM starting next week. Standard farm-gate payout remains guaranteed at ₱45.00/Liter.
+                  </p>
+                </div>
+              </div>
+              <div class="px-6 pb-6 pt-2 border-t border-gray-50 flex items-center justify-between">
+                <span class="text-xs font-semibold text-[#0BA652]">Dairy Plant Operations</span>
+                <button onclick="switchTab('portal')" class="text-xs font-bold text-[#0BA652] group-hover:translate-x-1 transition flex items-center gap-1">
+                  Read More <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </article>
+
+            <article class="news-item bg-white rounded-3xl overflow-hidden border border-brand-100 shadow-xs hover:shadow-md transition flex flex-col justify-between group" data-category="event">
+              <div>
+                <div class="relative h-48 overflow-hidden bg-brand-100">
+                  <img src="https://images.unsplash.com/photo-1541625602330-2277a4c46182?auto=format&fit=crop&w=600&q=80" alt="Dairy Workshop" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                  <span class="absolute top-3 left-3 bg-blue-600 text-white text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full shadow-xs">Event</span>
+                </div>
+                <div class="p-6">
+                  <div class="flex items-center gap-2 text-xs text-gray-500 mb-2 font-medium">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#0BA652]"></i>
+                    <span>October 08, 2026</span>
+                    <span>•</span>
+                    <i data-lucide="clock" class="w-3.5 h-3.5 text-[#0BA652]"></i>
+                    <span>4 min read</span>
+                  </div>
+                  <h3 class="font-bold text-brand-900 text-lg leading-snug group-hover:text-[#0BA652] transition" id="news3-title">
+                    Youth Agri-Fellowship 2026 Training & Grant Launch
+                  </h3>
+                  <p class="text-xs sm:text-sm text-gray-600 mt-2 leading-relaxed" id="news3-desc">
+                    Applications are now open for young dairy entrepreneurs aged 18 to 35. Selected fellows receive technical livestock training and seed funding for feed storage.
+                  </p>
+                </div>
+              </div>
+              <div class="px-6 pb-6 pt-2 border-t border-gray-50 flex items-center justify-between">
+                <span class="text-xs font-semibold text-[#0BA652]">Youth Committee</span>
+                <button onclick="switchTab('youth')" class="text-xs font-bold text-[#0BA652] group-hover:translate-x-1 transition flex items-center gap-1">
+                  Read More <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </article>
+
+          </div>
+
+          <div id="no-news-msg" class="hidden text-center py-12 bg-white rounded-3xl border border-brand-100 mt-6">
+            <i data-lucide="newspaper" class="w-10 h-10 text-brand-300 mx-auto mb-2"></i>
+            <p class="text-brand-900 font-bold text-base">No matching news updates found</p>
+            <p class="text-gray-500 text-xs mt-1">Try resetting your category filter or search keywords.</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- FARMER SUCCESS STORIES -->
+      <section class="py-16 bg-white border-t border-brand-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-xs font-bold uppercase tracking-widest text-[#0BA652] bg-brand-100 px-3 py-1 rounded-full" id="stories-badge">MEMBERS IN FOCUS</span>
+            <h2 class="text-3xl font-extrabold text-brand-900 mt-3" id="stories-title">Farmer Success Stories</h2>
+            <p class="text-gray-600 text-sm sm:text-base mt-2" id="stories-sub">Real inspiring journeys from our local dairy farmers whose lives were transformed through cooperative support, fair milk pricing, and accessible micro-finance.</p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="bg-[#f0f7f2] rounded-3xl p-6 sm:p-8 border border-brand-200 shadow-xs hover:shadow-md transition flex flex-col justify-between relative group">
+              <div>
+                <div class="flex items-center justify-between mb-6">
+                  <div class="flex text-amber-400 gap-1">
+                    <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                  </div>
+                  <span class="bg-brand-100 text-brand-800 font-bold text-[11px] px-2.5 py-1 rounded-full border border-brand-200">
+                    Member for 6 Years
+                  </span>
+                </div>
+
+                <p class="text-brand-900 text-sm sm:text-base leading-relaxed italic font-medium mb-6">
+                  "Bago ako sumali sa Palcon Dairy, hindi tinitiyak ng mga middleman ang presyo ng aking gatas. Ngayon, may guaranteed ₱45/L ako at nakakakuha ako ng magandang pakain para sa aking 8 na baka sa murang halaga."
+                </p>
+
+                <div class="bg-white p-3.5 rounded-2xl border border-brand-100 mb-6 flex items-center justify-between">
+                  <div>
+                    <div class="text-xs text-gray-500 font-semibold">Daily Yield Increase</div>
+                    <div class="text-lg font-black text-[#0BA652]">18L → 55L Daily</div>
+                  </div>
+                  <div class="w-9 h-9 rounded-full bg-brand-50 flex items-center justify-center text-[#0BA652]">
+                    <i data-lucide="trending-up" class="w-5 h-5"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-4 pt-4 border-t border-brand-200/60">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80" alt="Tatay Mang Ramon" class="w-14 h-14 rounded-full object-cover border-2 border-[#0BA652]">
+                <div>
+                  <h4 class="font-bold text-brand-900 text-base">Ramon "Tatay Mon" Santos</h4>
+                  <p class="text-xs font-semibold text-[#0BA652]">Dairy Farmer | Barangay Palcon</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-[#f0f7f2] rounded-3xl p-6 sm:p-8 border border-brand-200 shadow-xs hover:shadow-md transition flex flex-col justify-between relative group">
+              <div>
+                <div class="flex items-center justify-between mb-6">
+                  <div class="flex text-amber-400 gap-1">
+                    <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                  </div>
+                  <span class="bg-brand-100 text-brand-800 font-bold text-[11px] px-2.5 py-1 rounded-full border border-brand-200">
+                    Micro-Loan Beneficiary
+                  </span>
+                </div>
+
+                <p class="text-brand-900 text-sm sm:text-base leading-relaxed italic font-medium mb-6">
+                  "Sa tulong ng micro-loan program ng Palcon, nakapagpatayo ako ng mas magandang bakuran at nagdagdag ng dalawang upgraded dairy cattle. Malaking tulong ang patag na hulog at mababang interes!"
+                </p>
+
+                <div class="bg-white p-3.5 rounded-2xl border border-brand-100 mb-6 flex items-center justify-between">
+                  <div>
+                    <div class="text-xs text-gray-500 font-semibold">Micro-Loan Funded</div>
+                    <div class="text-lg font-black text-[#0BA652]">₱80,000 Farm Capital</div>
+                  </div>
+                  <div class="w-9 h-9 rounded-full bg-brand-50 flex items-center justify-center text-[#0BA652]">
+                    <i data-lucide="coins" class="w-5 h-5"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-4 pt-4 border-t border-brand-200/60">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80" alt="Elena Dela Cruz" class="w-14 h-14 rounded-full object-cover border-2 border-[#0BA652]">
+                <div>
+                  <h4 class="font-bold text-brand-900 text-base">Elena Dela Cruz</h4>
+                  <p class="text-xs font-semibold text-[#0BA652]">Dairy Cattle Owner & Agri-Feeds Partner</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-[#f0f7f2] rounded-3xl p-6 sm:p-8 border border-brand-200 shadow-xs hover:shadow-md transition flex flex-col justify-between relative group">
+              <div>
+                <div class="flex items-center justify-between mb-6">
+                  <div class="flex text-amber-400 gap-1">
+                    <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                  </div>
+                  <span class="bg-brand-100 text-brand-800 font-bold text-[11px] px-2.5 py-1 rounded-full border border-brand-200">
+                    Youth Agri-Fellow
+                  </span>
+                </div>
+
+                <p class="text-brand-900 text-sm sm:text-base leading-relaxed italic font-medium mb-6">
+                  "Inakala ko dati na walang magandang hinaharap sa paggatas. Dito sa Palcon Youth Hub, natutunan ko ang makabagong cold-chain management at value-adding tulad ng paggawa ng flavored milk!"
+                </p>
+
+                <div class="bg-white p-3.5 rounded-2xl border border-brand-100 mb-6 flex items-center justify-between">
+                  <div>
+                    <div class="text-xs text-gray-500 font-semibold">Monthly Income Growth</div>
+                    <div class="text-lg font-black text-[#0BA652]">+140% Net Profit</div>
+                  </div>
+                  <div class="w-9 h-9 rounded-full bg-brand-50 flex items-center justify-center text-[#0BA652]">
+                    <i data-lucide="award" class="w-5 h-5"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-4 pt-4 border-t border-brand-200/60">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Marco Reyes" class="w-14 h-14 rounded-full object-cover border-2 border-[#0BA652]">
+                <div>
+                  <h4 class="font-bold text-brand-900 text-base">Marco Reyes</h4>
+                  <p class="text-xs font-semibold text-[#0BA652]">Youth Dairy Entrepreneur | Age 24</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="mt-12 bg-[#0BA652] rounded-3xl p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg">
+            <div class="space-y-1 text-center md:text-left">
+              <h3 class="text-2xl font-extrabold">Ready to start your own success story with Palcon?</h3>
+              <p class="text-brand-100 text-sm">Become an accredited dairy member today and gain access to loans, feeds, and stable payouts.</p>
+            </div>
+            <button onclick="switchTab('portal'); showPortalSubTab('register');" class="bg-white text-brand-800 hover:bg-brand-50 font-bold px-6 py-3.5 rounded-full transition text-sm shrink-0 flex items-center gap-2 shadow-md">
+              <i data-lucide="user-plus" class="w-4 h-4"></i>
+              <span>Join Cooperative Today</span>
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+    <!-- PAGE 2: ABOUT US -->
+    <div id="page-about" class="page-content hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+        
+        <!-- Header Introduction -->
+        <div class="text-center max-w-3xl mx-auto">
+          <span class="text-xs font-bold uppercase tracking-widest text-[#0BA652] bg-brand-100 px-3 py-1 rounded-full" id="about-badge">WHO WE ARE</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-900 mt-3" id="about-title">Palcon Dairy Multi-Purpose Cooperative</h2>
+          <p class="text-gray-600 text-base mt-2" id="about-sub">PALCON Dairy Multi-Purpose Cooperative is located in Brgy. Concepcion Palasan, Sariaya, Quezon. Organized in 1990 and CDA registered on Feb 22, 1991, it is an active member of KMMI and a proud partner of Landbank, NDA, DOST, DTI, and the Office of the Provincial Veterinarian.</p>
+        </div>
+
+        <!-- Mission & Vision Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="bg-white p-8 rounded-3xl border border-brand-100 shadow-sm">
+            <div class="w-12 h-12 bg-brand-100 rounded-2xl flex items-center justify-center mb-4">
+              <i data-lucide="target" class="w-6 h-6 text-[#0BA652]"></i>
+            </div>
+            <h3 class="text-xl font-bold text-brand-900 mb-2" id="about-mission-title">Our Mission</h3>
+            <p class="text-gray-600 leading-relaxed text-sm sm:text-base" id="about-mission-desc">
+              To uplift the economic status of local smallholder dairy farmers through guaranteed fair milk pricing, modern livestock nutrition, credit accessibility, and high-quality dairy production for the Filipino nation.
+            </p>
+          </div>
+
+          <div class="bg-white p-8 rounded-3xl border border-brand-100 shadow-sm">
+            <div class="w-12 h-12 bg-brand-100 rounded-2xl flex items-center justify-center mb-4">
+              <i data-lucide="eye" class="w-6 h-6 text-[#0BA652]"></i>
+            </div>
+            <h3 class="text-xl font-bold text-brand-900 mb-2" id="about-vision-title">Our Vision</h3>
+            <p class="text-gray-600 leading-relaxed text-sm sm:text-base" id="about-vision-desc">
+              To become a premier model dairy cooperative in the Philippines, renowned for vibrant youth participation, sustainable farming technology, and fresh, nutritious dairy products enjoyed nationwide.
+            </p>
+          </div>
+        </div>
+
+        <!-- SECTION 1: History and Development -->
+        <div class="bg-white p-8 sm:p-12 rounded-3xl border border-brand-100 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-6 space-y-4">
+            <span class="text-xs font-bold uppercase tracking-widest text-[#0BA652] bg-brand-100 px-3 py-1 rounded-full">OUR ROOTS</span>
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-brand-900">History and Development</h3>
+            <p class="text-gray-600 text-sm sm:text-base leading-relaxed">
+              Organized in 1990 and officially registered with the Cooperative Development Authority (CDA) on February 22, 1991, Palcon Dairy Multi-Purpose Cooperative has been serving smallholder farmers for over three decades. Operating out of Brgy. Concepcion Palasan, Sariaya, Quezon, the coop has been a Landbank client since 2015 and maintains strong ties with the National Dairy Authority (NDA), DOST Region 4, DTI Region 4, MCDC, and the Provincial Veterinary Office.
+            </p>
+            <div class="flex items-center gap-3 pt-2 text-xs font-semibold text-brand-700">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-[#0BA652]"></i>
+              <span>CDA Registration: Reg. Feb 22, 1991 | Landbank Client Since 2015</span>
+            </div>
+          </div>
+          <div class="lg:col-span-6">
+            <div class="rounded-2xl overflow-hidden shadow-md border-2 border-brand-100">
+              <img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=800&q=80" alt="History and Development Farm" class="w-full h-[280px] sm:h-[320px] object-cover hover:scale-105 transition duration-300" onerror="this.onerror=null; this.src='https://placehold.co/600x400/0BA652/ffffff?text=History+and+Development';" />
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 2: Board of Directors, Committees & Management -->
+        <div class="bg-[#e8f3ec] p-8 sm:p-10 rounded-3xl border border-brand-200">
+          <div class="text-center max-w-2xl mx-auto mb-8">
+            <span class="text-xs font-bold uppercase tracking-widest text-[#0BA652] bg-white px-3 py-1 rounded-full">LEADERSHIP & GOVERNANCE</span>
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-brand-900 mt-2" id="about-board-title">Board of Directors, Committees & Officers</h3>
+            <p class="text-gray-600 text-sm mt-1">Guided by dedicated cooperative leaders, specialized governance committees, and key management staff.</p>
+          </div>
+          
+          <!-- Board of Directors -->
+          <h4 class="text-lg font-bold text-brand-900 mb-4 text-center">Board of Directors</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-10">
+            <div class="bg-white p-5 rounded-2xl text-center shadow-xs border border-brand-100">
+              <div class="w-14 h-14 rounded-full bg-brand-100 text-[#0BA652] font-extrabold text-lg flex items-center justify-center mx-auto mb-2">VF</div>
+              <h4 class="font-bold text-brand-900 text-sm">Virgilio F. Ferrer</h4>
+              <p class="text-xs font-semibold text-[#0BA652] mt-1">Chairman</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl text-center shadow-xs border border-brand-100">
+              <div class="w-14 h-14 rounded-full bg-brand-100 text-[#0BA652] font-extrabold text-lg flex items-center justify-center mx-auto mb-2">SE</div>
+              <h4 class="font-bold text-brand-900 text-sm">Sofia P. Espinas</h4>
+              <p class="text-xs font-semibold text-[#0BA652] mt-1">Vice-Chairperson</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl text-center shadow-xs border border-brand-100">
+              <div class="w-14 h-14 rounded-full bg-brand-100 text-[#0BA652] font-extrabold text-lg flex items-center justify-center mx-auto mb-2">BH</div>
+              <h4 class="font-bold text-brand-900 text-sm">Baby Kristine Hasegawa</h4>
+              <p class="text-xs font-semibold text-[#0BA652] mt-1">Board Member</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl text-center shadow-xs border border-brand-100">
+              <div class="w-14 h-14 rounded-full bg-brand-100 text-[#0BA652] font-extrabold text-lg flex items-center justify-center mx-auto mb-2">JD</div>
+              <h4 class="font-bold text-brand-900 text-sm">Jovita M. Daelo</h4>
+              <p class="text-xs font-semibold text-[#0BA652] mt-1">Board Member</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl text-center shadow-xs border border-brand-100">
+              <div class="w-14 h-14 rounded-full bg-brand-100 text-[#0BA652] font-extrabold text-lg flex items-center justify-center mx-auto mb-2">GP</div>
+              <h4 class="font-bold text-brand-900 text-sm">Gerald I. Peri</h4>
+              <p class="text-xs font-semibold text-[#0BA652] mt-1">Board Member</p>
+            </div>
+          </div>
+
+          <!-- Committees Grid (EXACT ALL 6 COMMITTEES) -->
+          <div class="pt-6 border-t border-brand-200/80 mb-10">
+            <h4 class="text-lg font-bold text-brand-900 mb-6 text-center">Cooperative Committees</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              
+              <!-- 1. Election Committee -->
+              <div class="bg-white p-5 rounded-2xl border border-brand-100 shadow-xs">
+                <div class="flex items-center gap-3 mb-3 border-b border-brand-50 pb-2">
+                  <div class="p-2 rounded-lg bg-brand-100 text-[#0BA652]">
+                    <i data-lucide="vote" class="w-5 h-5"></i>
+                  </div>
+                  <h5 class="font-bold text-brand-900 text-sm">Election Committee</h5>
+                </div>
+                <ul class="space-y-2 text-xs">
+                  <li class="flex items-center justify-between">
+                    <span class="font-bold text-gray-800">Sofia P. Espinas</span>
+                    <span class="text-[11px] text-[#0BA652] font-semibold">Chairman</span>
+                  </li>
+                  <li class="flex items-center justify-between">
+                    <span class="font-bold text-gray-800">Leslie A. Panaligan</span>
+                    <span class="text-[11px] text-[#0BA652] font-semibold">Secretary</span>
+                  </li>
+                  <li class="flex items-center justify-between">
+                    <span class="font-bold text-gray-800">Eleonor M. Heli</span>
+                    <span class="text-[11px] text-[#0BA652] font-semibold">Member</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 2. Credit Committee -->
+              <div class="bg-white p-5 rounded-2xl border border-brand-100 shadow-xs">
+                <div class="flex items-center gap-3 mb-3 border-b border-brand-50 pb-2">
+                  <div class="p-2 rounded-lg bg-brand-100 text-[#0BA652]">
+                    <i data-lucide="coins" class="w-5 h-5"></i>
+                  </div>
+                  <h5 class="font-bold text-brand-900 text-sm">Credit Committee</h5>
+                </div>
+                <ul class="space-y-2 text-xs">
+                  <li class="flex items-center justify-between">
+                    <span class="font-bold text-gray-800">Felicidad Quiminiano</span>
+                    <span class="text-[11px] text-[#0BA652] font-semibold">Chairman</span>
+                  </li>
+                  <li class="flex items-center justify-between">
+                    <span class="font-bold text-gray-800">Rosalia F. Cabatian</span>
+                    <span class="text-[11px] text-[#0BA652] font-semibold">Secretary</span>
+                  </li>
+                  <li class="flex items-center justify-between">
+                    <span class="font-bold text-gray-800">Ruperto T. Panaligan</span>
+                    <span class="text-[11px] text-[#0BA652] font-semibold">Member</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 3. Audit & Inventory Committee -->
+              <div class="bg-white p-5 rounded-2xl border border-brand-100 shadow-xs">
+                <div class="flex items-center gap-3 mb-3 border-b border-brand-50 pb-2">
+                  <div class="p-2 rounded-lg bg-brand-100 text-[#0BA652]">
+                    <i data-lucide="clipboard-check" class="w-5 h-5"></i>
+                  </div>
+                  <h5 class="font-bold text-brand-900 text-sm">Audit & Inventory Committee</h5>
+                </div>
+                <ul class="space-y-2 text-xs">
+                  <li class="flex items-center justify-between">
+                    <span class="font-bold text-gray-800">Rosalia F. Cabatian</span>
+                    <span class="text-[11px] text-[#0BA652] font-semibold">Chairman</span>
+                  </li>
+                  <li class="flex items-center justify-between">
+                    <span class="font-bold text-gray-800">Fidela P. Basit</span>
+                    <span class="text-[11px] text-[#0BA652] font-semibold">Secretary</span>
+                  </li>
+                  <li class="flex items-center justify-between">
+                    <span class="font-bold text-gray-800">Alethea P. Abelilla</span>
+                    <span class="text-[11px] text-[#0BA652] font-semibold">Member</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 4. Mediation Committee -->
+              <div class="bg-white p-5 rounded-2xl border border-brand-100 shadow-xs">
+                <div class="flex items-center gap-3 mb-3 border-b border-brand-50 pb-2">
+                  <div class="p-2 rounded-lg bg-brand-100 text-[#0BA652]">
+                    <i data-lucide="scale" class="w-5 h-5"></i>
+                  </div>
+                  <h5 class="font-bold text-brand-900 text-sm">Mediation Committee</h5>
+                </div>
+                <ul class="space-y-2 text-xs">
+                  <li class="flex items-center justify-between">
+                    <span class="font-bold text-gray-800">Nolasco G. Jusi</span>
+                    <span class="text-[11px] text-[#0BA652] font-semibold">Chairman</span>
+                  </li>
+                  <li class="flex items-center justify-between">
+                    <span class="font-bold text-gray-800">Licerio M. Sepillo</span>
+                    <span class="text-[11px] text-[#0BA652] font-semibold">Secretary</span>
+                  </li>
+                  <li class="flex items-center justify-between">
+                    <span class="font-bold text-gray-800">Ruperto T. Panaligan</span>
+                    <span class="text-[11px] text-[#0BA652] font-semibold">Member</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 5. Education Committee -->
+              <div class="bg-white p-5 rounded-2xl border border-brand-100 shadow-xs">
+                <div class="flex items-center gap-3 mb-3 border-b border-brand-50 pb-2">
+                  <div class="p-2 rounded-lg bg-brand-100 text-[#0BA652]">
+                    <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                  </div>
+                  <h5 class="font-bold text-brand-900 text-sm">Education Committee</h5>
+                </div>
+                <ul class="space-y-2 text-xs">
+                  <li class="flex items-center justify-between">
+                    <span class="font-bold text-gray-800">Cristituto C. Buela</span>
+                    <span class="text-[11px] text-[#0BA652] font-semibold">Chairperson</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 6. Cooperative Dairy Technician Committee -->
+              <div class="bg-white p-5 rounded-2xl border border-brand-100 shadow-xs">
+                <div class="flex items-center gap-3 mb-3 border-b border-brand-50 pb-2">
+                  <div class="p-2 rounded-lg bg-brand-100 text-[#0BA652]">
+                    <i data-lucide="wrench" class="w-5 h-5"></i>
+                  </div>
+                  <h5 class="font-bold text-brand-900 text-sm">Cooperative Dairy Technician</h5>
+                </div>
+                <ul class="space-y-2 text-xs">
+                  <li class="flex items-center justify-between">
+                    <span class="font-bold text-gray-800">Eugolio Carriaga</span>
+                    <span class="text-[11px] text-[#0BA652] font-semibold">Chairperson</span>
+                  </li>
+                  <li class="flex items-center justify-between">
+                    <span class="font-bold text-gray-800">Cristituto C. Buela</span>
+                    <span class="text-[11px] text-[#0BA652] font-semibold">Member</span>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Management Team -->
+          <div class="pt-6 border-t border-brand-200/80">
+            <h4 class="text-lg font-bold text-brand-900 mb-4 text-center">Core Management Team</h4>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+              <div class="bg-white/80 p-3.5 rounded-xl border border-brand-100 shadow-xs">
+                <div class="font-bold text-xs text-brand-900">Gemma E. Chavez</div>
+                <div class="text-[11px] text-[#0BA652] font-semibold mt-0.5">Project Manager</div>
+              </div>
+              <div class="bg-white/80 p-3.5 rounded-xl border border-brand-100 shadow-xs">
+                <div class="font-bold text-xs text-brand-900">Samantha Panaligan</div>
+                <div class="text-[11px] text-[#0BA652] font-semibold mt-0.5">Secretary</div>
+              </div>
+              <div class="bg-white/80 p-3.5 rounded-xl border border-brand-100 shadow-xs">
+                <div class="font-bold text-xs text-brand-900">Edna F. Manalo</div>
+                <div class="text-[11px] text-[#0BA652] font-semibold mt-0.5">Treasurer</div>
+              </div>
+              <div class="bg-white/80 p-3.5 rounded-xl border border-brand-100 shadow-xs">
+                <div class="font-bold text-xs text-brand-900">Graichelle Quitain</div>
+                <div class="text-[11px] text-[#0BA652] font-semibold mt-0.5">Bookkeeper</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SECTION 3: Recognitions and Awards -->
+        <div class="bg-white p-8 sm:p-12 rounded-3xl border border-brand-100 shadow-sm">
+          <div class="text-center max-w-2xl mx-auto mb-10">
+            <span class="text-xs font-bold uppercase tracking-widest text-[#0BA652] bg-brand-100 px-3 py-1 rounded-full">EXCELLENCE & ACCREDITATION</span>
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-brand-900 mt-2">Recognitions and Awards</h3>
+            <p class="text-gray-600 text-sm sm:text-base mt-1">Honoring our commitment to cooperative governance, quality dairy production, and community development.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-brand-50 p-6 rounded-2xl border border-brand-100 text-center space-y-3 flex flex-col justify-between">
+              <div>
+                <div class="w-14 h-14 rounded-full bg-brand-100 text-[#0BA652] flex items-center justify-center mx-auto mb-3">
+                  <i data-lucide="award" class="w-7 h-7"></i>
+                </div>
+                <h4 class="font-bold text-brand-900 text-base">Natatanging Kooperatiba sa Pagatasan</h4>
+                <p class="text-xs text-gray-600 mt-2">National Dairy Confederation of the Philippines (DAIRYCON)</p>
+              </div>
+              <div class="pt-4 border-t border-brand-200/60 text-[11px] font-bold text-[#0BA652]">2012</div>
+            </div>
+
+            <div class="bg-brand-50 p-6 rounded-2xl border border-brand-100 text-center space-y-3 flex flex-col justify-between">
+              <div>
+                <div class="w-14 h-14 rounded-full bg-brand-100 text-[#0BA652] flex items-center justify-center mx-auto mb-3">
+                  <i data-lucide="user-check" class="w-7 h-7"></i>
+                </div>
+                <h4 class="font-bold text-brand-900 text-base">Bb. Gemma Chavez</h4>
+                <p class="text-xs text-gray-600 mt-2">Natatanging Maggagatas 2012<br>National Dairy Confederation of the Philippines (DAIRYCON)</p>
+              </div>
+              <div class="pt-4 border-t border-brand-200/60 text-[11px] font-bold text-[#0BA652]">2012</div>
+            </div>
+
+            <div class="bg-brand-50 p-6 rounded-2xl border border-brand-100 text-center space-y-3 flex flex-col justify-between">
+              <div>
+                <div class="w-14 h-14 rounded-full bg-brand-100 text-[#0BA652] flex items-center justify-center mx-auto mb-3">
+                  <i data-lucide="shield-check" class="w-7 h-7"></i>
+                </div>
+                <h4 class="font-bold text-brand-900 text-base">Pinakamahusay na kooperatiba sa Larangan ng Paggatasan</h4>
+                <p class="text-xs text-gray-600 mt-2">1st South Luzon Dairy Fair</p>
+              </div>
+              <div class="pt-4 border-t border-brand-200/60 text-[11px] font-bold text-[#0BA652]">2001</div>
+            </div>
+
+            <div class="bg-brand-50 p-6 rounded-2xl border border-brand-100 text-center space-y-3 flex flex-col justify-between">
+              <div>
+                <div class="w-14 h-14 rounded-full bg-brand-100 text-[#0BA652] flex items-center justify-center mx-auto mb-3">
+                  <i data-lucide="trophy" class="w-7 h-7"></i>
+                </div>
+                <h4 class="font-bold text-brand-900 text-base">Livestock Enterprise of the Year</h4>
+                <p class="text-xs text-gray-600 mt-2">7th Quezon Annual Livestock and Poultry Production Week</p>
+              </div>
+              <div class="pt-4 border-t border-brand-200/60 text-[11px] font-bold text-[#0BA652]">2000</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 4: Media Coverage & Featured News (ALL 5 ARTICLES INCLUDED) -->
+        <div class="bg-[#e8f3ec] p-8 sm:p-12 rounded-3xl border border-brand-200">
+          <div class="text-center max-w-2xl mx-auto mb-10">
+            <span class="text-xs font-bold uppercase tracking-widest text-[#0BA652] bg-white px-3 py-1 rounded-full">IN THE NEWS</span>
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-brand-900 mt-2">Featured Media & News Publications</h3>
+            <p class="text-gray-600 text-sm sm:text-base mt-1">Palcon Dairy Multi-Purpose Cooperative highlighted in national, regional, and municipal news outlets.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- Article 1 -->
+            <a href="https://pia.gov.ph/news/pbbm-honors-43-farmers-fisherfolk-at-50th-gawad-saka-awards/" target="_blank" class="bg-white p-6 rounded-2xl border border-brand-100 shadow-xs hover:shadow-md hover:border-brand-400 transition flex flex-col justify-between group">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-3">
+                  <span class="bg-blue-100 text-blue-800 text-[10px] font-bold uppercase px-2.5 py-1 rounded-full">Philippine Information Agency (PIA)</span>
+                  <span class="text-xs text-gray-400 font-semibold">June 30, 2025</span>
+                </div>
+                <h4 class="font-bold text-brand-900 text-base group-hover:text-[#0BA652] transition leading-snug">
+                  PBBM honors 43 farmers, fisherfolk at 50th Gawad Saka Awards
+                </h4>
+                <p class="text-xs text-gray-500 mt-2 line-clamp-3">
+                  National recognition honoring outstanding agricultural achievers and cooperative leaders at the 50th Gawad Saka ceremony.
+                </p>
+              </div>
+              <div class="pt-4 mt-4 border-t border-gray-100 flex items-center text-xs font-bold text-[#0BA652] group-hover:translate-x-1 transition">
+                <span>Read Full PIA Article</span>
+                <i data-lucide="external-link" class="w-3.5 h-3.5 ml-1.5"></i>
+              </div>
+            </a>
+
+            <!-- Article 2 -->
+            <a href="https://calabarzon.da.gov.ph/forage-chopper-helps-livestock-coop-in-quezon-produce-silage-with-ease/" target="_blank" class="bg-white p-6 rounded-2xl border border-brand-100 shadow-xs hover:shadow-md hover:border-brand-400 transition flex flex-col justify-between group">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-3">
+                  <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase px-2.5 py-1 rounded-full">DA Calabarzon</span>
+                  <span class="text-xs text-gray-400 font-semibold">October 15, 2019</span>
+                </div>
+                <h4 class="font-bold text-brand-900 text-base group-hover:text-[#0BA652] transition leading-snug">
+                  Forage chopper helps livestock coop in Quezon produce silage with ease
+                </h4>
+                <p class="text-xs text-gray-500 mt-2 line-clamp-3">
+                  Department of Agriculture Calabarzon highlights how technological equipment boosts silage production for Quezon dairy coops.
+                </p>
+              </div>
+              <div class="pt-4 mt-4 border-t border-gray-100 flex items-center text-xs font-bold text-[#0BA652] group-hover:translate-x-1 transition">
+                <span>Read DA Calabarzon Article</span>
+                <i data-lucide="external-link" class="w-3.5 h-3.5 ml-1.5"></i>
+              </div>
+            </a>
+
+            <!-- Article 3 -->
+            <a href="https://www.da.gov.ph/sairaya-dairy-multiplier-farm-nearing-completion-to-improve-calabarzon-dairy-industry/" target="_blank" class="bg-white p-6 rounded-2xl border border-brand-100 shadow-xs hover:shadow-md hover:border-brand-400 transition flex flex-col justify-between group">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-3">
+                  <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase px-2.5 py-1 rounded-full">Dept. of Agriculture</span>
+                  <span class="text-xs text-gray-400 font-semibold">June 26, 2022</span>
+                </div>
+                <h4 class="font-bold text-brand-900 text-base group-hover:text-[#0BA652] transition leading-snug">
+                  Sariaya dairy multiplier farm nearing completion, to improve CALABARZON dairy industry
+                </h4>
+                <p class="text-xs text-gray-500 mt-2 line-clamp-3">
+                  Official DA report on the modern multiplier farm facility expanding dairy cattle breeding and milk yield capacity in Sariaya, Quezon.
+                </p>
+              </div>
+              <div class="pt-4 mt-4 border-t border-gray-100 flex items-center text-xs font-bold text-[#0BA652] group-hover:translate-x-1 transition">
+                <span>Read Official DA Feature</span>
+                <i data-lucide="external-link" class="w-3.5 h-3.5 ml-1.5"></i>
+              </div>
+            </a>
+
+            <!-- Article 4 -->
+            <a href="https://www.da.gov.ph/livestock-poultry-private-institutions-honored-in-1st-livestock-philippines-recognition/" target="_blank" class="bg-white p-6 rounded-2xl border border-brand-100 shadow-xs hover:shadow-md hover:border-brand-400 transition flex flex-col justify-between group">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-3">
+                  <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase px-2.5 py-1 rounded-full">Dept. of Agriculture</span>
+                  <span class="text-xs text-gray-400 font-semibold">July 10, 2023</span>
+                </div>
+                <h4 class="font-bold text-brand-900 text-base group-hover:text-[#0BA652] transition leading-snug">
+                  Livestock, poultry private institutions honored in 1st Livestock Philippines Recognition
+                </h4>
+                <p class="text-xs text-gray-500 mt-2 line-clamp-3">
+                  Recognizing leading livestock institutions and dairy producer organizations contributing to sustainable Philippine agriculture.
+                </p>
+              </div>
+              <div class="pt-4 mt-4 border-t border-gray-100 flex items-center text-xs font-bold text-[#0BA652] group-hover:translate-x-1 transition">
+                <span>Read DA Announcement</span>
+                <i data-lucide="external-link" class="w-3.5 h-3.5 ml-1.5"></i>
+              </div>
+            </a>
+
+            <!-- Article 5 -->
+            <a href="https://www.facebook.com/share/p/1HHTvMmWnv/" target="_blank" class="bg-white p-6 rounded-2xl border border-brand-100 shadow-xs hover:shadow-md hover:border-brand-400 transition flex flex-col justify-between group md:col-span-2 lg:col-span-1">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-3">
+                  <span class="bg-purple-100 text-purple-800 text-[10px] font-bold uppercase px-2.5 py-1 rounded-full">Radyo Kaisahan 107.7 FM</span>
+                  <span class="text-xs text-gray-400 font-semibold">October 23, 2026</span>
+                </div>
+                <h4 class="font-bold text-brand-900 text-base group-hover:text-[#0BA652] transition leading-snug">
+                  7 Principles of Cooperative Team Building 2026 – Sariaya, Quezon
+                </h4>
+                <p class="text-xs text-gray-500 mt-2 line-clamp-3">
+                  Community radio feature highlighting cooperative team building, values formation, and sustainable livestock development in Sariaya.
+                </p>
+              </div>
+              <div class="pt-4 mt-4 border-t border-gray-100 flex items-center text-xs font-bold text-[#0BA652] group-hover:translate-x-1 transition">
+                <span>View Facebook Coverage</span>
+                <i data-lucide="external-link" class="w-3.5 h-3.5 ml-1.5"></i>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- SECTION 5: Interactive Location Map (ABOUT US PAGE) -->
+        <div class="bg-white p-8 sm:p-12 rounded-3xl border border-brand-100 shadow-sm">
+          <div class="text-center max-w-2xl mx-auto mb-8">
+            <span class="text-xs font-bold uppercase tracking-widest text-[#0BA652] bg-brand-100 px-3 py-1 rounded-full">VISIT OUR PLANT & HEADQUARTERS</span>
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-brand-900 mt-2">Cooperative Location & Facility</h3>
+            <p class="text-gray-600 text-sm sm:text-base mt-1">Located in Barangay Concepcion Palasan, Sariaya, Quezon Province.</p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-7 rounded-2xl overflow-hidden shadow-md border-2 border-brand-100 h-[380px]">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15462.467472251336!2d121.5032!3d13.9631!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd4d2629b936eb%3A0x28971f466b0ef9fb!2sConcepcion%20Palasan%2C%20Sariaya%2C%20Quezon!5e0!3m2!1sen!2sph!4v1700000000000!5m2!1sen!2sph" 
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Palcon Dairy Location Map - Brgy. Concepcion Palasan, Sariaya, Quezon">
+              </iframe>
+            </div>
+
+            <div class="lg:col-span-5 space-y-4 bg-brand-50 p-6 sm:p-8 rounded-2xl border border-brand-100">
+              <div class="flex items-center gap-3">
+                <div class="p-3 bg-brand-100 text-[#0BA652] rounded-xl shrink-0">
+                  <i data-lucide="map-pin" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <h4 class="font-extrabold text-brand-900 text-base">Main Plant & Cooperative Office</h4>
+                  <p class="text-xs text-gray-600 font-medium">Barangay Concepcion Palasan, Sariaya, Quezon, Philippines</p>
+                </div>
+              </div>
+
+              <div class="space-y-2.5 text-xs text-gray-700 pt-3 border-t border-brand-200/60">
+                <div class="flex items-start gap-2.5">
+                  <i data-lucide="compass" class="w-4 h-4 text-[#0BA652] shrink-0 mt-0.5"></i>
+                  <span><strong>Landmark:</strong> Near Maharlika Highway Corridor & Sariaya Municipal Agrarian Hub</span>
+                </div>
+                <div class="flex items-start gap-2.5">
+                  <i data-lucide="clock" class="w-4 h-4 text-[#0BA652] shrink-0 mt-0.5"></i>
+                  <span><strong>Milk Receiving:</strong> Mon–Sun, 4:30 AM – 9:00 AM</span>
+                </div>
+                <div class="flex items-start gap-2.5">
+                  <i data-lucide="building" class="w-4 h-4 text-[#0BA652] shrink-0 mt-0.5"></i>
+                  <span><strong>Coop Administrative Office:</strong> Mon–Sat, 8:00 AM – 5:00 PM</span>
+                </div>
+                <div class="flex items-start gap-2.5">
+                  <i data-lucide="phone" class="w-4 h-4 text-[#0BA652] shrink-0 mt-0.5"></i>
+                  <span><strong>Phone Hotline:</strong> +63 917 123 4567 / (02) 8888-DAIRY</span>
+                </div>
+              </div>
+
+              <a 
+                href="https://www.google.com/maps/search/?api=1&query=Barangay+Concepcion+Palasan+Sariaya+Quezon+Philippines" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="inline-flex items-center justify-center gap-2 w-full bg-[#0BA652] hover:bg-[#098541] text-white font-bold text-xs sm:text-sm py-3.5 px-5 rounded-full transition shadow-md hover:shadow-lg mt-2">
+                <i data-lucide="navigation" class="w-4 h-4"></i>
+                <span>Get Directions on Google Maps</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PAGE 3: PRODUCTS & SERVICES -->
+    <div id="page-products" class="page-content hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <span class="text-xs font-bold uppercase tracking-widest text-[#0BA652] bg-brand-100 px-3 py-1 rounded-full" id="prod-badge">WHAT WE OFFER</span>
+          <h2 class="text-3xl font-extrabold text-brand-900 mt-3" id="prod-title">Cooperative Products & Services</h2>
+          <p class="text-gray-600 text-base mt-1" id="prod-sub">From fresh dairy goods to raw milk procurement and local agricultural crops, explore our offerings.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <div class="bg-white rounded-3xl p-6 border border-brand-100 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-brand-100 flex items-center justify-center text-[#0BA652] mb-4">
+                <i data-lucide="milk" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-bold text-xl text-brand-900 mb-2" id="ps1-title">Fresh Raw Cattle Milk</h3>
+              <p class="text-gray-600 text-sm leading-relaxed mb-4" id="ps1-desc">
+                Available 365 days a year. Marketed through bulk buyers and collection centers with bi-monthly or cash payment options.
+              </p>
+            </div>
+            <button onclick="switchTab('portal')" class="text-[#0BA652] font-bold text-sm flex items-center gap-1 hover:underline">
+              <span id="ps-learn">Access Payout Portal</span> <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div class="bg-white rounded-3xl p-6 border border-brand-100 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-brand-100 flex items-center justify-center text-[#0BA652] mb-4">
+                <i data-lucide="wallet" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-bold text-xl text-brand-900 mb-2" id="ps2-title">Micro-Finance & Loans</h3>
+              <p class="text-gray-600 text-sm leading-relaxed mb-4" id="ps2-desc">
+                Accessible loans for cattle purchasing, barn improvement, and feed supplies exclusively for cooperative members.
+              </p>
+            </div>
+            <button onclick="switchTab('portal')" class="text-[#0BA652] font-bold text-sm flex items-center gap-1 hover:underline">
+              <span id="ps-apply">Apply for Micro-Loan</span> <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div class="bg-white rounded-3xl p-6 border border-brand-100 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-brand-100 flex items-center justify-center text-[#0BA652] mb-4">
+                <i data-lucide="sprout" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-bold text-xl text-brand-900 mb-2" id="ps3-title">Other Agricultural Crops</h3>
+              <p class="text-gray-600 text-sm leading-relaxed mb-4" id="ps3-desc">
+                Fresh farm crops including Saba bananas, young coconut (buko), mature coconut (niyog), guyabano, and bamboo (kawayan) via farm pick-up.
+              </p>
+            </div>
+            <button onclick="switchTab('store')" class="text-[#0BA652] font-bold text-sm flex items-center gap-1 hover:underline">
+              <span id="ps-store">Browse Coop Store</span> <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- TECHNICAL SERVICES & FARM EXTENSION -->
+        <div class="mt-12 bg-white rounded-3xl p-8 border border-brand-100 shadow-sm">
+          <div class="text-center max-w-2xl mx-auto mb-8">
+            <span class="text-xs font-bold uppercase tracking-widest text-[#0BA652] bg-brand-100 px-3 py-1 rounded-full">FARMER ASSISTANCE</span>
+            <h3 class="text-2xl font-extrabold text-brand-900 mt-2">Technical Services & Extension Support</h3>
+            <p class="text-gray-600 text-sm mt-1">Empowering dairy farmers through specialized livestock care, breeding programs, and quality assurance.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-brand-50 p-6 rounded-2xl border border-brand-100 text-center flex flex-col justify-between hover:border-brand-300 transition">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-brand-100 text-[#0BA652] flex items-center justify-center mx-auto mb-3">
+                  <i data-lucide="stethoscope" class="w-6 h-6"></i>
+                </div>
+                <h4 class="font-bold text-brand-900 text-base">Veterinary Health Care</h4>
+                <p class="text-xs text-gray-600 mt-2">Routine herd health check-ups, mastitis screening, and emergency medical assistance for member cattle.</p>
+              </div>
+            </div>
+
+            <div class="bg-brand-50 p-6 rounded-2xl border border-brand-100 text-center flex flex-col justify-between hover:border-brand-300 transition">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-brand-100 text-[#0BA652] flex items-center justify-center mx-auto mb-3">
+                  <i data-lucide="dna" class="w-6 h-6"></i>
+                </div>
+                <h4 class="font-bold text-brand-900 text-base">Artificial Insemination (AI)</h4>
+                <p class="text-xs text-gray-600 mt-2">Access to free semen assistance from NDA and breeding technician services to improve herd quality.</p>
+              </div>
+            </div>
+
+            <div class="bg-brand-50 p-6 rounded-2xl border border-brand-100 text-center flex flex-col justify-between hover:border-brand-300 transition">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-brand-100 text-[#0BA652] flex items-center justify-center mx-auto mb-3">
+                  <i data-lucide="wheat" class="w-6 h-6"></i>
+                </div>
+                <h4 class="font-bold text-brand-900 text-base">Forage & Silage Advisory</h4>
+                <p class="text-xs text-gray-600 mt-2">Guidance on planting forage crops and ensiling techniques for year-round feed efficiency.</p>
+              </div>
+            </div>
+
+            <div class="bg-brand-50 p-6 rounded-2xl border border-brand-100 text-center flex flex-col justify-between hover:border-brand-300 transition">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-brand-100 text-[#0BA652] flex items-center justify-center mx-auto mb-3">
+                  <i data-lucide="shield-check" class="w-6 h-6"></i>
+                </div>
+                <h4 class="font-bold text-brand-900 text-base">Cold-Chain Milk Lab Testing</h4>
+                <p class="text-xs text-gray-600 mt-2">On-site milk density and purity testing to guarantee safety standards.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PAGE 4: GALLERY & PROJECTS -->
+    <div id="page-gallery" class="page-content hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <span class="text-xs font-bold uppercase tracking-widest text-[#0BA652] bg-brand-100 px-3 py-1 rounded-full" id="gal-badge">COMMUNITY IN ACTION</span>
+          <h2 class="text-3xl font-extrabold text-brand-900 mt-3" id="gal-title">Cooperative Gallery & Projects</h2>
+          <p class="text-gray-600 text-base mt-1" id="gal-sub">Highlights from dairy processing, farm visits, and community outreach.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-100">
+            <img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=600&q=80" alt="Dairy Cattle" class="w-full h-48 object-cover">
+            <div class="p-4">
+              <h4 class="font-bold text-brand-900" id="gal1-title">Modern Silage Feed Distribution</h4>
+              <p class="text-xs text-gray-500 mt-1" id="gal1-desc">Assisting farmers with nutritious cattle feed mixtures.</p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-100">
+            <img src="https://images.unsplash.com/photo-1596733430284-f7437764b1a9?auto=format&fit=crop&w=600&q=80" alt="Fresh Milk Bottles" class="w-full h-48 object-cover">
+            <div class="p-4">
+              <h4 class="font-bold text-brand-900" id="gal2-title">Cold-Chain Milk Pasteurization</h4>
+              <p class="text-xs text-gray-500 mt-1" id="gal2-desc">Ensuring safety and freshness standards.</p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-100">
+            <img src="https://images.unsplash.com/photo-1541625602330-2277a4c46182?auto=format&fit=crop&w=600&q=80" alt="Farmer Seminar" class="w-full h-48 object-cover">
+            <div class="p-4">
+              <h4 class="font-bold text-brand-900" id="gal3-title">Dairy Training Seminars</h4>
+              <p class="text-xs text-gray-500 mt-1" id="gal3-desc">Continuous education for smallholder farmers.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 5: YOUTH HUB -->
+    <div id="page-youth" class="page-content hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="bg-gradient-to-r from-[#0BA652] to-brand-900 rounded-3xl text-white p-8 sm:p-12 shadow-xl mb-10 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div class="space-y-4 max-w-xl">
+            <span class="bg-white/20 text-white font-bold text-xs uppercase px-3 py-1 rounded-full" id="youth-badge">NEXT-GEN FARMERS</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold" id="youth-title">Youth Agri-Entrepreneurship Program</h2>
+            <p class="text-brand-100 text-sm sm:text-base leading-relaxed" id="youth-desc">
+              Empowering young Filipinos to lead sustainable dairy agriculture through modern technology, business training, and seed grants.
+            </p>
+          </div>
+          <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20 text-center shrink-0 w-full md:w-auto">
+            <div class="text-4xl font-black text-amber-300">45+</div>
+            <div class="text-xs font-bold uppercase mt-1 tracking-wider" id="youth-stat">Youth Agri-Fellows</div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-brand-200 shadow-sm">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center text-[#0BA652] font-bold">
+              <i data-lucide="award" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-brand-900" id="quiz-header">Youth Dairy Trivia Challenge</h3>
+              <p class="text-xs text-gray-500" id="quiz-sub">Test your knowledge and earn Coop Youth points!</p>
+            </div>
+          </div>
+
+          <div id="quiz-box" class="bg-[#f0f7f2] p-6 rounded-2xl border border-brand-100">
+            <p class="font-bold text-brand-900 text-base mb-4" id="quiz-question">Q: What is the optimal temperature for raw milk cold storage?</p>
+            <div class="space-y-3" id="quiz-options">
+              <button onclick="checkQuiz(0)" class="w-full text-left bg-white p-3 rounded-xl border border-brand-200 hover:border-[#0BA652] hover:bg-brand-50 transition text-sm font-semibold text-gray-700">A. 4°C or below</button>
+              <button onclick="checkQuiz(1)" class="w-full text-left bg-white p-3 rounded-xl border border-brand-200 hover:border-[#0BA652] hover:bg-brand-50 transition text-sm font-semibold text-gray-700">B. 15°C to 20°C</button>
+              <button onclick="checkQuiz(2)" class="w-full text-left bg-white p-3 rounded-xl border border-brand-200 hover:border-[#0BA652] hover:bg-brand-50 transition text-sm font-semibold text-gray-700">C. 25°C room temperature</button>
+            </div>
+            <div id="quiz-result" class="mt-4 hidden font-bold text-sm p-3 rounded-xl"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 6: CONTACT US -->
+    <div id="page-contact" class="page-content hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
+          
+          <div class="md:col-span-5 space-y-6">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-widest text-[#0BA652] bg-brand-100 px-3 py-1 rounded-full" id="cnt-badge">GET IN TOUCH</span>
+              <h2 class="text-3xl font-extrabold text-brand-900 mt-3" id="cnt-title">Contact Palcon Dairy</h2>
+              <p class="text-gray-600 text-sm mt-2" id="cnt-desc">Have questions about joining, ordering fresh milk, or member loans? Reach out today!</p>
+            </div>
+
+            <div class="space-y-4">
+              <div class="flex items-start gap-4 p-4 rounded-2xl bg-white border border-brand-100 shadow-xs">
+                <div class="p-3 bg-brand-100 rounded-xl text-[#0BA652]">
+                  <i data-lucide="map-pin" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-brand-900 text-sm" id="cnt-addr-lbl">Cooperative Office Address</h4>
+                  <p class="text-xs text-gray-600">Barangay Concepcion Palasan, Sariaya, Quezon, Philippines</p>
+                  <p class="text-[11px] text-gray-400 mt-0.5">Near Maharlika Highway & Municipal Agrarian Hub</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4 p-4 rounded-2xl bg-white border border-brand-100 shadow-xs">
+                <div class="p-3 bg-brand-100 rounded-xl text-[#0BA652]">
+                  <i data-lucide="phone" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-brand-900 text-sm" id="cnt-phone-lbl">Phone Hotline</h4>
+                  <p class="text-xs text-gray-600">+63 917 123 4567 / (02) 8888-DAIRY</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4 p-4 rounded-2xl bg-white border border-brand-100 shadow-xs">
+                <div class="p-3 bg-brand-100 rounded-xl text-[#0BA652]">
+                  <i data-lucide="mail" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-brand-900 text-sm" id="cnt-email-lbl">Email Inquiry</h4>
+                  <p class="text-xs text-gray-600">palcondairympc@gmail.com</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4 p-4 rounded-2xl bg-white border border-brand-100 shadow-xs">
+                <div class="p-3 bg-brand-100 rounded-xl text-[#0BA652]">
+                  <i data-lucide="clock" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-brand-900 text-sm">Operating Hours</h4>
+                  <p class="text-xs text-gray-600">Milk Receiving: 4:30 AM – 9:00 AM (Mon–Sun)</p>
+                  <p class="text-xs text-gray-600">Office Hours: 8:00 AM – 5:00 PM (Mon–Sat)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="md:col-span-7 bg-white p-8 rounded-3xl border border-brand-200 shadow-sm">
+            <h3 class="text-xl font-bold text-brand-900 mb-4" id="cnt-form-title">Send Us a Message</h3>
+            <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-brand-900 uppercase mb-1" id="lbl-name">Full Name</label>
+                <input type="text" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#0BA652] text-sm">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-brand-900 uppercase mb-1" id="lbl-email">Email Address / Contact No.</label>
+                <input type="text" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#0BA652] text-sm">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-brand-900 uppercase mb-1" id="lbl-msg">Message</label>
+                <textarea rows="4" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#0BA652] text-sm"></textarea>
+              </div>
+              <button type="submit" class="w-full bg-[#0BA652] hover:bg-[#098541] text-white font-bold py-3.5 rounded-full transition shadow-md" id="btn-submit-msg">
+                Send Message
+              </button>
+            </form>
+            <div id="contact-alert" class="hidden mt-4 p-4 rounded-xl bg-green-100 text-green-800 text-sm font-semibold text-center"></div>
+          </div>
+
+        </div>
+
+        <!-- Embedded Interactive Google Map Section (CONTACT PAGE) -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-brand-200 shadow-sm space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <span class="text-xs font-extrabold uppercase tracking-widest text-[#0BA652] bg-brand-100 px-3 py-1 rounded-full">INTERACTIVE MAP</span>
+              <h3 class="text-2xl font-extrabold text-brand-900 mt-2">Find Us on Google Maps</h3>
+              <p class="text-xs sm:text-sm text-gray-600 mt-0.5">Barangay Concepcion Palasan, Sariaya, Quezon Province, Philippines</p>
+            </div>
+            <a 
+              href="https://www.google.com/maps/search/?api=1&query=Barangay+Concepcion+Palasan+Sariaya+Quezon+Philippines" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 bg-[#0BA652] hover:bg-[#098541] text-white text-xs font-bold px-5 py-3 rounded-full transition shadow-sm hover:shadow-md self-start sm:self-auto">
+              <i data-lucide="navigation" class="w-4 h-4"></i>
+              <span>Get Directions</span>
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            <div class="lg:col-span-8 rounded-2xl overflow-hidden border-2 border-brand-100 h-[380px] shadow-sm">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15462.467472251336!2d121.5032!3d13.9631!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd4d2629b936eb%3A0x28971f466b0ef9fb!2sConcepcion%20Palasan%2C%20Sariaya%2C%20Quezon!5e0!3m2!1sen!2sph!4v1700000000000!5m2!1sen!2sph" 
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Palcon Dairy Location Map - Contact Page">
+              </iframe>
+            </div>
+
+            <div class="lg:col-span-4 space-y-3 bg-brand-50 p-6 rounded-2xl border border-brand-100">
+              <h4 class="font-extrabold text-brand-900 text-sm uppercase tracking-wider text-[#0BA652]">Location Summary</h4>
+              <p class="text-xs text-gray-700 leading-relaxed">
+                <strong>Address:</strong> Barangay Concepcion Palasan, Sariaya, Quezon, Philippines.
+              </p>
+              <p class="text-xs text-gray-700 leading-relaxed">
+                <strong>Landmark:</strong> Easily accessible via Maharlika Highway, near the Sariaya municipal border and agrarian station.
+              </p>
+              <p class="text-xs text-gray-700 leading-relaxed">
+                <strong>Hotline:</strong> +63 917 123 4567
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PAGE 7: COOP STORE -->
+    <div id="page-store" class="page-content hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Top Header & Actions -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-xs font-bold uppercase tracking-widest text-[#0BA652] bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full" id="store-badge">COOP MEMBER DISCOUNTS APPLIED</span>
+              <span class="text-xs font-medium text-gray-500">Updated Today</span>
+            </div>
+            <h2 class="text-3xl font-extrabold text-gray-900" id="store-title">Coop Store & Feeds</h2>
+            <p class="text-xs sm:text-sm text-gray-500 mt-1">Welcome back to your Dairy Cooperative Portal. Order feeds, equipment, and household goods at member prices.</p>
+          </div>
+
+          <!-- Action Buttons & Cart Trigger -->
+          <div class="flex items-center gap-3">
+            <div class="hidden sm:flex flex-col text-right pr-2 border-r border-gray-200">
+              <span class="text-[11px] text-gray-500 font-semibold">Available Credit Line</span>
+              <span class="text-base font-extrabold text-[#0BA652]">₱25,000.00</span>
+            </div>
+            
+            <button onclick="openCartModal()" class="relative bg-[#0BA652] hover:bg-[#088a43] text-white font-bold px-5 py-2.5 rounded-full flex items-center gap-2.5 shadow-md hover:shadow-lg transition-all duration-200">
+              <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+              <span id="btn-cart-text" class="text-sm">View Cart</span>
+              <span id="store-cart-count" class="bg-white text-[#0BA652] text-xs px-2 py-0.5 rounded-full font-black min-w-[20px] text-center shadow-inner">0</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Member Announcement Banner -->
+        <div class="bg-gradient-to-r from-emerald-900 to-teal-800 rounded-2xl p-4 sm:p-5 text-white mb-8 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div class="flex items-center gap-3.5">
+            <div class="p-3 bg-white/10 backdrop-blur-md rounded-xl flex-shrink-0">
+              <i data-lucide="badge-percent" class="w-6 h-6 text-emerald-300"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-base">Co-op Member Patronage Dividend & Milk Deduction Active</h4>
+              <p class="text-xs text-emerald-100 mt-0.5">Purchases are eligible for annual patronage refund. Payments can be directly deducted from your next weekly milk check.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 self-end md:self-auto flex-shrink-0">
+            <span class="text-xs bg-emerald-500/30 text-emerald-200 px-3 py-1.5 rounded-lg font-semibold border border-emerald-400/30">Next Payout: Oct 30</span>
+          </div>
+        </div>
+
+        <!-- Search & Filter Bar -->
+        <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 mb-8 bg-white p-3.5 rounded-2xl border border-gray-100 shadow-sm">
+          
+          <!-- Search Input -->
+          <div class="relative flex-1">
+            <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <input type="text" id="store-search-input" onkeyup="filterStoreItems()" placeholder="Search feeds, equipment, basic goods, vet supplies..." class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0BA652]/30 focus:border-[#0BA652] transition">
+          </div>
+
+          <!-- Category Filter Pills -->
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-2 lg:pb-0 text-xs font-semibold">
+            <button onclick="filterStoreCategory('ALL')" class="store-filter-btn active bg-[#0BA652] text-white px-3.5 py-2 rounded-xl whitespace-nowrap transition">All Items</button>
+            <button onclick="filterStoreCategory('FARM FEED')" class="store-filter-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-3.5 py-2 rounded-xl whitespace-nowrap transition">Farm Feed</button>
+            <button onclick="filterStoreCategory('FARM EQUIPMENT')" class="store-filter-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-3.5 py-2 rounded-xl whitespace-nowrap transition">Farm Equipment</button>
+            <button onclick="filterStoreCategory('VET SUPPLIES')" class="store-filter-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-3.5 py-2 rounded-xl whitespace-nowrap transition">Vet Supplies</button>
+            <button onclick="filterStoreCategory('FARM INPUTS')" class="store-filter-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-3.5 py-2 rounded-xl whitespace-nowrap transition">Farm Inputs</button>
+            <button onclick="filterStoreCategory('POWER EQUIPMENT')" class="store-filter-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-3.5 py-2 rounded-xl whitespace-nowrap transition">Power Equipment</button>
+            <button onclick="filterStoreCategory('BASIC GOODS')" class="store-filter-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-3.5 py-2 rounded-xl whitespace-nowrap transition">Basic Goods</button>
+            <button onclick="filterStoreCategory('FARM APPAREL')" class="store-filter-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-3.5 py-2 rounded-xl whitespace-nowrap transition">Farm Apparel</button>
+          </div>
+        </div>
+
+        <!-- MAIN PRODUCT GRID -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="coop-store-grid">
+          
+          <div class="store-item-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden" data-category="FARM FEED">
+            <div>
+              <div class="relative h-48 bg-gray-100 overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80" alt="Dairy Feed Concentrate" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <span class="absolute top-3 right-3 text-[10px] font-black uppercase tracking-wider text-white bg-[#0BA652] px-2.5 py-1 rounded-md shadow-sm">FARM FEED</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-bold text-gray-900 text-base leading-snug">Dairy Feed Concentrate (50kg)</h4>
+                <p class="text-xs text-gray-500 mt-1">High-protein feed for increased milk yield.</p>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">MEMBER PRICE</div>
+              <div class="flex items-center justify-between mt-0.5">
+                <span class="text-lg font-extrabold text-gray-900">₱1,250.00</span>
+                <button onclick="addToCart('Dairy Feed Concentrate (50kg)', 1250)" class="bg-[#0BA652] hover:bg-[#088a43] text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95">
+                  <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="store-item-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden" data-category="FARM FEED">
+            <div>
+              <div class="relative h-48 bg-gray-100 overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80" alt="Napier Grass Pellets" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <span class="absolute top-3 right-3 text-[10px] font-black uppercase tracking-wider text-white bg-[#0BA652] px-2.5 py-1 rounded-md shadow-sm">FARM FEED</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-bold text-gray-900 text-base leading-snug">Napier Grass Pellets (25kg)</h4>
+                <p class="text-xs text-gray-500 mt-1">Rich fiber supplementary pellets for rumination.</p>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">MEMBER PRICE</div>
+              <div class="flex items-center justify-between mt-0.5">
+                <span class="text-lg font-extrabold text-gray-900">₱680.00</span>
+                <button onclick="addToCart('Napier Grass Pellets (25kg)', 680)" class="bg-[#0BA652] hover:bg-[#088a43] text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95">
+                  <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="store-item-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden" data-category="FARM FEED">
+            <div>
+              <div class="relative h-48 bg-gray-100 overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=600&q=80" alt="Cattle Mineral Block" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <span class="absolute top-3 right-3 text-[10px] font-black uppercase tracking-wider text-white bg-[#0BA652] px-2.5 py-1 rounded-md shadow-sm">FARM FEED</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-bold text-gray-900 text-base leading-snug">Cattle Mineral Block (5kg)</h4>
+                <p class="text-xs text-gray-500 mt-1">Essential minerals & salt lick for health.</p>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">MEMBER PRICE</div>
+              <div class="flex items-center justify-between mt-0.5">
+                <span class="text-lg font-extrabold text-gray-900">₱420.00</span>
+                <button onclick="addToCart('Cattle Mineral Block (5kg)', 420)" class="bg-[#0BA652] hover:bg-[#088a43] text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95">
+                  <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="store-item-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden" data-category="FARM FEED">
+            <div>
+              <div class="relative h-48 bg-gray-100 overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1527153857715-3908f2bae5e8?auto=format&fit=crop&w=600&q=80" alt="Calf Milk Starter" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <span class="absolute top-3 right-3 text-[10px] font-black uppercase tracking-wider text-white bg-[#0BA652] px-2.5 py-1 rounded-md shadow-sm">FARM FEED</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-bold text-gray-900 text-base leading-snug">Calf Milk Starter (10kg)</h4>
+                <p class="text-xs text-gray-500 mt-1">Formula for healthy growth of young calves.</p>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">MEMBER PRICE</div>
+              <div class="flex items-center justify-between mt-0.5">
+                <span class="text-lg font-extrabold text-gray-900">₱950.00</span>
+                <button onclick="addToCart('Calf Milk Starter (10kg)', 950)" class="bg-[#0BA652] hover:bg-[#088a43] text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95">
+                  <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="store-item-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden" data-category="FARM EQUIPMENT">
+            <div>
+              <div class="relative h-48 bg-gray-100 overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=600&q=80" alt="Milking Pail" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <span class="absolute top-3 right-3 text-[10px] font-black uppercase tracking-wider text-white bg-teal-700 px-2.5 py-1 rounded-md shadow-sm">FARM EQUIPMENT</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-bold text-gray-900 text-base leading-snug">Milking Pail (20L)</h4>
+                <p class="text-xs text-gray-500 mt-1">Stainless steel pail for hygienic milking.</p>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">MEMBER PRICE</div>
+              <div class="flex items-center justify-between mt-0.5">
+                <span class="text-lg font-extrabold text-gray-900">₱1,850.00</span>
+                <button onclick="addToCart('Milking Pail (20L)', 1850)" class="bg-[#0BA652] hover:bg-[#088a43] text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95">
+                  <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="store-item-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden" data-category="VET SUPPLIES">
+            <div>
+              <div class="relative h-48 bg-gray-100 overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80" alt="Veterinary Gloves" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <span class="absolute top-3 right-3 text-[10px] font-black uppercase tracking-wider text-white bg-blue-600 px-2.5 py-1 rounded-md shadow-sm">VET SUPPLIES</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-bold text-gray-900 text-base leading-snug">Veterinary Gloves (Box)</h4>
+                <p class="text-xs text-gray-500 mt-1">Powder-free, exam grade nitrile gloves (100 pcs).</p>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">MEMBER PRICE</div>
+              <div class="flex items-center justify-between mt-0.5">
+                <span class="text-lg font-extrabold text-gray-900">₱480.00</span>
+                <button onclick="addToCart('Veterinary Gloves (Box)', 480)" class="bg-[#0BA652] hover:bg-[#088a43] text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95">
+                  <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="store-item-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden" data-category="FARM INPUTS">
+            <div>
+              <div class="relative h-48 bg-gray-100 overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?auto=format&fit=crop&w=600&q=80" alt="Organic Composting Mix" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <span class="absolute top-3 right-3 text-[10px] font-black uppercase tracking-wider text-white bg-[#0BA652] px-2.5 py-1 rounded-md shadow-sm">FARM INPUTS</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-bold text-gray-900 text-base leading-snug">Organic Composting Mix (10kg)</h4>
+                <p class="text-xs text-gray-500 mt-1">Premium mix for soil enrichment and forage growth.</p>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">MEMBER PRICE</div>
+              <div class="flex items-center justify-between mt-0.5">
+                <span class="text-lg font-extrabold text-gray-900">₱350.00</span>
+                <button onclick="addToCart('Organic Composting Mix (10kg)', 350)" class="bg-[#0BA652] hover:bg-[#088a43] text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95">
+                  <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="store-item-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden" data-category="POWER EQUIPMENT">
+            <div>
+              <div class="relative h-48 bg-gray-100 overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80" alt="Solar Panel System" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <span class="absolute top-3 right-3 text-[10px] font-black uppercase tracking-wider text-white bg-indigo-600 px-2.5 py-1 rounded-md shadow-sm">POWER EQUIPMENT</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-bold text-gray-900 text-base leading-snug">Solar Panel System (200W)</h4>
+                <p class="text-xs text-gray-500 mt-1">Complete kit for off-grid farm & barn lighting power.</p>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">MEMBER PRICE</div>
+              <div class="flex items-center justify-between mt-0.5">
+                <span class="text-lg font-extrabold text-gray-900">₱14,500.00</span>
+                <button onclick="addToCart('Solar Panel System (200W)', 14500)" class="bg-[#0BA652] hover:bg-[#088a43] text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95">
+                  <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="store-item-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden" data-category="BASIC GOODS">
+            <div>
+              <div class="relative h-48 bg-gray-100 overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=600&q=80" alt="Refined Cooking Oil" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <span class="absolute top-3 right-3 text-[10px] font-black uppercase tracking-wider text-white bg-amber-600 px-2.5 py-1 rounded-md shadow-sm">BASIC GOODS</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-bold text-gray-900 text-base leading-snug">Refined Cooking Oil (2 Liters)</h4>
+                <p class="text-xs text-gray-500 mt-1">Pure vegetable oil for home cooking.</p>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">MEMBER PRICE</div>
+              <div class="flex items-center justify-between mt-0.5">
+                <span class="text-lg font-extrabold text-gray-900">₱190.00</span>
+                <button onclick="addToCart('Refined Cooking Oil (2L)', 190)" class="bg-[#0BA652] hover:bg-[#088a43] text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95">
+                  <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="store-item-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden" data-category="FARM APPAREL">
+            <div>
+              <div class="relative h-48 bg-gray-100 overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80" alt="Farm Boots" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <span class="absolute top-3 right-3 text-[10px] font-black uppercase tracking-wider text-white bg-slate-700 px-2.5 py-1 rounded-md shadow-sm">FARM APPAREL</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-bold text-gray-900 text-base leading-snug">Farm Boots (All Sizes)</h4>
+                <p class="text-xs text-gray-500 mt-1">Durable and water-resistant rubber footwear.</p>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">MEMBER PRICE</div>
+              <div class="flex items-center justify-between mt-0.5">
+                <span class="text-lg font-extrabold text-gray-900">₱980.00</span>
+                <button onclick="addToCart('Farm Boots (All Sizes)', 980)" class="bg-[#0BA652] hover:bg-[#088a43] text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95">
+                  <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="store-item-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden" data-category="BASIC GOODS">
+            <div>
+              <div class="relative h-48 bg-gray-100 overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80" alt="Premium Jasmine Rice" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <span class="absolute top-3 right-3 text-[10px] font-black uppercase tracking-wider text-white bg-amber-600 px-2.5 py-1 rounded-md shadow-sm">BASIC GOODS</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-bold text-gray-900 text-base leading-snug">Premium Jasmine Rice (25kg)</h4>
+                <p class="text-xs text-gray-500 mt-1">First-class white rice for farming families.</p>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">MEMBER PRICE</div>
+              <div class="flex items-center justify-between mt-0.5">
+                <span class="text-lg font-extrabold text-gray-900">₱1,350.00</span>
+                <button onclick="addToCart('Premium Jasmine Rice (25kg)', 1350)" class="bg-[#0BA652] hover:bg-[#088a43] text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95">
+                  <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="store-item-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden" data-category="BASIC GOODS">
+            <div>
+              <div class="relative h-48 bg-gray-100 overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1534483509719-3feaee7c30da?auto=format&fit=crop&w=600&q=80" alt="Coop Canned Goods Pack" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <span class="absolute top-3 right-3 text-[10px] font-black uppercase tracking-wider text-white bg-amber-600 px-2.5 py-1 rounded-md shadow-sm">BASIC GOODS</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-bold text-gray-900 text-base leading-snug">Coop Canned Goods Pack (10 pcs)</h4>
+                <p class="text-xs text-gray-500 mt-1">Assorted sardines, corned beef & tuna pack.</p>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">MEMBER PRICE</div>
+              <div class="flex items-center justify-between mt-0.5">
+                <span class="text-lg font-extrabold text-gray-900">₱480.00</span>
+                <button onclick="addToCart('Coop Canned Goods Pack (10pcs)', 480)" class="bg-[#0BA652] hover:bg-[#088a43] text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95">
+                  <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PAGE 8: MEMBER PORTAL & REGISTRATION -->
+    <div id="page-portal" class="page-content hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <!-- Auth View Container (Logged Out) -->
+        <div id="portal-auth-view" class="max-w-2xl mx-auto bg-white p-6 sm:p-8 rounded-3xl border border-brand-200 shadow-xl">
+          
+          <!-- Top Sub-Navigation Tabs: Login vs Register options -->
+          <div class="flex items-center justify-center bg-brand-50 p-1.5 rounded-2xl mb-6 border border-brand-100">
+            <button onclick="showPortalSubTab('login')" id="subtab-btn-login" class="flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition bg-[#0BA652] text-white shadow-xs">
+              <span id="tab-title-login">Member Sign In</span>
+            </button>
+            <button onclick="showPortalSubTab('register')" id="subtab-btn-register" class="flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition text-gray-600 hover:text-brand-900">
+              <span id="tab-title-register">Register & Setup</span>
+            </button>
+          </div>
+
+          <!-- ================= 1. LOGIN FORM ================= -->
+          <div id="portal-login-section">
+            <div class="text-center mb-6">
+              <div class="w-16 h-16 bg-brand-100 text-[#0BA652] rounded-full flex items-center justify-center mx-auto mb-3">
+                <i data-lucide="lock" class="w-8 h-8"></i>
+              </div>
+              <h2 class="text-2xl font-extrabold text-brand-900" id="login-title">Member Login</h2>
+              <p class="text-xs text-gray-500 mt-1" id="login-sub">Access your capital shares, milk logs & loan services.</p>
+            </div>
+
+            <!-- Quick Demo Profile Selector -->
+            <div class="bg-brand-50 p-3 rounded-2xl mb-6 border border-brand-100">
+              <p class="text-[11px] font-bold uppercase text-[#0BA652] mb-2 text-center" id="demo-title">⚡ Demo Quick Access</p>
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="loginDemo('virgilio')" class="bg-white hover:bg-brand-100 text-brand-900 text-xs font-bold py-2 rounded-xl border border-brand-200 transition">Virgilio Ferrer (Chairman)</button>
+                <button onclick="loginDemo('sofia')" class="bg-white hover:bg-brand-100 text-brand-900 text-xs font-bold py-2 rounded-xl border border-brand-200 transition">Sofia Espinas (Vice-Chair)</button>
+              </div>
+            </div>
+
+            <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-brand-900 uppercase mb-1" id="lbl-memberid">Member ID / Email</label>
+                <input type="text" id="input-member-id" required placeholder="e.g. PALCON-1991-001" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:border-[#0BA652] focus:outline-none">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-brand-900 uppercase mb-1" id="lbl-pass">Password</label>
+                <input type="password" required value="password" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:border-[#0BA652] focus:outline-none">
+              </div>
+              <button type="submit" class="w-full bg-[#0BA652] hover:bg-[#098541] text-white font-bold py-3.5 rounded-full transition shadow-md" id="btn-login-submit">
+                Sign In to Member Portal
+              </button>
+            </form>
+
+            <div class="text-center mt-6 pt-4 border-t border-gray-100 text-xs text-gray-500">
+              <span id="no-account-text">Don't have an online account yet?</span>
+              <button onclick="showPortalSubTab('register')" class="text-[#0BA652] font-bold hover:underline ml-1" id="link-goto-register">Register here</button>
+            </div>
+          </div>
+
+          <!-- ================= 2. REGISTER & ACCOUNT SETUP HUB ================= -->
+          <div id="portal-register-section" class="hidden">
+            <div class="text-center mb-6">
+              <div class="w-16 h-16 bg-brand-100 text-[#0BA652] rounded-full flex items-center justify-center mx-auto mb-3">
+                <i data-lucide="user-plus" class="w-8 h-8"></i>
+              </div>
+              <h2 class="text-2xl font-extrabold text-brand-900" id="reg-hub-title">Cooperative Registration Hub</h2>
+              <p class="text-xs text-gray-500 mt-1" id="reg-hub-sub">Select your registration option below to proceed.</p>
+            </div>
+
+            <!-- Type Selector Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+              <button type="button" onclick="setRegMode('new')" id="btn-regmode-new" class="p-4 rounded-2xl border-2 border-[#0BA652] bg-brand-50 text-left transition flex items-start gap-3">
+                <input type="radio" name="regmode" checked class="mt-1 accent-[#0BA652]">
+                <div>
+                  <h4 class="font-bold text-brand-900 text-sm" id="regtype-new-title">New Member Application</h4>
+                  <p class="text-[11px] text-gray-600 mt-0.5" id="regtype-new-desc">For dairy farmers in Sariaya/Quezon seeking to join Palcon Dairy coop.</p>
+                </div>
+              </button>
+
+              <button type="button" onclick="setRegMode('existing')" id="btn-regmode-existing" class="p-4 rounded-2xl border-2 border-gray-200 hover:border-[#0BA652] bg-white text-left transition flex items-start gap-3">
+                <input type="radio" name="regmode" class="mt-1 accent-[#0BA652]">
+                <div>
+                  <h4 class="font-bold text-brand-900 text-sm" id="regtype-exist-title">Existing Member Activation</h4>
+                  <p class="text-[11px] text-gray-600 mt-0.5" id="regtype-exist-desc">Already a member, setting up online portal access.</p>
+                </div>
+              </button>
+            </div>
+
+            <!-- Form 2A: New Member Application Form -->
+            <form id="form-reg-new" onsubmit="handleNewMemberSubmit(event)" class="space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-brand-900 uppercase mb-1" id="lbl-fname">Full Name</label>
+                  <input type="text" required placeholder="e.g. Juanito dela Cruz" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-[#0BA652] focus:outline-none">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-brand-900 uppercase mb-1" id="lbl-phone">Mobile Phone No.</label>
+                  <input type="tel" required placeholder="0917 000 0000" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-[#0BA652] focus:outline-none">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-brand-900 uppercase mb-1" id="lbl-email-reg">Email Address</label>
+                <input type="email" placeholder="palcondairympc@gmail.com" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-[#0BA652] focus:outline-none">
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-brand-900 uppercase mb-1" id="lbl-farmtype">Membership Category</label>
+                  <select class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-[#0BA652] focus:outline-none bg-white">
+                    <option id="opt-cat1">Active Farmer Member (56 total)</option>
+                    <option id="opt-cat2">Youth Agri-Fellow (18-35 yrs)</option>
+                    <option id="opt-cat3">Associate Member</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-brand-900 uppercase mb-1" id="lbl-cows">No. of Cattle owned</label>
+                  <input type="number" min="0" placeholder="e.g. 4" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-[#0BA652] focus:outline-none">
+                </div>
+              </div>
+
+              <button type="submit" class="w-full bg-[#0BA652] hover:bg-[#098541] text-white font-bold py-3.5 rounded-full transition shadow-md mt-2" id="btn-submit-newapp">
+                Submit Membership Application
+              </button>
+            </form>
+
+            <!-- Form 2B: Existing Member Account Setup Form -->
+            <form id="form-reg-existing" onsubmit="handleAccountSetupSubmit(event)" class="space-y-4 hidden">
+              <div>
+                <label class="block text-xs font-bold text-brand-900 uppercase mb-1" id="lbl-exist-id">Cooperative Member ID</label>
+                <input type="text" id="setup-member-id" required placeholder="e.g. PALCON-1991-056" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-[#0BA652] focus:outline-none">
+                <p class="text-[11px] text-gray-500 mt-1" id="lbl-exist-id-help">Found on your physical Palcon Dairy passbook or collection receipt.</p>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-brand-900 uppercase mb-1" id="lbl-exist-mobile">Registered Contact No.</label>
+                <input type="tel" required placeholder="0917 123 4567" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-[#0BA652] focus:outline-none">
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-brand-900 uppercase mb-1" id="lbl-create-pass">Create Password</label>
+                  <input type="password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-[#0BA652] focus:outline-none">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-brand-900 uppercase mb-1" id="lbl-confirm-pass">Confirm Password</label>
+                  <input type="password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-[#0BA652] focus:outline-none">
+                </div>
+              </div>
+
+              <button type="submit" class="w-full bg-[#0BA652] hover:bg-[#098541] text-white font-bold py-3.5 rounded-full transition shadow-md mt-2" id="btn-submit-existsetup">
+                Activate Online Portal Account
+              </button>
+            </form>
+
+            <div id="reg-status-alert" class="hidden mt-4 p-4 rounded-xl bg-green-100 text-green-800 text-sm font-semibold text-center"></div>
+
+            <div class="text-center mt-6 pt-4 border-t border-gray-100 text-xs text-gray-500">
+              <span id="already-account-text">Already have an active online account?</span>
+              <button onclick="showPortalSubTab('login')" class="text-[#0BA652] font-bold hover:underline ml-1" id="link-goto-login">Sign in here</button>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Dashboard View (Logged In) -->
+        <div id="portal-dashboard-view" class="hidden space-y-8">
+          
+          <!-- User Banner -->
+          <div class="bg-[#0BA652] rounded-3xl p-6 sm:p-8 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg">
+            <div class="flex items-center gap-4">
+              <div class="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center font-bold text-2xl" id="dash-avatar">
+                VF
+              </div>
+              <div>
+                <span class="text-xs text-brand-200 font-bold uppercase tracking-wider" id="dash-welcome">WELCOME BACK, MEMBER</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold" id="dash-user-name">Virgilio F. Ferrer</h2>
+                <p class="text-xs text-brand-200 mt-0.5" id="dash-id-label">ID: PALCON-1991-001 | Chairman - Farmer Member</p>
+              </div>
+            </div>
+            <button onclick="logout()" class="bg-white/10 hover:bg-white/20 text-white font-semibold text-xs px-4 py-2 rounded-full border border-white/20 transition">
+              Sign Out
+            </button>
+          </div>
+
+          <!-- Financial Summary Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-3xl border border-brand-100 shadow-sm">
+              <span class="text-xs font-bold text-gray-500 uppercase" id="dash-cap-lbl">Capital Shares</span>
+              <div class="text-2xl font-extrabold text-brand-900 mt-2" id="dash-cap-val">₱50,000.00</div>
+              <div class="text-xs text-[#0BA652] font-semibold mt-1">100% Minimum Share Met</div>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl border border-brand-100 shadow-sm">
+              <span class="text-xs font-bold text-gray-500 uppercase" id="dash-sav-lbl">Voluntary Savings</span>
+              <div class="text-2xl font-extrabold text-brand-900 mt-2" id="dash-sav-val">₱22,150.00</div>
+              <div class="text-xs text-gray-500 mt-1">Landbank Partner Coop</div>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl border border-brand-100 shadow-sm">
+              <span class="text-xs font-bold text-gray-500 uppercase" id="dash-div-lbl">Estimated Dividend</span>
+              <div class="text-2xl font-extrabold text-[#0BA652] mt-2" id="dash-div-val">₱5,400.00</div>
+              <div class="text-xs text-gray-500 mt-1">Bi-Monthly / Annual Distribution</div>
+            </div>
+          </div>
+
+          <!-- MEMBER LOAN APPLICATION -->
+          <section class="bg-white rounded-3xl border border-brand-200 shadow-sm overflow-hidden">
+            <div class="p-6 sm:p-8 border-b border-brand-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="text-xs font-extrabold uppercase tracking-widest text-[#0BA652]">Member Financial Services</span>
+                <h3 class="text-2xl font-extrabold text-brand-900 mt-1">Loan Application</h3>
+                <p class="text-sm text-gray-500 mt-1">Apply for cooperative financing and track your request.</p>
+              </div>
+              <span class="inline-flex items-center gap-2 bg-brand-50 text-brand-800 border border-brand-100 px-3 py-2 rounded-full text-xs font-bold"><i data-lucide="shield-check" class="w-4 h-4 text-[#0BA652]"></i> For active members</span>
+            </div>
+            <div class="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <form id="loan-application-form" onsubmit="submitLoanApplication(event)" class="lg:col-span-2 space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label for="loan-type" class="block text-sm font-bold text-brand-900 mb-2">Loan Type *</label>
+                    <select id="loan-type" required class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm focus:outline-none focus:border-[#0BA652]">
+                      <option value="">Select loan type</option>
+                      <option>Livestock / Pregnant Heifer Loan</option>
+                      <option>Feeds and Farm Supplies</option>
+                      <option>Barn or Equipment Improvement</option>
+                      <option>Milk Production / Working Capital</option>
+                      <option>Emergency Member Loan</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="loan-purpose" class="block text-sm font-bold text-brand-900 mb-2">Specific Purpose *</label>
+                    <input id="loan-purpose" required maxlength="250" placeholder="Explain how the funds will be used" class="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-[#0BA652]">
+                  </div>
+                  <div>
+                    <label for="loan-amount" class="block text-sm font-bold text-brand-900 mb-2">Amount Requested (₱) *</label>
+                    <input id="loan-amount" type="number" min="1000" step="500" required placeholder="e.g. 50000" class="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-[#0BA652]" oninput="updateLoanEstimate()">
+                  </div>
+                  <div>
+                    <label for="loan-term" class="block text-sm font-bold text-brand-900 mb-2">Repayment Term *</label>
+                    <select id="loan-term" required class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm focus:outline-none focus:border-[#0BA652]" onchange="updateLoanEstimate()">
+                      <option value="3">3 months</option><option value="6" selected>6 months</option><option value="12">12 months</option><option value="18">18 months</option><option value="24">24 months</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="loan-rate" class="block text-sm font-bold text-brand-900 mb-2">Monthly Interest Rate (%) *</label>
+                    <input id="loan-rate" type="number" min="0" max="10" step="0.1" value="1" required class="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-[#0BA652]" oninput="updateLoanEstimate()">
+                  </div>
+                  <div>
+                    <label for="loan-first-due" class="block text-sm font-bold text-brand-900 mb-2">Preferred First Payment Date *</label>
+                    <input id="loan-first-due" type="date" required class="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-[#0BA652]" onchange="updateLoanEstimate()">
+                  </div>
+                  <div>
+                    <label for="loan-final-due" class="block text-sm font-bold text-brand-900 mb-2">Estimated Final Due Date</label>
+                    <input id="loan-final-due" type="date" readonly class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-600">
+                  </div>
+                  <div>
+                    <label for="loan-payment-frequency" class="block text-sm font-bold text-brand-900 mb-2">Payment Frequency *</label>
+                    <select id="loan-payment-frequency" required class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm focus:outline-none focus:border-[#0BA652]">
+                      <option>Bi-monthly milk deduction</option><option>Monthly</option><option>Weekly</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="loan-income" class="block text-sm font-bold text-brand-900 mb-2">Estimated Monthly Income (₱) *</label>
+                    <input id="loan-income" type="number" min="0" step="100" required placeholder="Enter estimated income" class="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-[#0BA652]">
+                  </div>
+                  <div>
+                    <label for="loan-contact" class="block text-sm font-bold text-brand-900 mb-2">Preferred Contact Number *</label>
+                    <input id="loan-contact" type="tel" required maxlength="30" placeholder="09XX XXX XXXX" class="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-[#0BA652]">
+                  </div>
+                </div>
+
+                <div class="border border-amber-200 bg-amber-50 rounded-2xl p-4">
+                  <h4 class="font-extrabold text-amber-900 mb-2">Terms and conditions acknowledgement</h4>
+                  <ul class="list-disc pl-5 space-y-1 text-xs leading-relaxed text-amber-900">
+                    <li>This is an application only. Submission does not guarantee approval.</li>
+                    <li>The Credit Committee (Felicidad Quiminiano, Rosalia F. Cabatian, Ruperto T. Panaligan) reviews all loan applications.</li>
+                  </ul>
+                  <label class="flex items-start gap-3 mt-4 text-sm font-semibold text-amber-950">
+                    <input id="loan-terms-agree" type="checkbox" required class="mt-1 accent-green-600">
+                    <span>I confirm the information is accurate and acknowledge these application terms. *</span>
+                  </label>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3">
+                  <button type="submit" class="flex-1 bg-[#0BA652] hover:bg-[#098541] text-white font-extrabold py-3.5 px-6 rounded-full shadow-md transition">Submit Loan Application</button>
+                  <button type="button" onclick="document.getElementById('loan-application-form').reset();" class="px-6 py-3.5 rounded-full border border-gray-200 text-gray-600 font-bold hover:bg-gray-50">Clear Form</button>
+                </div>
+                <div id="loan-submit-alert" role="status" class="hidden rounded-xl p-4 text-sm font-semibold"></div>
+              </form>
+
+              <aside class="space-y-4">
+                <div class="bg-[#0b3d2c] text-white rounded-2xl p-5">
+                  <div class="flex items-center gap-2 text-emerald-200 text-xs font-bold uppercase tracking-widest"><i data-lucide="calculator" class="w-4 h-4"></i> Planning estimate</div>
+                  <div class="mt-4"><p class="text-xs text-emerald-200">Estimated monthly installment</p><p id="loan-est-monthly" class="text-2xl font-extrabold mt-1">₱0.00</p></div>
+                  <div class="mt-3"><p class="text-xs text-emerald-200">Estimated total repayment</p><p id="loan-est-total" class="text-lg font-bold mt-1">₱0.00</p></div>
+                </div>
+              </aside>
+            </div>
+            <div class="px-6 sm:px-8 pb-8">
+              <h4 class="font-extrabold text-brand-900 mb-3">My Loan Applications</h4>
+              <div id="loan-applications-list" class="space-y-3">
+                <p class="text-sm text-gray-500">No applications submitted in this browser yet.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Milk Deliveries Table -->
+          <div class="bg-white rounded-3xl p-6 border border-brand-200 shadow-sm">
+            <h3 class="font-bold text-xl text-brand-900 mb-4" id="dash-table-title">Recent Daily Milk Deliveries Log</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm">
+                <thead>
+                  <tr class="border-b border-gray-100 text-xs font-bold text-gray-400 uppercase">
+                    <th class="py-3 px-4">Date</th>
+                    <th class="py-3 px-4">Volume (Liters)</th>
+                    <th class="py-3 px-4">Rate / Liter</th>
+                    <th class="py-3 px-4">Total Value</th>
+                    <th class="py-3 px-4">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 font-medium text-gray-700" id="milk-log-rows">
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ================= CART MODAL ================= -->
+  <div id="cart-modal" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+        <h3 class="text-lg font-bold text-brand-900" id="modal-cart-title">Your Coop Shopping Cart</h3>
+        <button onclick="closeCartModal()" class="text-gray-400 hover:text-gray-600 p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="cart-items-container" class="max-h-60 overflow-y-auto space-y-3 custom-scrollbar pr-1">
+      </div>
+
+      <div class="border-t border-gray-100 pt-3 flex justify-between items-center font-bold text-brand-900">
+        <span>Total Amount:</span>
+        <span id="cart-total-val" class="text-xl text-[#0BA652]">₱0.00</span>
+      </div>
+
+      <button onclick="checkoutCart()" class="w-full bg-[#0BA652] hover:bg-[#098541] text-white font-bold py-3 rounded-full transition shadow-md" id="btn-checkout">
+        Proceed to Checkout
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-brand-900 text-white pt-12 pb-8 border-t border-brand-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-brand-800">
+        
+        <div class="space-y-3">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-[#0BA652] flex items-center justify-center text-white font-bold text-sm">
+              <i data-lucide="milk" class="w-4 h-4"></i>
+            </div>
+            <span class="font-extrabold text-lg">Palcon Dairy Coop</span>
+          </div>
+          <p class="text-xs text-brand-200 leading-relaxed" id="footer-desc">
+            Organized in 1990. Empowering local dairy producers, guaranteeing fair milk pricing, and delivering fresh agricultural produce.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-sm uppercase tracking-wider text-brand-300 mb-3" id="ft-nav">Quick Links</h4>
+          <ul class="space-y-2 text-xs text-brand-100 font-medium">
+            <li><button onclick="switchTab('about')" class="hover:underline">About Our Cooperative</button></li>
+            <li><button onclick="switchTab('products')" class="hover:underline">Products & Programs</button></li>
+            <li><button onclick="switchTab('youth')" class="hover:underline">Youth Agri-Fellowship</button></li>
+            <li><button onclick="switchTab('store')" class="hover:underline">Coop Store & Livestock Feeds</button></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-sm uppercase tracking-wider text-brand-300 mb-3" id="ft-gov">Governance & Partners</h4>
+          <ul class="space-y-2 text-xs text-brand-100 font-medium">
+            <li><a href="#" class="hover:underline">CDA Reg: Feb 22, 1991</a></li>
+            <li><a href="#" class="hover:underline">KMMI Affiliation</a></li>
+            <li><a href="#" class="hover:underline">Landbank Client Since 2015</a></li>
+            <li><a href="#" class="hover:underline">NDA / DOST / DTI Partners</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-sm uppercase tracking-wider text-brand-300 mb-3" id="ft-contact">Coop Headquarters</h4>
+          <p class="text-xs text-brand-200 leading-relaxed">
+            Brgy. Concepcion Palasan<br>
+            Sariaya, Quezon, Philippines<br>
+            Email: palcondairympc@gmail.com
+          </p>
+        </div>
+
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-brand-300">
+        <p>&copy; 2026 Palcon Dairy Multi-Purpose Cooperative. All Rights Reserved.</p>
+        <p class="mt-2 sm:mt-0 font-semibold">Kooperatiba ng Gatas</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    let currentLang = 'en';
+    let cart = [];
+    let currentUser = null;
+    let activeNewsFilter = 'all';
+    let activeStoreCategory = 'ALL';
+
+    const dictionary = {
+      en: {
+        subtitle: "Kooperatiba ng Gatas",
+        filipinoBtn: "Filipino",
+        memberLogin: "Member Login",
+        heroBadge: "CDA Accredited Primary Dairy Cooperative",
+        heroTitle: "Empowering Local Dairy Farmers & Enriching Filipino Communities",
+        heroDesc: "Palcon Dairy Multi-Purpose Cooperative brings together smallholder dairy farmers, offering fair milk pricing, modern cattle feeding, accessible micro-loans, savings options, and youth agri-entrepreneurship programs.",
+        heroPortalCTA: "Member Portal & Services",
+        heroStoreCTA: "Explore Coop Store & Feeds",
+        statMilk: "Daily Milk Collected",
+        statPayout: "Guaranteed Payout Rate",
+        card1Title: "Fair Milk Pricing",
+        card1Desc: "We ensure stable and competitive milk prices for our farmers.",
+        card2Title: "Farmer Support",
+        card2Desc: "Access to micro-loans, quality inputs, training, and continuous assistance.",
+        card3Title: "Youth Agri-Entrepreneurship",
+        card3Desc: "Creating opportunities for the next generation of dairy farmers.",
+        newsBadge: "COOP UPDATES",
+        newsTitle: "Latest News & Announcements Feed",
+        newsSub: "Stay informed with dividend schedules, milk collection advisories, and cooperative events.",
+        storiesBadge: "MEMBERS IN FOCUS",
+        storiesTitle: "Farmer Success Stories",
+        storiesSub: "Real inspiring journeys from our local dairy farmers whose lives were transformed through cooperative support, fair milk pricing, and accessible micro-finance.",
+        tabLogin: "Member Sign In",
+        tabRegister: "Register & Setup",
+        regHubTitle: "Cooperative Registration Hub",
+        regHubSub: "Select your registration option below to proceed.",
+        regTypeNewTitle: "New Member Application",
+        regTypeNewDesc: "For farmers seeking to join Palcon Dairy coop.",
+        regTypeExistTitle: "Existing Member Activation",
+        regTypeExistDesc: "Already a member, setting up online login.",
+        btnSubmitNewApp: "Submit Membership Application",
+        btnSubmitExistSetup: "Activate Online Portal Account"
+      },
+      tl: {
+        subtitle: "Kooperatiba ng Gatas",
+        filipinoBtn: "English",
+        memberLogin: "Mag-login bilang Kasapi",
+        heroBadge: "CDA Accredited Pangunahing Kooperatiba ng Gatas",
+        heroTitle: "Pagpapalakas sa mga Lokal na Magsasaka ng Gatas at Komunidad",
+        heroDesc: "Pinagbubuklod ng Palcon Dairy Multi-Purpose Cooperative ang mga maliliit na magsasaka sa pamamagitan ng makatarungang presyo ng gatas, pautang, at mga programa para sa kabataan.",
+        heroPortalCTA: "Portal at Serbisyo ng Kasapi",
+        heroStoreCTA: "Tindahan ng Kooperatiba at Pakain",
+        statMilk: "Gatas na Nakokolekta Araw-araw",
+        statPayout: "Garantisadong Presyo sa Magsasaka",
+        card1Title: "Makatarungang Presyo",
+        card1Desc: "Tinitiyak namin ang matatag at patas na presyo ng gatas para sa magsasaka.",
+        card2Title: "Tulong sa Magsasaka",
+        card2Desc: "Aksyon sa micro-loan, magandang feeds, pagsasanay, at suporta.",
+        card3Title: "Negosyo sa Kabataan",
+        card3Desc: "Pagtataguyod ng forward opportunities para sa mga kabataang magsasaka.",
+        newsBadge: "BALITA NG KOOPERATIBA",
+        newsTitle: "Pinakahuling Balita at Anunsyo",
+        newsSub: "Manatiling updated sa iskedyul ng dibidendo, paalala sa pangongolekta ng gatas, at mga kaganapan.",
+        storiesBadge: "KASAPI SA FOKUS",
+        storiesTitle: "Mga Kwento ng Tagumpay ng Magsasaka",
+        storiesSub: "Mga totoong kwento ng inspirasyon mula sa ating mga kasaping magsasaka na umunlad ang kabuhayan sa tulong ng kooperatiba.",
+        tabLogin: "Mag-login bilang Kasapi",
+        tabRegister: "Magrehistro at Mag-setup",
+        regHubTitle: "Hub ng Pagpaparehistro sa Kooperatiba",
+        regHubSub: "Pumili ng uri ng pagpaparehistro sa ibaba upang magpatuloy.",
+        regTypeNewTitle: "Aplikasyon para sa Bagong Kasapi",
+        regTypeNewDesc: "Para sa mga magsasakang gustong sumali sa Palcon Dairy.",
+        regTypeExistTitle: "Aktibasyon ng Kasalukuyang Kasapi",
+        regTypeExistDesc: "Kasapi na ngunit mag-aaktiba ng online account.",
+        btnSubmitNewApp: "Isumite ang Aplikasyon",
+        btnSubmitExistSetup: "I-aktiba ang Online Portal Account"
+      }
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+    });
+
+    function switchTab(pageId) {
+      document.querySelectorAll('.page-content').forEach(page => {
+        page.classList.add('hidden');
+      });
+
+      const target = document.getElementById('page-' + pageId);
+      if (target) {
+        target.classList.remove('hidden');
+      }
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('text-[#0BA652]', 'border-[#0BA652]');
+        btn.classList.add('text-gray-600', 'border-transparent');
+      });
+
+      const activeBtn = document.getElementById('nav-' + pageId);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-gray-600', 'border-transparent');
+        activeBtn.classList.add('text-[#0BA652]', 'border-[#0BA652]');
+      }
+
+      document.getElementById('mobile-menu').classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    function showPortalSubTab(tab) {
+      const loginSection = document.getElementById('portal-login-section');
+      const registerSection = document.getElementById('portal-register-section');
+      const btnLogin = document.getElementById('subtab-btn-login');
+      const btnRegister = document.getElementById('subtab-btn-register');
+
+      if (tab === 'login') {
+        loginSection.classList.remove('hidden');
+        registerSection.classList.add('hidden');
+        btnLogin.className = "flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition bg-[#0BA652] text-white shadow-xs";
+        btnRegister.className = "flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition text-gray-600 hover:text-brand-900";
+      } else {
+        loginSection.classList.add('hidden');
+        registerSection.classList.remove('hidden');
+        btnRegister.className = "flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition bg-[#0BA652] text-white shadow-xs";
+        btnLogin.className = "flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition text-gray-600 hover:text-brand-900";
+      }
+    }
+
+    function setRegMode(mode) {
+      const formNew = document.getElementById('form-reg-new');
+      const formExisting = document.getElementById('form-reg-existing');
+      const btnNew = document.getElementById('btn-regmode-new');
+      const btnExisting = document.getElementById('btn-regmode-existing');
+
+      if (mode === 'new') {
+        formNew.classList.remove('hidden');
+        formExisting.classList.add('hidden');
+        btnNew.className = "p-4 rounded-2xl border-2 border-[#0BA652] bg-brand-50 text-left transition flex items-start gap-3";
+        btnExisting.className = "p-4 rounded-2xl border-2 border-gray-200 hover:border-[#0BA652] bg-white text-left transition flex items-start gap-3";
+        btnNew.querySelector('input').checked = true;
+      } else {
+        formNew.classList.add('hidden');
+        formExisting.classList.remove('hidden');
+        btnExisting.className = "p-4 rounded-2xl border-2 border-[#0BA652] bg-brand-50 text-left transition flex items-start gap-3";
+        btnNew.className = "p-4 rounded-2xl border-2 border-gray-200 hover:border-[#0BA652] bg-white text-left transition flex items-start gap-3";
+        btnExisting.querySelector('input').checked = true;
+      }
+    }
+
+    function handleNewMemberSubmit(e) {
+      e.preventDefault();
+      const alertBox = document.getElementById('reg-status-alert');
+      alertBox.classList.remove('hidden');
+      alertBox.className = "mt-4 p-4 rounded-xl bg-green-100 text-green-800 text-xs sm:text-sm font-semibold text-center";
+      alertBox.innerText = "Application submitted! The Palcon Dairy Membership Committee will review your details and send your Member ID via SMS.";
+      e.target.reset();
+    }
+
+    function handleAccountSetupSubmit(e) {
+      e.preventDefault();
+      const memberId = document.getElementById('setup-member-id').value || "PALCON-1991-056";
+      currentUser = {
+        name: "Activated Member",
+        id: memberId,
+        shares: "₱25,000.00",
+        savings: "₱8,200.00",
+        dividend: "₱2,100.00",
+        avatar: "AM",
+        logs: [
+          { date: "Oct 22, 2026", volume: "38.0 L", rate: "₱45.00", total: "₱1,710.00", status: "Verified" }
+        ]
+      };
+      renderDashboard();
+    }
+
+    function filterStoreCategory(cat) {
+      activeStoreCategory = cat;
+      document.querySelectorAll('.store-filter-btn').forEach(btn => {
+        if (btn.innerText.toUpperCase().includes(cat) || (cat === 'ALL' && btn.innerText.includes('All'))) {
+          btn.className = "store-filter-btn active bg-[#0BA652] text-white px-3.5 py-2 rounded-xl whitespace-nowrap transition";
+        } else {
+          btn.className = "store-filter-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-3.5 py-2 rounded-xl whitespace-nowrap transition";
+        }
+      });
+      filterStoreItems();
+    }
+
+    function filterStoreItems() {
+      const searchVal = (document.getElementById('store-search-input')?.value || '').toLowerCase();
+      document.querySelectorAll('.store-item-card').forEach(item => {
+        const itemCategory = item.getAttribute('data-category');
+        const itemText = item.innerText.toLowerCase();
+        const matchesCategory = (activeStoreCategory === 'ALL' || itemCategory === activeStoreCategory);
+        const matchesSearch = itemText.includes(searchVal);
+        if (matchesCategory && matchesSearch) {
+          item.classList.remove('hidden');
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+    }
+
+    function setNewsFilter(category) {
+      activeNewsFilter = category;
+      document.querySelectorAll('.news-filter-btn').forEach(btn => {
+        btn.classList.remove('bg-[#0BA652]', 'text-white');
+        btn.classList.add('bg-white', 'text-gray-600', 'border', 'border-brand-200');
+      });
+      const activeBtn = document.getElementById('filter-btn-' + category);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-white', 'text-gray-600', 'border', 'border-brand-200');
+        activeBtn.classList.add('bg-[#0BA652]', 'text-white');
+      }
+      filterNews();
+    }
+
+    function filterNews() {
+      const query = (document.getElementById('news-search-input').value || '').toLowerCase();
+      const articles = document.querySelectorAll('.news-item');
+      let visibleCount = 0;
+
+      articles.forEach(article => {
+        const cat = article.getAttribute('data-category');
+        const text = article.innerText.toLowerCase();
+        const matchesCat = (activeNewsFilter === 'all' || cat === activeNewsFilter);
+        const matchesQuery = text.includes(query);
+
+        if (matchesCat && matchesQuery) {
+          article.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          article.classList.add('hidden');
+        }
+      });
+
+      const noMsg = document.getElementById('no-news-msg');
+      if (visibleCount === 0) {
+        noMsg.classList.remove('hidden');
+      } else {
+        noMsg.classList.add('hidden');
+      }
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'en' ? 'tl' : 'en';
+      const dict = dictionary[currentLang];
+
+      document.getElementById('lang-btn-text').innerText = dict.filipinoBtn;
+      document.getElementById('login-btn-text').innerText = dict.memberLogin;
+      document.getElementById('mobile-login-text').innerText = dict.memberLogin;
+      
+      document.getElementById('hero-badge').innerText = dict.heroBadge;
+      document.getElementById('hero-title').innerText = dict.heroTitle;
+      document.getElementById('hero-desc').innerText = dict.heroDesc;
+      document.getElementById('hero-cta-portal').innerText = dict.heroPortalCTA;
+      document.getElementById('hero-cta-store').innerText = dict.heroStoreCTA;
+
+      document.getElementById('stat-milk-label').innerText = dict.statMilk;
+      document.getElementById('stat-payout-label').innerText = dict.statPayout;
+
+      document.getElementById('card1-title').innerText = dict.card1Title;
+      document.getElementById('card1-desc').innerText = dict.card1Desc;
+      document.getElementById('card2-title').innerText = dict.card2Title;
+      document.getElementById('card2-desc').innerText = dict.card2Desc;
+      document.getElementById('card3-title').innerText = dict.card3Title;
+      document.getElementById('card3-desc').innerText = dict.card3Desc;
+
+      document.getElementById('news-badge').innerText = dict.newsBadge;
+      document.getElementById('news-section-title').innerText = dict.newsTitle;
+      document.getElementById('news-section-sub').innerText = dict.newsSub;
+
+      document.getElementById('stories-badge').innerText = dict.storiesBadge;
+      document.getElementById('stories-title').innerText = dict.storiesTitle;
+      document.getElementById('stories-sub').innerText = dict.storiesSub;
+
+      document.getElementById('tab-title-login').innerText = dict.tabLogin;
+      document.getElementById('tab-title-register').innerText = dict.tabRegister;
+      document.getElementById('reg-hub-title').innerText = dict.regHubTitle;
+      document.getElementById('reg-hub-sub').innerText = dict.regHubSub;
+      document.getElementById('regtype-new-title').innerText = dict.regTypeNewTitle;
+      document.getElementById('regtype-new-desc').innerText = dict.regTypeNewDesc;
+      document.getElementById('regtype-exist-title').innerText = dict.regTypeExistTitle;
+      document.getElementById('regtype-exist-desc').innerText = dict.regTypeExistDesc;
+      document.getElementById('btn-submit-newapp').innerText = dict.btnSubmitNewApp;
+      document.getElementById('btn-submit-existsetup').innerText = dict.btnSubmitExistSetup;
+    }
+
+    function addToCart(itemName, price) {
+      const existing = cart.find(item => item.name === itemName);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ name: itemName, price: price, qty: 1 });
+      }
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+      const cartBadge = document.getElementById('cart-badge');
+      const mobileBadge = document.getElementById('mobile-cart-badge');
+      const storeCount = document.getElementById('store-cart-count');
+
+      if (totalCount > 0) {
+        cartBadge.classList.remove('hidden');
+        cartBadge.innerText = totalCount;
+        mobileBadge.innerText = totalCount;
+      } else {
+        cartBadge.classList.add('hidden');
+        mobileBadge.innerText = '0';
+      }
+      storeCount.innerText = totalCount;
+
+      const container = document.getElementById('cart-items-container');
+      container.innerHTML = '';
+      let totalPrice = 0;
+
+      if (cart.length === 0) {
+        container.innerHTML = `<p class="text-center text-sm text-gray-500 py-6">Your cart is empty.</p>`;
+      } else {
+        cart.forEach((item, index) => {
+          totalPrice += item.price * item.qty;
+          container.innerHTML += `
+            <div class="flex items-center justify-between bg-brand-50 p-3 rounded-2xl">
+              <div>
+                <h5 class="font-bold text-xs text-brand-900">${item.name}</h5>
+                <p class="text-[11px] text-gray-500">₱${item.price.toFixed(2)} x ${item.qty}</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="font-extrabold text-xs text-[#0BA652]">₱${(item.price * item.qty).toFixed(2)}</span>
+                <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 text-xs font-bold px-1.5 py-0.5">✕</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      document.getElementById('cart-total-val').innerText = `₱${totalPrice.toFixed(2)}`;
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartUI();
+    }
+
+    function openCartModal() {
+      document.getElementById('cart-modal').classList.remove('hidden');
+    }
+
+    function closeCartModal() {
+      document.getElementById('cart-modal').classList.add('hidden');
+    }
+
+    function checkoutCart() {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+      alert("Order placed successfully! Cooperative store staff will process your order.");
+      cart = [];
+      updateCartUI();
+      closeCartModal();
+    }
+
+    function loginDemo(userType) {
+      if (userType === 'virgilio') {
+        currentUser = {
+          name: "Virgilio F. Ferrer",
+          id: "PALCON-1991-001",
+          shares: "₱50,000.00",
+          savings: "₱22,150.00",
+          dividend: "₱5,400.00",
+          avatar: "VF",
+          logs: [
+            { date: "Oct 22, 2026", volume: "48.0 L", rate: "₱45.00", total: "₱2,160.00", status: "Verified" },
+            { date: "Oct 21, 2026", volume: "45.0 L", rate: "₱45.00", total: "₱2,025.00", status: "Verified" }
+          ]
+        };
+      } else {
+        currentUser = {
+          name: "Sofia P. Espinas",
+          id: "PALCON-1991-002",
+          shares: "₱45,000.00",
+          savings: "₱19,800.00",
+          dividend: "₱4,650.00",
+          avatar: "SE",
+          logs: [
+            { date: "Oct 22, 2026", volume: "40.0 L", rate: "₱45.00", total: "₱1,800.00", status: "Verified" }
+          ]
+        };
+      }
+      renderDashboard();
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const inputId = document.getElementById('input-member-id').value || "PALCON-1991-056";
+      currentUser = {
+        name: "Cooperative Member",
+        id: inputId,
+        shares: "₱20,000.00",
+        savings: "₱5,000.00",
+        dividend: "₱1,200.00",
+        avatar: "CM",
+        logs: [
+          { date: "Oct 22, 2026", volume: "30.0 L", rate: "₱45.00", total: "₱1,350.00", status: "Pending Verification" }
+        ]
+      };
+      renderDashboard();
+    }
+
+    function renderDashboard() {
+      document.getElementById('portal-auth-view').classList.add('hidden');
+      document.getElementById('portal-dashboard-view').classList.remove('hidden');
+
+      document.getElementById('dash-user-name').innerText = currentUser.name;
+      document.getElementById('dash-avatar').innerText = currentUser.avatar;
+      document.getElementById('dash-id-label').innerText = `ID: ${currentUser.id} | Primary Farmer Member`;
+
+      document.getElementById('dash-cap-val').innerText = currentUser.shares;
+      document.getElementById('dash-sav-val').innerText = currentUser.savings;
+      document.getElementById('dash-div-val').innerText = currentUser.dividend;
+
+      updateLoanEstimate();
+      renderLoanApplications();
+
+      const logRows = document.getElementById('milk-log-rows');
+      logRows.innerHTML = '';
+      currentUser.logs.forEach(log => {
+        logRows.innerHTML += `
+          <tr>
+            <td class="py-3 px-4">${log.date}</td>
+            <td class="py-3 px-4 font-bold text-brand-900">${log.volume}</td>
+            <td class="py-3 px-4">${log.rate}</td>
+            <td class="py-3 px-4 font-bold text-[#0BA652]">${log.total}</td>
+            <td class="py-3 px-4"><span class="bg-green-100 text-green-800 text-xs px-2.5 py-1 rounded-full font-bold">${log.status}</span></td>
+          </tr>
+        `;
+      });
+    }
+
+    function loanMoney(value) {
+      return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(Number(value) || 0);
+    }
+
+    function addMonthsToDate(dateString, months) {
+      if (!dateString) return '';
+      const date = new Date(dateString + 'T12:00:00');
+      const originalDay = date.getDate();
+      date.setMonth(date.getMonth() + Number(months));
+      if (date.getDate() < originalDay) date.setDate(0);
+      return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+    }
+
+    function updateLoanEstimate() {
+      const amount = Math.max(0, Number(document.getElementById('loan-amount')?.value || 0));
+      const months = Number(document.getElementById('loan-term')?.value || 6);
+      const rate = Math.max(0, Number(document.getElementById('loan-rate')?.value || 0)) / 100;
+      const firstDue = document.getElementById('loan-first-due')?.value || '';
+      const finalDue = document.getElementById('loan-final-due');
+      if (finalDue) finalDue.value = firstDue ? addMonthsToDate(firstDue, months - 1) : '';
+
+      const interest = amount * rate * months;
+      const total = amount + interest;
+      const monthly = months ? total / months : 0;
+      const monthlyEl = document.getElementById('loan-est-monthly');
+      const totalEl = document.getElementById('loan-est-total');
+      if (monthlyEl) monthlyEl.textContent = loanMoney(monthly);
+      if (totalEl) totalEl.textContent = loanMoney(total);
+    }
+
+    function getLoanApplications() {
+      try {
+        const all = JSON.parse(localStorage.getItem('palconLoanApplications') || '[]');
+        return Array.isArray(all) ? all : [];
+      } catch (err) { return []; }
+    }
+
+    function renderLoanApplications() {
+      const list = document.getElementById('loan-applications-list');
+      if (!list) return;
+      const apps = getLoanApplications().filter(app => !currentUser || app.memberId === currentUser.id);
+      if (!apps.length) {
+        list.innerHTML = '<p class="text-sm text-gray-500">No applications submitted in this browser yet.</p>';
+        return;
+      }
+      list.innerHTML = apps.slice().reverse().map(app => `
+        <article class="border border-brand-100 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div><p class="font-extrabold text-brand-900">${app.reference}</p>
+          <p class="text-xs text-gray-500 mt-1">${app.type} · Submitted ${app.submittedAt}</p>
+          <p class="text-sm font-bold text-[#0BA652] mt-1">${loanMoney(app.amount)} requested · ${app.term} months</p>
+          <p class="text-xs text-gray-500 mt-1">Estimated final due: ${app.finalDue || 'Not set'}</p></div>
+          <span class="self-start sm:self-center bg-amber-100 text-amber-800 rounded-full px-3 py-1.5 text-xs font-extrabold">${app.status}</span>
+        </article>`).join('');
+    }
+
+    function submitLoanApplication(event) {
+      event.preventDefault();
+      if (!currentUser) {
+        alert('Please sign in to your member account before applying.');
+        return;
+      }
+      const amount = Number(document.getElementById('loan-amount').value);
+      const income = Number(document.getElementById('loan-income').value);
+      const type = document.getElementById('loan-type').value;
+      const purpose = document.getElementById('loan-purpose').value.trim();
+      const terms = document.getElementById('loan-terms-agree').checked;
+      if (!type || !purpose || amount < 1000 || income < 0 || !terms) {
+        alert('Please complete all required fields and acknowledge the terms.');
+        return;
+      }
+      const firstDue = document.getElementById('loan-first-due').value;
+      const term = Number(document.getElementById('loan-term').value);
+      const finalDue = document.getElementById('loan-final-due').value;
+      const apps = getLoanApplications();
+      const app = {
+        reference: 'PAL-LOAN-' + new Date().getFullYear() + '-' + String(Date.now()).slice(-6),
+        memberId: currentUser.id,
+        memberName: currentUser.name,
+        type, purpose, amount, term,
+        firstDue, finalDue,
+        submittedAt: new Date().toLocaleDateString('en-PH'),
+        status: 'Pending Review'
+      };
+      apps.push(app);
+      try {
+        localStorage.setItem('palconLoanApplications', JSON.stringify(apps));
+      } catch (err) {
+        const alertBox = document.getElementById('loan-submit-alert');
+        alertBox.className = 'rounded-xl p-4 text-sm font-semibold bg-red-100 text-red-800';
+        alertBox.textContent = 'Unable to save in this browser.';
+        return;
+      }
+      const alertBox = document.getElementById('loan-submit-alert');
+      alertBox.className = 'rounded-xl p-4 text-sm font-semibold bg-green-100 text-green-800';
+      alertBox.textContent = 'Application recorded. Reference: ' + app.reference + '. Status: Pending Review.';
+      renderLoanApplications();
+      lucide.createIcons();
+    }
+
+    function logout() {
+      currentUser = null;
+      document.getElementById('portal-dashboard-view').classList.add('hidden');
+      document.getElementById('portal-auth-view').classList.remove('hidden');
+    }
+
+    function checkQuiz(choiceIndex) {
+      const resultBox = document.getElementById('quiz-result');
+      resultBox.classList.remove('hidden');
+      
+      if (choiceIndex === 0) {
+        resultBox.className = "mt-4 font-bold text-sm p-3 rounded-xl bg-green-100 text-green-800 border border-green-200";
+        resultBox.innerText = "Correct! Raw milk must be rapidly cooled to 4°C or below to preserve freshness and prevent bacterial growth.";
+      } else {
+        resultBox.className = "mt-4 font-bold text-sm p-3 rounded-xl bg-red-100 text-red-800 border border-red-200";
+        resultBox.innerText = "Incorrect. Room or warm temperatures promote spoilage. Milk should be chilled to 4°C or below.";
+      }
+    }
+
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      const alertBox = document.getElementById('contact-alert');
+      alertBox.classList.remove('hidden');
+      alertBox.innerText = "Thank you! Your message has been sent to Palcon Dairy administration.";
+      e.target.reset();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const firstDueInput = document.getElementById('loan-first-due');
+      if (firstDueInput) {
+        const minDate = new Date();
+        minDate.setMinutes(minDate.getMinutes() - minDate.getTimezoneOffset());
+        firstDueInput.min = minDate.toISOString().slice(0, 10);
+        const suggested = new Date();
+        suggested.setMonth(suggested.getMonth() + 1);
+        suggested.setMinutes(suggested.getMinutes() - suggested.getTimezoneOffset());
+        firstDueInput.value = suggested.toISOString().slice(0, 10);
+      }
+      updateLoanEstimate();
+      renderLoanApplications();
+    });
+  </script>
+
+  <!-- Supabase Integration -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://koypcuqwlzngxehlglhs.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_shgZIKeteY0p03EBXb0WxA_B-SB5bID';
+
+    const { createClient } = supabase;
+    const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function testConnection() {
+      const { data, error } = await _supabase.from('todos').select('*');
+      if (error) {
+        console.log('Database connection error:', error.message);
+      } else {
+        console.log('Success! Here is data from my database:', data);
+      }
+    }
+
+    testConnection();
+  </script>
+</body>
+</html>
