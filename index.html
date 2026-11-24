@@ -2502,6 +2502,52 @@
             </div>
           </section>
 
+          <!-- TREASURER & CREDIT COMMITTEE APPROVAL & EMAIL NOTIFICATION CENTER -->
+          <section id="treasurer-approval-section" class="bg-white rounded-3xl border border-brand-200 shadow-sm overflow-hidden">
+            <div class="p-6 sm:p-8 border-b border-brand-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gradient-to-r from-brand-50 to-white">
+              <div>
+                <span class="text-xs font-extrabold uppercase tracking-widest text-[#0BA652]">Cooperative Treasury &amp; Credit Desk</span>
+                <h3 class="text-2xl font-extrabold text-brand-900 mt-1">Loan &amp; Savings Withdrawal Approvals</h3>
+                <p class="text-sm text-gray-500 mt-1">Review pending requests, approve or release funds, and send automated email notifications with full financial breakdowns.</p>
+              </div>
+              <button type="button" onclick="loadTreasurerApprovalQueues()" class="self-start sm:self-auto px-4 py-2 rounded-full border border-brand-200 bg-white hover:bg-brand-50 text-brand-900 font-bold text-xs flex items-center gap-1.5 cursor-pointer">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-[#0BA652]"></i> Refresh Queue
+              </button>
+            </div>
+
+            <div class="p-6 sm:p-8 space-y-6">
+              <div id="treasurer-notify-alert" role="status" class="hidden rounded-2xl p-4 text-xs sm:text-sm font-semibold"></div>
+
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Pending & Approved Loan Applications Queue -->
+                <div class="bg-brand-50/50 rounded-2xl p-5 border border-brand-100 space-y-3">
+                  <div class="flex items-center justify-between">
+                    <h4 class="font-extrabold text-brand-900 text-sm uppercase tracking-wider flex items-center gap-2">
+                      <i data-lucide="file-check-2" class="w-4 h-4 text-[#0BA652]"></i> Loan Requests Queue
+                    </h4>
+                    <span id="treasurer-loans-count" class="text-[11px] font-bold bg-white border border-brand-200 text-brand-900 px-2.5 py-0.5 rounded-full">0</span>
+                  </div>
+                  <div id="treasurer-loans-list" class="space-y-3 max-h-80 overflow-y-auto custom-scrollbar pr-1">
+                    <p class="text-xs text-gray-500">Loading loan queue...</p>
+                  </div>
+                </div>
+
+                <!-- Pending & Approved Savings Withdrawals Queue -->
+                <div class="bg-brand-50/50 rounded-2xl p-5 border border-brand-100 space-y-3">
+                  <div class="flex items-center justify-between">
+                    <h4 class="font-extrabold text-brand-900 text-sm uppercase tracking-wider flex items-center gap-2">
+                      <i data-lucide="banknote" class="w-4 h-4 text-[#0BA652]"></i> Savings Withdrawal Queue
+                    </h4>
+                    <span id="treasurer-withdrawals-count" class="text-[11px] font-bold bg-white border border-brand-200 text-brand-900 px-2.5 py-0.5 rounded-full">0</span>
+                  </div>
+                  <div id="treasurer-withdrawals-list" class="space-y-3 max-h-80 overflow-y-auto custom-scrollbar pr-1">
+                    <p class="text-xs text-gray-500">Loading withdrawal queue...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <!-- Milk Deliveries Table -->
           <div class="bg-white rounded-3xl p-6 border border-brand-200 shadow-sm">
             <h3 class="font-bold text-xl text-brand-900 mb-4" id="dash-table-title">Recent Daily Milk Deliveries Log</h3>
@@ -3815,6 +3861,452 @@
       ]);
     }
 
+    let cachedMemberWithdrawals = {};
+
+    function amountToPhilippinePesosWords(amount) {
+      const num = Math.max(0, Number(amount) || 0);
+      const whole = Math.floor(num);
+      const centavos = Math.round((num - whole) * 100);
+
+      const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine',
+        'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+      const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+      function convertBelowThousand(n) {
+        let str = '';
+        if (n >= 100) {
+          str += ones[Math.floor(n / 100)] + ' Hundred';
+          n %= 100;
+          if (n > 0) str += ' ';
+        }
+        if (n >= 20) {
+          str += tens[Math.floor(n / 10)];
+          n %= 10;
+          if (n > 0) str += '-' + ones[n];
+        } else if (n > 0) {
+          str += ones[n];
+        }
+        return str;
+      }
+
+      let words = '';
+      if (whole === 0) {
+        words = 'Zero';
+      } else {
+        const millions = Math.floor(whole / 1000000);
+        const thousands = Math.floor((whole % 1000000) / 1000);
+        const remainder = whole % 1000;
+        const parts = [];
+        if (millions > 0) parts.push(convertBelowThousand(millions) + ' Million');
+        if (thousands > 0) parts.push(convertBelowThousand(thousands) + ' Thousand');
+        if (remainder > 0) parts.push(convertBelowThousand(remainder));
+        words = parts.join(' ');
+      }
+
+      const centavoStr = String(centavos).padStart(2, '0') + '/100';
+      return `${words} Pesos & ${centavoStr} Only`;
+    }
+
+    async function downloadApprovedWithdrawalSlip(wdKey, triggerBtn) {
+      const wd = cachedMemberWithdrawals[wdKey] || cachedQueueWithdrawals[wdKey];
+      if (!wd) {
+        alert('Unable to locate the selected approved withdrawal record. Please refresh and try again.');
+        return;
+      }
+
+      const normalizedStatus = normalizeLoanWithdrawalStatus(wd.status);
+      if (!['Approved', 'Released', 'Completed'].includes(normalizedStatus)) {
+        alert('The Withdrawal Slip PDF is only available for approved, released, or completed withdrawal requests.');
+        return;
+      }
+
+      const originalBtnHtml = triggerBtn ? triggerBtn.innerHTML : '';
+      if (triggerBtn) {
+        triggerBtn.disabled = true;
+        triggerBtn.innerHTML = '<i data-lucide="loader-2" class="w-3 h-3 animate-spin"></i><span>Generating Slip...</span>';
+        if (window.lucide) lucide.createIcons();
+      }
+
+      try {
+        const memberName = currentUser?.name || wd.member_name || 'Cooperative Member';
+        const memberCode = currentUser?.memberCode || wd.member_code || 'N/A';
+        const memberContact = currentUser?.mobileNumber || wd.account_details || 'N/A';
+        const amountNum = Number(wd.amount || 0);
+        const amountWords = amountToPhilippinePesosWords(amountNum);
+
+        const requestDate = wd.created_at
+          ? new Date(wd.created_at).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' })
+          : 'N/A';
+        const approvedDate = wd.updated_at || wd.approved_at
+          ? new Date(wd.updated_at || wd.approved_at).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' })
+          : new Date().toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' });
+        const generatedTimestamp = new Date().toLocaleString('en-PH', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
+        const logoSrc = await getEmbeddableLogoDataUrl();
+        const refCodeSafe = escapeHtml(wd.reference_code || 'APPROVED-WD');
+        const safeFileRef = String(wd.reference_code || 'Withdrawal-Slip').replace(/[^a-zA-Z0-9_-]/g, '_');
+        const safeFileMember = String(memberName).trim().replace(/[^a-zA-Z0-9_-]+/g, '_');
+        const pdfFilename = `${safeFileRef}_${safeFileMember}_Savings_Withdrawal_Slip.pdf`;
+
+        // Standard Philippine bank withdrawal slip dimensions: 8.0 in x 3.6 in (203.2 mm x 91.44 mm)
+        const slipInnerHtml = `
+          <style>
+            .wd-slip-wrapper {
+              font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+              color: #0b3d2c;
+              background: #ffffff;
+              width: 740px;
+              height: 332px;
+              margin: 0 auto;
+              padding: 12px 16px;
+              border: 2px solid #0BA652;
+              border-radius: 8px;
+              box-sizing: border-box;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              position: relative;
+              overflow: hidden;
+            }
+            .wd-slip-wrapper * {
+              box-sizing: border-box;
+            }
+            .wd-slip-header {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              border-bottom: 2px solid #0BA652;
+              padding-bottom: 7px;
+              margin-bottom: 7px;
+            }
+            .wd-slip-brand {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+            }
+            .wd-slip-logo {
+              width: 44px;
+              height: 44px;
+              object-fit: contain;
+              flex-shrink: 0;
+            }
+            .wd-slip-logo-fallback {
+              width: 44px;
+              height: 44px;
+              background: #0BA652;
+              color: #ffffff;
+              font-weight: 800;
+              font-size: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 8px;
+              flex-shrink: 0;
+            }
+            .wd-slip-brand h1 {
+              margin: 0;
+              font-size: 13.5px;
+              font-weight: 800;
+              color: #0b3d2c;
+              line-height: 1.15;
+            }
+            .wd-slip-brand p {
+              margin: 1px 0 0 0;
+              font-size: 9px;
+              color: #35584a;
+              font-weight: 600;
+            }
+            .wd-slip-title-box {
+              text-align: right;
+            }
+            .wd-slip-title-box .slip-title {
+              display: inline-block;
+              background: #0BA652;
+              color: #ffffff;
+              font-size: 10px;
+              font-weight: 800;
+              letter-spacing: 0.06em;
+              text-transform: uppercase;
+              padding: 3px 9px;
+              border-radius: 4px;
+            }
+            .wd-slip-title-box .slip-ref {
+              margin: 3px 0 0 0;
+              font-size: 9.5px;
+              font-weight: 700;
+              color: #0b3d2c;
+            }
+            .wd-slip-grid {
+              display: grid;
+              grid-template-columns: 1.35fr 1fr 0.85fr;
+              gap: 6px 8px;
+              margin-bottom: 6px;
+            }
+            .wd-field {
+              background: #f6faf7;
+              border: 1px solid #c8e2d1;
+              border-radius: 5px;
+              padding: 4px 8px;
+            }
+            .wd-field-label {
+              display: block;
+              font-size: 7.5px;
+              font-weight: 800;
+              text-transform: uppercase;
+              letter-spacing: 0.04em;
+              color: #4b6359;
+              margin-bottom: 1px;
+            }
+            .wd-field-val {
+              font-size: 10.5px;
+              font-weight: 700;
+              color: #0b3d2c;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+            .wd-amount-row {
+              display: grid;
+              grid-template-columns: 1.85fr 1fr;
+              gap: 8px;
+              margin-bottom: 6px;
+            }
+            .wd-words-box {
+              background: #f6faf7;
+              border: 1px solid #c8e2d1;
+              border-radius: 5px;
+              padding: 5px 8px;
+            }
+            .wd-words-box .wd-field-val {
+              font-size: 9.5px;
+              font-style: italic;
+              white-space: normal;
+              line-height: 1.25;
+            }
+            .wd-figure-box {
+              background: #e8f3ec;
+              border: 1.5px solid #0BA652;
+              border-radius: 5px;
+              padding: 4px 9px;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              text-align: right;
+            }
+            .wd-figure-box .wd-field-label {
+              color: #098541;
+            }
+            .wd-figure-box .figure-val {
+              font-size: 14px;
+              font-weight: 800;
+              color: #0b3d2c;
+              letter-spacing: -0.01em;
+            }
+            .wd-details-row {
+              display: grid;
+              grid-template-columns: 1fr 1.15fr 0.7fr;
+              gap: 6px 8px;
+              margin-bottom: 6px;
+            }
+            .wd-auth-note {
+              font-size: 8px;
+              color: #35584a;
+              line-height: 1.3;
+              margin-bottom: 4px;
+            }
+            .wd-sig-row {
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+              gap: 14px;
+              align-items: end;
+              padding-top: 2px;
+            }
+            .wd-sig-col {
+              text-align: center;
+            }
+            .wd-sig-line {
+              border-top: 1px solid #0b3d2c;
+              margin-top: 18px;
+              padding-top: 2px;
+              font-size: 8.5px;
+              font-weight: 800;
+              color: #0b3d2c;
+            }
+            .wd-sig-sub {
+              font-size: 7.5px;
+              color: #5b756a;
+            }
+            .wd-slip-footer {
+              border-top: 1px dashed #c8e2d1;
+              padding-top: 3px;
+              margin-top: 4px;
+              display: flex;
+              justify-content: space-between;
+              font-size: 7.5px;
+              color: #5b756a;
+            }
+          </style>
+
+          <div class="wd-slip-wrapper">
+            <div>
+              <!-- Header with Coop Logo -->
+              <div class="wd-slip-header">
+                <div class="wd-slip-brand">
+                  <img src="${escapeHtml(logoSrc)}" alt="Palcon Dairy Multi-Purpose Cooperative Logo" class="wd-slip-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <div class="wd-slip-logo-fallback" style="display:none;">PD</div>
+                  <div>
+                    <h1>Palcon Dairy Multi-Purpose Cooperative</h1>
+                    <p>Kooperatiba ng Gatas · Brgy. Concepcion Palasan, Sariaya, Quezon</p>
+                  </div>
+                </div>
+                <div class="wd-slip-title-box">
+                  <span class="slip-title">Savings Withdrawal Slip</span>
+                  <p class="slip-ref">Ref: ${refCodeSafe} · ${escapeHtml(normalizedStatus.toUpperCase())}</p>
+                </div>
+              </div>
+
+              <!-- Account Holder, Member ID & Date -->
+              <div class="wd-slip-grid">
+                <div class="wd-field">
+                  <span class="wd-field-label">Account Name / Member</span>
+                  <div class="wd-field-val">${escapeHtml(memberName)}</div>
+                </div>
+                <div class="wd-field">
+                  <span class="wd-field-label">Account / Member ID</span>
+                  <div class="wd-field-val">${escapeHtml(memberCode)}</div>
+                </div>
+                <div class="wd-field">
+                  <span class="wd-field-label">Date Approved</span>
+                  <div class="wd-field-val">${escapeHtml(approvedDate)}</div>
+                </div>
+              </div>
+
+              <!-- Amount in Words & Amount in Figures -->
+              <div class="wd-amount-row">
+                <div class="wd-words-box">
+                  <span class="wd-field-label">Amount in Words</span>
+                  <div class="wd-field-val">${escapeHtml(amountWords)}</div>
+                </div>
+                <div class="wd-figure-box">
+                  <span class="wd-field-label">Amount Withdrawn (PHP)</span>
+                  <div class="figure-val">${escapeHtml(formatPHP(amountNum))}</div>
+                </div>
+              </div>
+
+              <!-- Release Channel, Account Details & Purpose -->
+              <div class="wd-details-row">
+                <div class="wd-field">
+                  <span class="wd-field-label">Release Method</span>
+                  <div class="wd-field-val">${escapeHtml(wd.release_method || 'Cash Pickup at Coop Office')}</div>
+                </div>
+                <div class="wd-field">
+                  <span class="wd-field-label">Account / Contact Details</span>
+                  <div class="wd-field-val">${escapeHtml(wd.account_details || memberContact)}</div>
+                </div>
+                <div class="wd-field">
+                  <span class="wd-field-label">Date Requested</span>
+                  <div class="wd-field-val">${escapeHtml(requestDate)}</div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="wd-auth-note">
+                Received from <strong>Palcon Dairy Multi-Purpose Cooperative</strong> the sum stated above to be debited from my Voluntary Savings Account. Purpose: <em>${escapeHtml(wd.purpose || 'Voluntary Savings Withdrawal')}</em>.
+              </div>
+
+              <!-- Bank-style Signature Row -->
+              <div class="wd-sig-row">
+                <div class="wd-sig-col">
+                  <div class="wd-sig-line">${escapeHtml(memberName)}</div>
+                  <div class="wd-sig-sub">Depositor / Member Signature</div>
+                </div>
+                <div class="wd-sig-col">
+                  <div class="wd-sig-line">Graichelle Quitain</div>
+                  <div class="wd-sig-sub">Verified By (Bookkeeper)</div>
+                </div>
+                <div class="wd-sig-col">
+                  <div class="wd-sig-line">Edna F. Manalo</div>
+                  <div class="wd-sig-sub">Approved / Paid By (Treasurer)</div>
+                </div>
+              </div>
+
+              <div class="wd-slip-footer">
+                <span>CDA Reg. Feb 22, 1991 · Official Member Copy</span>
+                <span>Generated: ${escapeHtml(generatedTimestamp)}</span>
+              </div>
+            </div>
+          </div>
+        `;
+
+        if (typeof window.html2pdf === 'function') {
+          const pdfRenderHost = document.createElement('div');
+          pdfRenderHost.style.position = 'fixed';
+          pdfRenderHost.style.left = '-10000px';
+          pdfRenderHost.style.top = '0';
+          pdfRenderHost.style.width = '750px';
+          pdfRenderHost.style.background = '#ffffff';
+          pdfRenderHost.style.zIndex = '-1';
+          pdfRenderHost.innerHTML = slipInnerHtml;
+          document.body.appendChild(pdfRenderHost);
+
+          const targetSlip = pdfRenderHost.querySelector('.wd-slip-wrapper') || pdfRenderHost;
+
+          // Standard bank withdrawal slip size: 203.2mm (8.0 in) wide x 91.44mm (3.6 in) high
+          const pdfOptions = {
+            margin: [2, 2, 2, 2],
+            filename: pdfFilename,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: {
+              scale: 2,
+              useCORS: true,
+              allowTaint: true,
+              backgroundColor: '#ffffff',
+              scrollX: 0,
+              scrollY: 0
+            },
+            jsPDF: {
+              unit: 'mm',
+              format: [203.2, 93],
+              orientation: 'landscape'
+            }
+          };
+
+          try {
+            await window.html2pdf().set(pdfOptions).from(targetSlip).save();
+          } finally {
+            if (pdfRenderHost.parentNode) {
+              pdfRenderHost.parentNode.removeChild(pdfRenderHost);
+            }
+          }
+        } else {
+          const printWindow = window.open('', '_blank', 'width=820,height=420');
+          if (!printWindow) {
+            alert('Please allow pop-ups in your browser to save the Withdrawal Slip as PDF.');
+            return;
+          }
+          printWindow.document.open();
+          printWindow.document.write(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>${escapeHtml(pdfFilename)}</title><style>@page{size:8in 3.6in;margin:2mm;}body{margin:0;background:#fff;}</style></head><body>${slipInnerHtml}<script>window.onload=function(){setTimeout(function(){window.print();},300);};<\/script></body></html>`);
+          printWindow.document.close();
+        }
+      } catch (err) {
+        console.error('Withdrawal slip PDF generation error:', err);
+        alert('Unable to generate the Withdrawal Slip PDF. Please try again.');
+      } finally {
+        if (triggerBtn) {
+          triggerBtn.disabled = false;
+          triggerBtn.innerHTML = originalBtnHtml;
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+    }
+
     async function renderSavingsWithdrawals() {
       const list = document.getElementById('savings-withdrawals-list');
       if (!list) return;
@@ -3839,21 +4331,38 @@
           return;
         }
 
-        list.innerHTML = rows.map(row => {
+        cachedMemberWithdrawals = {};
+
+        list.innerHTML = rows.map((row, idx) => {
+          const wdKey = String(row.id ?? row.reference_code ?? idx);
+          cachedMemberWithdrawals[wdKey] = row;
+
           const dt = row.created_at ? new Date(row.created_at).toLocaleDateString('en-PH') : '--';
           const status = normalizeLoanWithdrawalStatus(row.status);
           const badgeCls = getLoanWithdrawalBadgeClass(status);
+          const canDownloadSlip = ['Approved', 'Released', 'Completed'].includes(status);
+
+          const downloadSlipBtnHtml = canDownloadSlip
+            ? `<button type="button" onclick="downloadApprovedWithdrawalSlip('${escapeHtml(wdKey)}', this)" class="mt-2 cta-emboss-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-full inline-flex items-center gap-1 cursor-pointer">
+                <i data-lucide="download" class="w-3 h-3"></i>
+                <span>Download Withdrawal Slip (PDF)</span>
+              </button>`
+            : '';
+
           return `
-            <div class="border border-brand-100 bg-brand-50/50 rounded-2xl p-3 flex items-center justify-between gap-2">
+            <div class="border border-brand-100 bg-brand-50/50 rounded-2xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
                 <p class="font-extrabold text-xs text-brand-900">${escapeHtml(row.reference_code || 'WD-REQ')}</p>
                 <p class="text-xs font-bold text-[#0BA652] mt-0.5">${formatPHP(row.amount)} · ${escapeHtml(row.release_method || '')}</p>
                 <p class="text-[11px] text-gray-500 mt-0.5">${escapeHtml(dt)}</p>
+                ${downloadSlipBtnHtml}
               </div>
-              <span class="${badgeCls} rounded-full px-2.5 py-1 text-[10px] font-extrabold shrink-0">${escapeHtml(status)}</span>
+              <span class="${badgeCls} rounded-full px-2.5 py-1 text-[10px] font-extrabold shrink-0 self-start sm:self-center">${escapeHtml(status)}</span>
             </div>
           `;
         }).join('');
+
+        if (window.lucide) lucide.createIcons();
       } catch (err) {
         console.error('Error loading savings withdrawals:', err);
         list.innerHTML = '<p class="text-xs text-gray-500">No withdrawal requests recorded yet.</p>';
@@ -4069,6 +4578,7 @@
       }
       currentUser = null;
       cachedMemberLoanApps = {};
+      cachedMemberWithdrawals = {};
 
       // Clear sign-in form inputs & status alerts on sign-out
       const loginForm = document.getElementById('member-login-form');
@@ -5227,6 +5737,7 @@
                   <div class="flex flex-wrap gap-1.5">
                     ${st === 'Pending' ? `<button type="button" onclick="processLoanDecision('${escapeHtml(key)}', 'Approved')" class="px-3 py-1 rounded-full bg-[#0BA652] hover:bg-[#098541] text-white text-[11px] font-bold cursor-pointer">Approve &amp; Email Terms</button>` : ''}
                     ${st !== 'Released' && st !== 'Completed' ? `<button type="button" onclick="processLoanDecision('${escapeHtml(key)}', 'Released')" class="px-3 py-1 rounded-full bg-brand-900 hover:bg-brand-800 text-white text-[11px] font-bold cursor-pointer">Release &amp; Notify</button>` : ''}
+                    ${['Approved', 'Released', 'Completed'].includes(st) ? `<button type="button" onclick="cachedMemberLoanApps['${escapeHtml(key)}']=cachedQueueLoans['${escapeHtml(key)}'];downloadApprovedLoanFile('${escapeHtml(key)}', this)" class="px-3 py-1 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white text-[11px] font-bold inline-flex items-center gap-1 cursor-pointer"><i data-lucide="download" class="w-3 h-3"></i><span>Agreement (PDF)</span></button>` : ''}
                   </div>
                 </div>
               </div>
@@ -5265,6 +5776,7 @@
                   <div class="flex flex-wrap gap-1.5">
                     ${st === 'Pending' ? `<button type="button" onclick="processWithdrawalDecision('${escapeHtml(key)}', 'Approved')" class="px-3 py-1 rounded-full bg-[#0BA652] hover:bg-[#098541] text-white text-[11px] font-bold cursor-pointer">Approve &amp; Notify</button>` : ''}
                     ${st !== 'Released' && st !== 'Completed' ? `<button type="button" onclick="processWithdrawalDecision('${escapeHtml(key)}', 'Released')" class="px-3 py-1 rounded-full bg-brand-900 hover:bg-brand-800 text-white text-[11px] font-bold cursor-pointer">Release &amp; Notify</button>` : ''}
+                    ${['Approved', 'Released', 'Completed'].includes(st) ? `<button type="button" onclick="downloadApprovedWithdrawalSlip('${escapeHtml(key)}', this)" class="px-3 py-1 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white text-[11px] font-bold inline-flex items-center gap-1 cursor-pointer"><i data-lucide="download" class="w-3 h-3"></i><span>Withdrawal Slip (PDF)</span></button>` : ''}
                   </div>
                 </div>
               </div>
