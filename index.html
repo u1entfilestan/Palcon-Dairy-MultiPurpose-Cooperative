@@ -3954,17 +3954,28 @@
         const safeFileMember = String(memberName).trim().replace(/[^a-zA-Z0-9_-]+/g, '_');
         const pdfFilename = `${safeFileRef}_${safeFileMember}_Savings_Withdrawal_Slip.pdf`;
 
-        // Standard Philippine bank withdrawal slip dimensions: 8.0 in x 3.6 in (203.2 mm x 91.44 mm)
+        // Standard Philippine bank withdrawal slip dimensions: 8.0 in x 3.85 in (203.2 mm x 97.8 mm), centered on page
         const slipInnerHtml = `
           <style>
+            .wd-slip-page {
+              width: 768px;
+              height: 368px;
+              margin: 0 auto;
+              padding: 8px;
+              background: #ffffff;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              box-sizing: border-box;
+            }
             .wd-slip-wrapper {
               font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
               color: #0b3d2c;
               background: #ffffff;
-              width: 740px;
-              height: 332px;
+              width: 752px;
+              height: 352px;
               margin: 0 auto;
-              padding: 12px 16px;
+              padding: 13px 18px;
               border: 2px solid #0BA652;
               border-radius: 8px;
               box-sizing: border-box;
@@ -3972,7 +3983,6 @@
               flex-direction: column;
               justify-content: space-between;
               position: relative;
-              overflow: hidden;
             }
             .wd-slip-wrapper * {
               box-sizing: border-box;
@@ -3982,8 +3992,8 @@
               align-items: center;
               justify-content: space-between;
               border-bottom: 2px solid #0BA652;
-              padding-bottom: 7px;
-              margin-bottom: 7px;
+              padding-bottom: 8px;
+              margin-bottom: 8px;
             }
             .wd-slip-brand {
               display: flex;
@@ -4011,19 +4021,20 @@
             }
             .wd-slip-brand h1 {
               margin: 0;
-              font-size: 13.5px;
+              font-size: 14px;
               font-weight: 800;
               color: #0b3d2c;
-              line-height: 1.15;
+              line-height: 1.2;
             }
             .wd-slip-brand p {
-              margin: 1px 0 0 0;
+              margin: 2px 0 0 0;
               font-size: 9px;
               color: #35584a;
               font-weight: 600;
             }
             .wd-slip-title-box {
               text-align: right;
+              flex-shrink: 0;
             }
             .wd-slip-title-box .slip-title {
               display: inline-block;
@@ -4033,7 +4044,7 @@
               font-weight: 800;
               letter-spacing: 0.06em;
               text-transform: uppercase;
-              padding: 3px 9px;
+              padding: 3px 10px;
               border-radius: 4px;
             }
             .wd-slip-title-box .slip-ref {
@@ -4045,14 +4056,14 @@
             .wd-slip-grid {
               display: grid;
               grid-template-columns: 1.35fr 1fr 0.85fr;
-              gap: 6px 8px;
-              margin-bottom: 6px;
+              gap: 7px 9px;
+              margin-bottom: 7px;
             }
             .wd-field {
               background: #f6faf7;
               border: 1px solid #c8e2d1;
               border-radius: 5px;
-              padding: 4px 8px;
+              padding: 5px 9px;
             }
             .wd-field-label {
               display: block;
@@ -4061,39 +4072,40 @@
               text-transform: uppercase;
               letter-spacing: 0.04em;
               color: #4b6359;
-              margin-bottom: 1px;
+              margin-bottom: 2px;
             }
             .wd-field-val {
               font-size: 10.5px;
               font-weight: 700;
               color: #0b3d2c;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
+              line-height: 1.25;
+              word-break: break-word;
             }
             .wd-amount-row {
               display: grid;
               grid-template-columns: 1.85fr 1fr;
-              gap: 8px;
-              margin-bottom: 6px;
+              gap: 9px;
+              margin-bottom: 7px;
             }
             .wd-words-box {
               background: #f6faf7;
               border: 1px solid #c8e2d1;
               border-radius: 5px;
-              padding: 5px 8px;
+              padding: 5px 9px;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
             }
             .wd-words-box .wd-field-val {
-              font-size: 9.5px;
+              font-size: 10px;
               font-style: italic;
-              white-space: normal;
               line-height: 1.25;
             }
             .wd-figure-box {
               background: #e8f3ec;
               border: 1.5px solid #0BA652;
               border-radius: 5px;
-              padding: 4px 9px;
+              padding: 5px 10px;
               display: flex;
               flex-direction: column;
               justify-content: center;
@@ -4103,7 +4115,7 @@
               color: #098541;
             }
             .wd-figure-box .figure-val {
-              font-size: 14px;
+              font-size: 14.5px;
               font-weight: 800;
               color: #0b3d2c;
               letter-spacing: -0.01em;
@@ -4111,19 +4123,19 @@
             .wd-details-row {
               display: grid;
               grid-template-columns: 1fr 1.15fr 0.7fr;
-              gap: 6px 8px;
-              margin-bottom: 6px;
+              gap: 7px 9px;
+              margin-bottom: 7px;
             }
             .wd-auth-note {
-              font-size: 8px;
+              font-size: 8.5px;
               color: #35584a;
-              line-height: 1.3;
+              line-height: 1.35;
               margin-bottom: 4px;
             }
             .wd-sig-row {
               display: grid;
               grid-template-columns: 1fr 1fr 1fr;
-              gap: 14px;
+              gap: 16px;
               align-items: end;
               padding-top: 2px;
             }
@@ -4132,8 +4144,8 @@
             }
             .wd-sig-line {
               border-top: 1px solid #0b3d2c;
-              margin-top: 18px;
-              padding-top: 2px;
+              margin-top: 20px;
+              padding-top: 3px;
               font-size: 8.5px;
               font-weight: 800;
               color: #0b3d2c;
@@ -4144,8 +4156,8 @@
             }
             .wd-slip-footer {
               border-top: 1px dashed #c8e2d1;
-              padding-top: 3px;
-              margin-top: 4px;
+              padding-top: 4px;
+              margin-top: 5px;
               display: flex;
               justify-content: space-between;
               font-size: 7.5px;
@@ -4153,93 +4165,95 @@
             }
           </style>
 
-          <div class="wd-slip-wrapper">
-            <div>
-              <!-- Header with Coop Logo -->
-              <div class="wd-slip-header">
-                <div class="wd-slip-brand">
-                  <img src="${escapeHtml(logoSrc)}" alt="Palcon Dairy Multi-Purpose Cooperative Logo" class="wd-slip-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                  <div class="wd-slip-logo-fallback" style="display:none;">PD</div>
-                  <div>
-                    <h1>Palcon Dairy Multi-Purpose Cooperative</h1>
-                    <p>Kooperatiba ng Gatas · Brgy. Concepcion Palasan, Sariaya, Quezon</p>
+          <div class="wd-slip-page">
+            <div class="wd-slip-wrapper">
+              <div>
+                <!-- Header with Coop Logo -->
+                <div class="wd-slip-header">
+                  <div class="wd-slip-brand">
+                    <img src="${escapeHtml(logoSrc)}" alt="Palcon Dairy Multi-Purpose Cooperative Logo" class="wd-slip-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="wd-slip-logo-fallback" style="display:none;">PD</div>
+                    <div>
+                      <h1>Palcon Dairy Multi-Purpose Cooperative</h1>
+                      <p>Kooperatiba ng Gatas · Brgy. Concepcion Palasan, Sariaya, Quezon</p>
+                    </div>
+                  </div>
+                  <div class="wd-slip-title-box">
+                    <span class="slip-title">Savings Withdrawal Slip</span>
+                    <p class="slip-ref">Ref: ${refCodeSafe} · ${escapeHtml(normalizedStatus.toUpperCase())}</p>
                   </div>
                 </div>
-                <div class="wd-slip-title-box">
-                  <span class="slip-title">Savings Withdrawal Slip</span>
-                  <p class="slip-ref">Ref: ${refCodeSafe} · ${escapeHtml(normalizedStatus.toUpperCase())}</p>
+
+                <!-- Account Holder, Member ID & Date -->
+                <div class="wd-slip-grid">
+                  <div class="wd-field">
+                    <span class="wd-field-label">Account Name / Member</span>
+                    <div class="wd-field-val">${escapeHtml(memberName)}</div>
+                  </div>
+                  <div class="wd-field">
+                    <span class="wd-field-label">Account / Member ID</span>
+                    <div class="wd-field-val">${escapeHtml(memberCode)}</div>
+                  </div>
+                  <div class="wd-field">
+                    <span class="wd-field-label">Date Approved</span>
+                    <div class="wd-field-val">${escapeHtml(approvedDate)}</div>
+                  </div>
+                </div>
+
+                <!-- Amount in Words & Amount in Figures -->
+                <div class="wd-amount-row">
+                  <div class="wd-words-box">
+                    <span class="wd-field-label">Amount in Words</span>
+                    <div class="wd-field-val">${escapeHtml(amountWords)}</div>
+                  </div>
+                  <div class="wd-figure-box">
+                    <span class="wd-field-label">Amount Withdrawn (PHP)</span>
+                    <div class="figure-val">${escapeHtml(formatPHP(amountNum))}</div>
+                  </div>
+                </div>
+
+                <!-- Release Channel, Account Details & Purpose -->
+                <div class="wd-details-row">
+                  <div class="wd-field">
+                    <span class="wd-field-label">Release Method</span>
+                    <div class="wd-field-val">${escapeHtml(wd.release_method || 'Cash Pickup at Coop Office')}</div>
+                  </div>
+                  <div class="wd-field">
+                    <span class="wd-field-label">Account / Contact Details</span>
+                    <div class="wd-field-val">${escapeHtml(wd.account_details || memberContact)}</div>
+                  </div>
+                  <div class="wd-field">
+                    <span class="wd-field-label">Date Requested</span>
+                    <div class="wd-field-val">${escapeHtml(requestDate)}</div>
+                  </div>
                 </div>
               </div>
 
-              <!-- Account Holder, Member ID & Date -->
-              <div class="wd-slip-grid">
-                <div class="wd-field">
-                  <span class="wd-field-label">Account Name / Member</span>
-                  <div class="wd-field-val">${escapeHtml(memberName)}</div>
+              <div>
+                <div class="wd-auth-note">
+                  Received from <strong>Palcon Dairy Multi-Purpose Cooperative</strong> the sum stated above to be debited from my Voluntary Savings Account. Purpose: <em>${escapeHtml(wd.purpose || 'Voluntary Savings Withdrawal')}</em>.
                 </div>
-                <div class="wd-field">
-                  <span class="wd-field-label">Account / Member ID</span>
-                  <div class="wd-field-val">${escapeHtml(memberCode)}</div>
-                </div>
-                <div class="wd-field">
-                  <span class="wd-field-label">Date Approved</span>
-                  <div class="wd-field-val">${escapeHtml(approvedDate)}</div>
-                </div>
-              </div>
 
-              <!-- Amount in Words & Amount in Figures -->
-              <div class="wd-amount-row">
-                <div class="wd-words-box">
-                  <span class="wd-field-label">Amount in Words</span>
-                  <div class="wd-field-val">${escapeHtml(amountWords)}</div>
+                <!-- Bank-style Signature Row -->
+                <div class="wd-sig-row">
+                  <div class="wd-sig-col">
+                    <div class="wd-sig-line">${escapeHtml(memberName)}</div>
+                    <div class="wd-sig-sub">Depositor / Member Signature</div>
+                  </div>
+                  <div class="wd-sig-col">
+                    <div class="wd-sig-line">Graichelle Quitain</div>
+                    <div class="wd-sig-sub">Verified By (Bookkeeper)</div>
+                  </div>
+                  <div class="wd-sig-col">
+                    <div class="wd-sig-line">Edna F. Manalo</div>
+                    <div class="wd-sig-sub">Approved / Paid By (Treasurer)</div>
+                  </div>
                 </div>
-                <div class="wd-figure-box">
-                  <span class="wd-field-label">Amount Withdrawn (PHP)</span>
-                  <div class="figure-val">${escapeHtml(formatPHP(amountNum))}</div>
-                </div>
-              </div>
 
-              <!-- Release Channel, Account Details & Purpose -->
-              <div class="wd-details-row">
-                <div class="wd-field">
-                  <span class="wd-field-label">Release Method</span>
-                  <div class="wd-field-val">${escapeHtml(wd.release_method || 'Cash Pickup at Coop Office')}</div>
+                <div class="wd-slip-footer">
+                  <span>CDA Reg. Feb 22, 1991 · Official Member Copy</span>
+                  <span>Generated: ${escapeHtml(generatedTimestamp)}</span>
                 </div>
-                <div class="wd-field">
-                  <span class="wd-field-label">Account / Contact Details</span>
-                  <div class="wd-field-val">${escapeHtml(wd.account_details || memberContact)}</div>
-                </div>
-                <div class="wd-field">
-                  <span class="wd-field-label">Date Requested</span>
-                  <div class="wd-field-val">${escapeHtml(requestDate)}</div>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <div class="wd-auth-note">
-                Received from <strong>Palcon Dairy Multi-Purpose Cooperative</strong> the sum stated above to be debited from my Voluntary Savings Account. Purpose: <em>${escapeHtml(wd.purpose || 'Voluntary Savings Withdrawal')}</em>.
-              </div>
-
-              <!-- Bank-style Signature Row -->
-              <div class="wd-sig-row">
-                <div class="wd-sig-col">
-                  <div class="wd-sig-line">${escapeHtml(memberName)}</div>
-                  <div class="wd-sig-sub">Depositor / Member Signature</div>
-                </div>
-                <div class="wd-sig-col">
-                  <div class="wd-sig-line">Graichelle Quitain</div>
-                  <div class="wd-sig-sub">Verified By (Bookkeeper)</div>
-                </div>
-                <div class="wd-sig-col">
-                  <div class="wd-sig-line">Edna F. Manalo</div>
-                  <div class="wd-sig-sub">Approved / Paid By (Treasurer)</div>
-                </div>
-              </div>
-
-              <div class="wd-slip-footer">
-                <span>CDA Reg. Feb 22, 1991 · Official Member Copy</span>
-                <span>Generated: ${escapeHtml(generatedTimestamp)}</span>
               </div>
             </div>
           </div>
@@ -4248,19 +4262,24 @@
         if (typeof window.html2pdf === 'function') {
           const pdfRenderHost = document.createElement('div');
           pdfRenderHost.style.position = 'fixed';
-          pdfRenderHost.style.left = '-10000px';
+          pdfRenderHost.style.left = '0';
           pdfRenderHost.style.top = '0';
-          pdfRenderHost.style.width = '750px';
+          pdfRenderHost.style.width = '768px';
+          pdfRenderHost.style.height = '368px';
+          pdfRenderHost.style.margin = '0';
+          pdfRenderHost.style.padding = '0';
           pdfRenderHost.style.background = '#ffffff';
-          pdfRenderHost.style.zIndex = '-1';
+          pdfRenderHost.style.opacity = '0';
+          pdfRenderHost.style.pointerEvents = 'none';
+          pdfRenderHost.style.zIndex = '-9999';
           pdfRenderHost.innerHTML = slipInnerHtml;
           document.body.appendChild(pdfRenderHost);
 
-          const targetSlip = pdfRenderHost.querySelector('.wd-slip-wrapper') || pdfRenderHost;
+          const targetSlip = pdfRenderHost.querySelector('.wd-slip-page') || pdfRenderHost;
 
-          // Standard bank withdrawal slip size: 203.2mm (8.0 in) wide x 91.44mm (3.6 in) high
+          // Centered bank withdrawal slip PDF: 203.2mm (8.0 in) wide x 98.0mm (3.86 in) high
           const pdfOptions = {
-            margin: [2, 2, 2, 2],
+            margin: [0, 0, 0, 0],
             filename: pdfFilename,
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: {
@@ -4268,12 +4287,15 @@
               useCORS: true,
               allowTaint: true,
               backgroundColor: '#ffffff',
+              width: 768,
+              height: 368,
+              windowWidth: 768,
               scrollX: 0,
               scrollY: 0
             },
             jsPDF: {
               unit: 'mm',
-              format: [203.2, 93],
+              format: [203.2, 98.0],
               orientation: 'landscape'
             }
           };
@@ -4286,13 +4308,13 @@
             }
           }
         } else {
-          const printWindow = window.open('', '_blank', 'width=820,height=420');
+          const printWindow = window.open('', '_blank', 'width=840,height=440');
           if (!printWindow) {
             alert('Please allow pop-ups in your browser to save the Withdrawal Slip as PDF.');
             return;
           }
           printWindow.document.open();
-          printWindow.document.write(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>${escapeHtml(pdfFilename)}</title><style>@page{size:8in 3.6in;margin:2mm;}body{margin:0;background:#fff;}</style></head><body>${slipInnerHtml}<script>window.onload=function(){setTimeout(function(){window.print();},300);};<\/script></body></html>`);
+          printWindow.document.write(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>${escapeHtml(pdfFilename)}</title><style>@page{size:8in 3.86in;margin:0;}html,body{width:100%;height:100%;margin:0;padding:0;background:#fff;display:flex;align-items:center;justify-content:center;}</style></head><body>${slipInnerHtml}<script>window.onload=function(){setTimeout(function(){window.print();},300);};<\/script></body></html>`);
           printWindow.document.close();
         }
       } catch (err) {
