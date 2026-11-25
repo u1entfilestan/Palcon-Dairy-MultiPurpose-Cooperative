@@ -6440,7 +6440,7 @@
       updateText('ft-contact', 'ftContact');
     }
 
-    // 9. Initialization on Page Load
+   // 9. Initialization on Page Load
     document.addEventListener('DOMContentLoaded', async function() {
       if (window.lucide) {
         lucide.createIcons();
@@ -6479,30 +6479,72 @@
       updateLoanEstimate();
       updateCartUI();
 
-      // Helper to activate member portal session & clean URL auth tokens
-      async function activateSignedInMemberSession(authUser, fallbackIdentifier = '') {
-        if (!authUser) return;
-        const memberRow = await fetchMemberProfile(authUser, fallbackIdentifier);
-        currentUser = buildMemberUserObject(memberRow, authUser);
-
-        const loginBtnText = document.getElementById('login-btn-text');
-        if (loginBtnText) loginBtnText.innerText = currentUser.memberCode;
-
-        const storeCreditEl = document.getElementById('store-credit-line');
-        if (storeCreditEl) storeCreditEl.innerText = formatPHP(currentUser.creditLimit);
-
-        if (window.location.hash && /access_token=|refresh_token=|error=/.test(window.location.hash)) {
-          history.replaceState(null, '', window.location.pathname + window.location.search);
-        } else if (window.location.search && /[?&](code|token_hash|type)=/.test(window.location.search)) {
-          history.replaceState(null, '', window.location.pathname);
-        }
-
-        switchTab('portal');
-        await renderDashboard();
-      }
-
       // Restore existing Supabase session & handle email confirmation redirect auto sign-in
       if (sb) {
+        const searchParams = new URLSearchParams(window.location.search);
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        const tokenHash = searchParams.get('token_hash');
+        const hashErrorCode = hashParams.get('error_code');
+
+        // 1. Verify ?token_hash=... from Confirm Signup email before checking session
+        if (tokenHash) {
+          let verifyResult = await sb.auth.verifyOtp({
+            token_hash: tokenHash,
+            type: 'signup'
+          });
+
+          if (verifyResult.error) {
+            verifyResult = await sb.auth.verifyOtp({
+              token_hash: tokenHash,
+              type: 'email'
+            });
+          }
+
+          window.history.replaceState(null, '', window.location.pathname);
+
+          if (!verifyResult.error && verifyResult.data?.user) {
+            const verifiedUser = verifyResult.data.user;
+            const memberCode = verifiedUser.user_metadata?.member_code;
+
+            if (memberCode) {
+              await sb
+                .from('members')
+                .update({
+                  auth_user_id: verifiedUser.id,
+                  email: verifiedUser.email
+                })
+                .eq('member_code', memberCode);
+            }
+
+            await activateSignedInMemberSession(verifiedUser);
+            const loginAlert = document.getElementById('login-status-alert');
+            if (loginAlert) {
+              loginAlert.classList.remove('hidden');
+              loginAlert.className = 'p-3.5 rounded-xl text-xs sm:text-sm font-semibold text-center bg-green-100 text-green-800';
+              loginAlert.innerText = 'Email address confirmed! Welcome to your PalCon Dairy Member Portal.';
+            }
+          } else {
+            switchTab('portal');
+            showPortalSubTab('login');
+            const loginAlert = document.getElementById('login-status-alert');
+            if (loginAlert) {
+              loginAlert.classList.remove('hidden');
+              loginAlert.className = 'p-3.5 rounded-xl text-xs sm:text-sm font-semibold text-center bg-amber-100 text-amber-900';
+              loginAlert.innerText = 'Verification notice: ' + (verifyResult.error?.message || 'Link expired') + '. If already confirmed, please sign in below.';
+            }
+          }
+        } else if (hashErrorCode === 'otp_expired' || hashParams.get('error') === 'access_denied') {
+          window.history.replaceState(null, '', window.location.pathname);
+          switchTab('portal');
+          showPortalSubTab('login');
+          const loginAlert = document.getElementById('login-status-alert');
+          if (loginAlert) {
+            loginAlert.classList.remove('hidden');
+            loginAlert.className = 'p-3.5 rounded-xl text-xs sm:text-sm font-semibold text-center bg-amber-100 text-amber-900';
+            loginAlert.innerText = 'Your confirmation link was already processed or has expired. Please sign in below using your Member ID and password.';
+          }
+        }
+
         const hasAuthRedirectParams =
           (window.location.hash && /access_token=|refresh_token=|type=signup/.test(window.location.hash)) ||
           (window.location.search && /[?&](code|token_hash|type)=/.test(window.location.search));
@@ -6526,7 +6568,7 @@
           if (session?.user) {
             if (hasAuthRedirectParams) {
               await activateSignedInMemberSession(session.user);
-            } else {
+            } else if (!currentUser) {
               const memberRow = await fetchMemberProfile(session.user);
               currentUser = buildMemberUserObject(memberRow, session.user);
               const loginBtnText = document.getElementById('login-btn-text');
