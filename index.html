@@ -2502,52 +2502,6 @@
             </div>
           </section>
 
-          <!-- TREASURER & CREDIT COMMITTEE APPROVAL & EMAIL NOTIFICATION CENTER -->
-          <section id="treasurer-approval-section" class="bg-white rounded-3xl border border-brand-200 shadow-sm overflow-hidden">
-            <div class="p-6 sm:p-8 border-b border-brand-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gradient-to-r from-brand-50 to-white">
-              <div>
-                <span class="text-xs font-extrabold uppercase tracking-widest text-[#0BA652]">Cooperative Treasury &amp; Credit Desk</span>
-                <h3 class="text-2xl font-extrabold text-brand-900 mt-1">Loan &amp; Savings Withdrawal Approvals</h3>
-                <p class="text-sm text-gray-500 mt-1">Review pending requests, approve or release funds, and send automated email notifications with full financial breakdowns.</p>
-              </div>
-              <button type="button" onclick="loadTreasurerApprovalQueues()" class="self-start sm:self-auto px-4 py-2 rounded-full border border-brand-200 bg-white hover:bg-brand-50 text-brand-900 font-bold text-xs flex items-center gap-1.5 cursor-pointer">
-                <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-[#0BA652]"></i> Refresh Queue
-              </button>
-            </div>
-
-            <div class="p-6 sm:p-8 space-y-6">
-              <div id="treasurer-notify-alert" role="status" class="hidden rounded-2xl p-4 text-xs sm:text-sm font-semibold"></div>
-
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Pending & Approved Loan Applications Queue -->
-                <div class="bg-brand-50/50 rounded-2xl p-5 border border-brand-100 space-y-3">
-                  <div class="flex items-center justify-between">
-                    <h4 class="font-extrabold text-brand-900 text-sm uppercase tracking-wider flex items-center gap-2">
-                      <i data-lucide="file-check-2" class="w-4 h-4 text-[#0BA652]"></i> Loan Requests Queue
-                    </h4>
-                    <span id="treasurer-loans-count" class="text-[11px] font-bold bg-white border border-brand-200 text-brand-900 px-2.5 py-0.5 rounded-full">0</span>
-                  </div>
-                  <div id="treasurer-loans-list" class="space-y-3 max-h-80 overflow-y-auto custom-scrollbar pr-1">
-                    <p class="text-xs text-gray-500">Loading loan queue...</p>
-                  </div>
-                </div>
-
-                <!-- Pending & Approved Savings Withdrawals Queue -->
-                <div class="bg-brand-50/50 rounded-2xl p-5 border border-brand-100 space-y-3">
-                  <div class="flex items-center justify-between">
-                    <h4 class="font-extrabold text-brand-900 text-sm uppercase tracking-wider flex items-center gap-2">
-                      <i data-lucide="banknote" class="w-4 h-4 text-[#0BA652]"></i> Savings Withdrawal Queue
-                    </h4>
-                    <span id="treasurer-withdrawals-count" class="text-[11px] font-bold bg-white border border-brand-200 text-brand-900 px-2.5 py-0.5 rounded-full">0</span>
-                  </div>
-                  <div id="treasurer-withdrawals-list" class="space-y-3 max-h-80 overflow-y-auto custom-scrollbar pr-1">
-                    <p class="text-xs text-gray-500">Loading withdrawal queue...</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
           <!-- Milk Deliveries Table -->
           <div class="bg-white rounded-3xl p-6 border border-brand-200 shadow-sm">
             <h3 class="font-bold text-xl text-brand-900 mb-4" id="dash-table-title">Recent Daily Milk Deliveries Log</h3>
@@ -2895,25 +2849,12 @@
     }
 
     // 1. Navigation & Page Switching
-    const STORAGE_KEY = 'active_page';
-    const VALID_PAGES = ['home', 'about', 'products', 'gallery', 'youth', 'contact', 'store', 'portal'];
-
-    function getInitialPage() {
-      const fromHash = window.location.hash.replace(/^#/, '').trim();
-      if (VALID_PAGES.includes(fromHash)) return fromHash;
-      const fromStorage = sessionStorage.getItem(STORAGE_KEY);
-      if (VALID_PAGES.includes(fromStorage)) return fromStorage;
-      return 'home';
-    }
-
-    function switchTab(pageId, options = {}) {
-      const resolvedPage = VALID_PAGES.includes(pageId) ? pageId : 'home';
-
+    function switchTab(pageId) {
       document.querySelectorAll('.page-content').forEach(page => {
         page.classList.add('hidden');
       });
 
-      const target = document.getElementById('page-' + resolvedPage);
+      const target = document.getElementById('page-' + pageId);
       if (target) {
         target.classList.remove('hidden');
       }
@@ -2922,7 +2863,7 @@
         btn.classList.remove('text-[#0BA652]', 'border-[#0BA652]');
         btn.classList.add('text-gray-600', 'border-transparent');
       });
-      const activeNav = document.getElementById('nav-' + resolvedPage);
+      const activeNav = document.getElementById('nav-' + pageId);
       if (activeNav) {
         activeNav.classList.remove('text-gray-600', 'border-transparent');
         activeNav.classList.add('text-[#0BA652]', 'border-[#0BA652]');
@@ -2933,25 +2874,12 @@
         mobileMenu.classList.add('hidden');
       }
 
-      // Persist active page for the current browser tab session & update URL hash
-      sessionStorage.setItem(STORAGE_KEY, resolvedPage);
-      if (window.location.hash !== `#${resolvedPage}`) {
-        history.replaceState(null, '', `#${resolvedPage}`);
-      }
-
-      if (resolvedPage === 'store' && storeCatalog.length === 0) {
+      if (pageId === 'store' && storeCatalog.length === 0) {
         loadStoreCatalog();
       }
 
-      if (options.scroll !== false) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
-    // Respond if the user edits the URL hash or uses browser Back/Forward
-    window.addEventListener('hashchange', () => {
-      switchTab(getInitialPage());
-    });
 
     function toggleMobileMenu() {
       const menu = document.getElementById('mobile-menu');
@@ -6468,9 +6396,6 @@
 
     // 9. Initialization on Page Load
     document.addEventListener('DOMContentLoaded', async function() {
-      // Restore active page on load / refresh before rendering icons & session
-      switchTab(getInitialPage(), { scroll: false });
-
       if (window.lucide) {
         lucide.createIcons();
       }
