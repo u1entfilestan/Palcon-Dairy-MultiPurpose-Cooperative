@@ -6394,7 +6394,7 @@
       updateText('ft-contact', 'ftContact');
     }
 
-    // 9. Initialization on Page Load
+   // 9. Initialization on Page Load
     document.addEventListener('DOMContentLoaded', async function() {
       if (window.lucide) {
         lucide.createIcons();
@@ -6433,6 +6433,57 @@
       updateLoanEstimate();
       updateCartUI();
 
+      // Handle Supabase email confirmation redirect callback (both token_hash and hash errors)
+      const searchParams = new URLSearchParams(window.location.search);
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      const tokenHash = searchParams.get('token_hash');
+      const authType = searchParams.get('type') || hashParams.get('type');
+      const hashErrorCode = hashParams.get('error_code');
+
+      if (tokenHash && authType === 'signup' && sb) {
+        const { error: verifyErr } = await sb.auth.verifyOtp({
+          token_hash: tokenHash,
+          type: 'signup'
+        });
+
+        // Clean query parameters from URL bar
+        window.history.replaceState(null, '', window.location.pathname);
+
+        if (!verifyErr) {
+          switchTab('portal');
+          const loginAlert = document.getElementById('login-status-alert');
+          if (loginAlert) {
+            loginAlert.className = 'p-3.5 rounded-xl text-xs sm:text-sm font-semibold text-center bg-green-100 text-green-800';
+            loginAlert.innerText = 'Email address confirmed! Welcome to your PalCon Dairy Member Portal.';
+          }
+        } else {
+          switchTab('portal');
+          showPortalSubTab('login');
+          const loginAlert = document.getElementById('login-status-alert');
+          if (loginAlert) {
+            loginAlert.className = 'p-3.5 rounded-xl text-xs sm:text-sm font-semibold text-center bg-amber-100 text-amber-900';
+            loginAlert.innerText = 'This confirmation link was already used or expired. If you already confirmed your email, please sign in below with your Member ID and password.';
+          }
+        }
+      } else if (hashErrorCode === 'otp_expired' || hashParams.get('error') === 'access_denied') {
+        window.history.replaceState(null, '', window.location.pathname);
+        switchTab('portal');
+        showPortalSubTab('login');
+        const loginAlert = document.getElementById('login-status-alert');
+        if (loginAlert) {
+          loginAlert.className = 'p-3.5 rounded-xl text-xs sm:text-sm font-semibold text-center bg-amber-100 text-amber-900';
+          loginAlert.innerText = 'Your confirmation link was already processed or has expired. Please sign in below using your Member ID and password.';
+        }
+      } else if (authType === 'signup' || hashParams.get('access_token')) {
+        window.history.replaceState(null, '', window.location.pathname);
+        switchTab('portal');
+        const loginAlert = document.getElementById('login-status-alert');
+        if (loginAlert) {
+          loginAlert.className = 'p-3.5 rounded-xl text-xs sm:text-sm font-semibold text-center bg-green-100 text-green-800';
+          loginAlert.innerText = 'Email address confirmed! You are now signed in.';
+        }
+      }
+
       // Restore existing Supabase session if signed in
       if (sb) {
         try {
@@ -6453,151 +6504,3 @@
 
       // Initialize Coop Store view
       loadStoreCatalog();
-
-      // 10. Hero Multi-Image Transition Slideshow
-      (function initHeroSlideshow() {
-        const carousel = document.getElementById('hero-carousel');
-        if (!carousel) return;
-
-        const slides = Array.from(carousel.querySelectorAll('.hero-slide'));
-        const dotsWrap = document.getElementById('hero-carousel-dots');
-        const prevBtn = document.getElementById('hero-prev-btn');
-        const nextBtn = document.getElementById('hero-next-btn');
-
-        if (slides.length <= 1) return;
-
-        let activeIndex = 0;
-        const intervalDuration = 4500;
-        let timer = null;
-
-        slides.forEach((_, idx) => {
-          const dot = document.createElement('button');
-          dot.type = 'button';
-          dot.setAttribute('aria-label', `Slide ${idx + 1}`);
-          dot.className = idx === 0
-            ? 'h-2 w-5 rounded-full bg-white transition-all duration-300 cursor-pointer'
-            : 'h-2 w-2 rounded-full bg-white/50 hover:bg-white/80 transition-all duration-300 cursor-pointer';
-          dot.addEventListener('click', () => {
-            showSlide(idx);
-            resetTimer();
-          });
-          dotsWrap.appendChild(dot);
-        });
-
-        const dots = Array.from(dotsWrap.children);
-
-        function showSlide(nextIdx) {
-          slides[activeIndex].classList.remove('active');
-          dots[activeIndex].className = 'h-2 w-2 rounded-full bg-white/50 hover:bg-white/80 transition-all duration-300 cursor-pointer';
-
-          activeIndex = (nextIdx + slides.length) % slides.length;
-
-          slides[activeIndex].classList.add('active');
-          dots[activeIndex].className = 'h-2 w-5 rounded-full bg-white transition-all duration-300 cursor-pointer';
-        }
-
-        function startTimer() {
-          stopTimer();
-          timer = setInterval(() => showSlide(activeIndex + 1), intervalDuration);
-        }
-
-        function stopTimer() {
-          if (timer) {
-            clearInterval(timer);
-            timer = null;
-          }
-        }
-
-        function resetTimer() {
-          stopTimer();
-          startTimer();
-        }
-
-        if (prevBtn) {
-          prevBtn.addEventListener('click', () => {
-            showSlide(activeIndex - 1);
-            resetTimer();
-          });
-        }
-
-        if (nextBtn) {
-          nextBtn.addEventListener('click', () => {
-            showSlide(activeIndex + 1);
-            resetTimer();
-          });
-        }
-
-        carousel.addEventListener('mouseenter', stopTimer);
-        carousel.addEventListener('mouseleave', startTimer);
-
-        let touchStartX = 0;
-        carousel.addEventListener('touchstart', (e) => {
-          touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        carousel.addEventListener('touchend', (e) => {
-          const diff = e.changedTouches[0].screenX - touchStartX;
-          if (Math.abs(diff) > 40) {
-            showSlide(diff < 0 ? activeIndex + 1 : activeIndex - 1);
-            resetTimer();
-          }
-        }, { passive: true });
-
-        startTimer();
-      })();
-    });
-  </script>
-
-  <script>
-    // 11. Awards Moving Banner Strip & Lightbox Viewer
-    const coopAwardsGallery = [{"title": "2017\u20132018 Regional Gawad Saka: Outstanding Small Farmers' Organization", "issuer": "Department of Agriculture \u2014 RFO IV-A (2018)", "src": "https://placehold.co/400x300/0BA652/ffffff?text=Award+Image"}, {"title": "2018 Provincial Gawad Saka: Outstanding Small Farmer/Fisherfolk Organization", "issuer": "Province of Quezon \u2014 Office of the Provincial Veterinarian (2018)", "src": "https://placehold.co/400x300/0BA652/ffffff?text=Award+Image"}, {"title": "Top 10 Performing Shared Service Facilities (SSF) in Quezon Province", "issuer": "Department of Trade and Industry (DTI-Quezon) (2022)", "src": "https://placehold.co/400x300/0BA652/ffffff?text=Award+Image"}, {"title": "One of the Oldest Dairy Organizations in Southern Luzon Area", "issuer": "National Dairy Authority \u2014 Southern Luzon Department (2023)", "src": "https://placehold.co/400x300/0BA652/ffffff?text=Award+Image"}, {"title": "Certificate of Appreciation \u2014 Brigada Eskwela Support", "issuer": "Concepcion Ibaba Elementary School, Sariaya, Quezon (2013)", "src": "https://placehold.co/400x300/0BA652/ffffff?text=Award+Image"}, {"title": "Gawad Dairy 2019 \u2014 Highest Dairy Cattle & Milk Production in the Philippines", "issuer": "National Dairy Authority (NDA) (2019)", "src": "https://placehold.co/400x300/0BA652/ffffff?text=Award+Image"}, {"title": "Natatanging Kooperatiba sa Bayan ng Sariaya, Quezon", "issuer": "Office of the Municipal Mayor, Sariaya, Quezon (2018)", "src": "https://placehold.co/400x300/0BA652/ffffff?text=Award+Image"}, {"title": "Natatanging Kooperatiba sa Pagatasan (Outstanding Dairy Cooperative)", "issuer": "National Dairy Authority (NDA) \u2014 15th Dairy Congress (2012)", "src": "https://placehold.co/400x300/0BA652/ffffff?text=Award+Image"}];
-    let currentAwardIdx = 0;
-
-    function toggleAwardsMarquee() {
-      const track = document.getElementById('awards-marquee-track');
-      const label = document.getElementById('awards-marquee-label');
-      const icon = document.getElementById('awards-marquee-icon');
-      if (!track) return;
-      const isPaused = track.classList.toggle('paused');
-      if (label) label.innerText = isPaused ? 'Resume Strip' : 'Pause Strip';
-      if (icon) {
-        icon.setAttribute('data-lucide', isPaused ? 'play' : 'pause');
-        if (window.lucide) lucide.createIcons();
-      }
-    }
-
-    function openAwardLightbox(idx) {
-      currentAwardIdx = (idx + coopAwardsGallery.length) % coopAwardsGallery.length;
-      const item = coopAwardsGallery[currentAwardIdx];
-      const modal = document.getElementById('award-lightbox-modal');
-      if (!item || !modal) return;
-      document.getElementById('award-lightbox-title').innerText = item.title;
-      document.getElementById('award-lightbox-issuer').innerText = item.issuer;
-      document.getElementById('award-lightbox-img').src = item.src;
-      document.getElementById('award-lightbox-counter').innerText = `${currentAwardIdx + 1} / ${coopAwardsGallery.length}`;
-      modal.classList.remove('hidden');
-      document.body.classList.add('overflow-hidden');
-      if (window.lucide) lucide.createIcons();
-    }
-
-    function stepAwardLightbox(delta) {
-      openAwardLightbox(currentAwardIdx + delta);
-    }
-
-    function closeAwardLightbox() {
-      const modal = document.getElementById('award-lightbox-modal');
-      if (modal) modal.classList.add('hidden');
-      document.body.classList.remove('overflow-hidden');
-    }
-
-    document.addEventListener('keydown', function(e) {
-      const modal = document.getElementById('award-lightbox-modal');
-      if (modal && !modal.classList.contains('hidden')) {
-        if (e.key === 'Escape') closeAwardLightbox();
-        if (e.key === 'ArrowRight') stepAwardLightbox(1);
-        if (e.key === 'ArrowLeft') stepAwardLightbox(-1);
-      }
-    });
-  </script>
-</body>
-</html>
