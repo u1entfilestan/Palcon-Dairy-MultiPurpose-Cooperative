@@ -2159,7 +2159,8 @@
 
     <!-- PRODUCT IMAGE LIGHTBOX MODAL -->
     <div id="product-image-lightbox"
-         class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-xs flex items-center justify-center p-4"
+         style="display: none;"
+         class="fixed inset-0 z-[9999] bg-black/80 items-center justify-center p-4"
          onclick="closeProductLightbox(event)">
       <div class="relative bg-white rounded-2xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl"
            onclick="event.stopPropagation()">
@@ -2193,6 +2194,15 @@
       (function () {
         let allStoreProducts = [];
         let activeStoreCategory = "ALL";
+
+        function escapeAttr(str) {
+          return String(str || "")
+            .replace(/&/g, "&amp;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+        }
 
         function getSupabaseClientSafe() {
           if (typeof supabaseClient !== "undefined" && supabaseClient) return supabaseClient;
@@ -2249,7 +2259,6 @@
                 category: String(item.category || "BASIC GOODS").toUpperCase(),
                 description: item.description || "",
                 image_url: item.image_url || "",
-                stock: item.stock != null ? item.stock : (item.stock_qty != null ? item.stock_qty : null),
                 variants: []
               });
             }
@@ -2257,8 +2266,7 @@
               id: item.id,
               variant: item.variant || "Standard",
               price: Number(item.price || 0),
-              unit: item.unit || "pc",
-              stock: item.stock != null ? item.stock : (item.stock_qty != null ? item.stock_qty : null)
+              unit: item.unit || "pc"
             });
           });
 
@@ -2270,26 +2278,29 @@
             const hasMultipleVariants =
               prod.variants.length > 1 || (firstVar.variant && firstVar.variant !== "Standard");
 
-            const safeName = prod.name.replace(/'/g, "\\'").replace(/"/g, "&quot;");
-            const safeCat = prod.category.replace(/'/g, "\\'").replace(/"/g, "&quot;");
-            const safeDesc = prod.description.replace(/'/g, "\\'").replace(/"/g, "&quot;");
-            const safeImg = prod.image_url.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+            const safeName = escapeAttr(prod.name);
+            const safeCat = escapeAttr(prod.category);
+            const safeDesc = escapeAttr(prod.description);
+            const safeImg = escapeAttr(prod.image_url);
 
             const imageBlock = prod.image_url
-              ? `<div class="relative overflow-hidden rounded-xl mb-3 bg-gray-100">
-                   <img src="${prod.image_url}"
+              ? `<div class="relative overflow-hidden rounded-xl mb-3 bg-gray-100 cursor-zoom-in"
+                      data-zoom-src="${safeImg}"
+                      data-zoom-title="${safeName}"
+                      data-zoom-category="${safeCat}"
+                      data-zoom-caption="${safeDesc}">
+                   <img src="${safeImg}"
                         alt="${safeName}"
                         title="Click to enlarge"
-                        onclick="openProductLightbox('${safeImg}', '${safeName}', '${safeCat}', '${safeDesc}')"
-                        class="w-full h-36 object-cover cursor-zoom-in hover:scale-105 transition duration-200" />
-                   <span class="absolute top-2 right-2 bg-[#0BA652] text-white text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md shadow">
-                     ${prod.category}
+                        class="coop-zoomable-img w-full h-36 object-cover hover:scale-105 transition duration-200" />
+                   <span class="pointer-events-none absolute top-2 right-2 bg-[#0BA652] text-white text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md shadow">
+                     ${safeCat}
                    </span>
                  </div>`
               : `<div class="relative w-full h-36 rounded-xl mb-3 bg-[#0BA652] text-white font-extrabold text-sm flex items-center justify-center">
                    Coop Product
-                   <span class="absolute top-2 right-2 bg-black/25 text-white text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md">
-                     ${prod.category}
+                   <span class="pointer-events-none absolute top-2 right-2 bg-black/25 text-white text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md">
+                     ${safeCat}
                    </span>
                  </div>`;
 
@@ -2297,18 +2308,18 @@
               ? `<select id="variant-select-${idx}" onchange="updateStoreCardPrice(${idx})"
                    class="w-full mt-2.5 px-2.5 py-1.5 text-[11px] font-semibold bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#0BA652]">
                    ${prod.variants.map((v, vIdx) => `
-                     <option value="${vIdx}" data-price="${v.price}" data-unit="${v.unit}" data-variant="${v.variant}">
-                       ${v.variant} (${v.unit}) — ₱${v.price.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
+                     <option value="${vIdx}" data-price="${v.price}" data-unit="${escapeAttr(v.unit)}" data-variant="${escapeAttr(v.variant)}">
+                       ${escapeAttr(v.variant)} (${escapeAttr(v.unit)}) — ₱${v.price.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
                      </option>`).join("")}
                  </select>`
-              : `<p class="text-[11px] text-gray-400 mt-2">Unit: <span class="font-semibold text-gray-600">${firstVar.unit}</span></p>`;
+              : `<p class="text-[11px] text-gray-400 mt-2">Unit: <span class="font-semibold text-gray-600">${escapeAttr(firstVar.unit)}</span></p>`;
 
             return `
               <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-3.5 flex flex-col justify-between hover:shadow-md transition">
                 <div>
                   ${imageBlock}
-                  <h4 class="font-bold text-gray-900 text-xs sm:text-sm leading-snug">${prod.name}</h4>
-                  <p class="text-[11px] text-gray-500 mt-1 line-clamp-3">${prod.description}</p>
+                  <h4 class="font-bold text-gray-900 text-xs sm:text-sm leading-snug">${safeName}</h4>
+                  <p class="text-[11px] text-gray-500 mt-1 line-clamp-3">${safeDesc}</p>
                   ${variantSelectHtml}
                 </div>
 
@@ -2318,7 +2329,7 @@
                     <span id="card-price-${idx}" class="text-sm font-extrabold text-gray-900">
                       ₱${firstVar.price.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
                     </span>
-                    <span id="card-unit-${idx}" class="text-[10px] text-gray-500">/ ${firstVar.unit}</span>
+                    <span id="card-unit-${idx}" class="text-[10px] text-gray-500">/ ${escapeAttr(firstVar.unit)}</span>
                   </div>
                   <button onclick="addGroupedProductToCart(${idx})"
                     class="cta-emboss-primary text-white text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap">
@@ -2416,6 +2427,7 @@
           }
 
           modal.classList.remove("hidden");
+          modal.style.display = "flex";
           document.body.classList.add("overflow-hidden");
         };
 
@@ -2426,15 +2438,44 @@
           if (!modal) return;
 
           modal.classList.add("hidden");
+          modal.style.display = "none";
           if (imgEl) imgEl.src = "";
           document.body.classList.remove("overflow-hidden");
         };
 
-        document.addEventListener("keydown", (e) => {
+        // Delegated click handler so clicking any image in #page-store opens the lightbox
+        document.addEventListener("click", function (event) {
+          const storePage = document.getElementById("page-store");
+          if (!storePage || !storePage.contains(event.target)) return;
+
+          const img = event.target.closest("img");
+          if (!img) return;
+
+          const src = img.currentSrc || img.getAttribute("src") || "";
+          if (!src || src.trim() === "") return;
+
+          const holder = img.closest("[data-zoom-src]") || img.closest(".bg-white");
+          const title =
+            holder?.getAttribute("data-zoom-title") ||
+            holder?.querySelector("h4")?.textContent?.trim() ||
+            img.getAttribute("alt") ||
+            "Coop Product";
+          const category = holder?.getAttribute("data-zoom-category") || "";
+          const caption =
+            holder?.getAttribute("data-zoom-caption") ||
+            holder?.querySelector("p")?.textContent?.trim() ||
+            "";
+
+          event.preventDefault();
+          event.stopPropagation();
+          window.openProductLightbox(src, title, category, caption);
+        });
+
+        document.addEventListener("keydown", function (e) {
           if (e.key === "Escape") window.closeProductLightbox();
         });
 
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("DOMContentLoaded", function () {
           window.loadCoopStoreProducts();
         });
       })();
