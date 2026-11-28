@@ -168,17 +168,19 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
+      object-position: center center;
+      background-color: #08281d;
       opacity: 0;
       visibility: hidden;
       transform: scale(1);
-      transition: opacity 0.9s ease-in-out, visibility 0.9s ease-in-out, transform 6s ease-out;
+      transition: opacity 0.9s ease-in-out, visibility 0.9s ease-in-out;
       z-index: 1;
     }
     .hero-slide.active {
       opacity: 1;
       visibility: visible;
-      transform: scale(1.05);
+      transform: scale(1);
       z-index: 2;
     }
     .hero-carousel-arrow {
@@ -346,7 +348,7 @@
                 At Palcon Dairy, our farmers pour their care into producing fresh, good-quality milk every day. As a cooperative, we gather and market that milk — then partner with skilled processing organizations who turn it into finished dairy products for you. We’re the helping hand that connects farm fresh milk to your table, supporting our farmers at every step. Thank you for choosing to support local farmers — we’re happy to have you with us!
               </p>
 
-<!-- CTA Action Buttons -->
+              <!-- CTA Action Buttons -->
               <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
                 <button onclick="switchTab('portal')" class="cta-emboss-primary text-white font-bold text-sm sm:text-base px-6 py-3.5 rounded-full flex items-center justify-center gap-2">
                   <i data-lucide="users" class="w-5 h-5"></i>
@@ -363,84 +365,82 @@
 
             </div>
 
-             <!-- Right Hero Image Transition Carousel with Floating Glassmorphism Overlay -->
-            <div class="lg:col-span-6 relative mt-4 lg:mt-0">
-              <div id="hero-carousel" class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white h-[360px] sm:h-[420px] bg-brand-900 group">
+            <!-- Right Hero Image Transition Carousel -->
+            <div class="lg:col-span-6 relative mt-4 lg:mt-0 space-y-4">
+              <div id="hero-carousel" class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white h-[340px] sm:h-[420px] lg:h-[440px] bg-brand-dark group">
                 <!-- Slide 1: Primary Cooperative Members -->
                 <img 
                   src="palcon-dairy-mpc.jpg" 
                   alt="Palcon Dairy Multi-Purpose Cooperative Members Gathering" 
-                  class="hero-slide active w-full h-full object-cover object-top"
+                  class="hero-slide active"
                   onerror="this.onerror=null; this.src='https://placehold.co/800x600/0BA652/ffffff?text=Palcon+Dairy+MPC';"
                 />
                 <!-- Slide 2: Cooperative Community Assembly -->
                 <img 
                   src="palcon-logo-1.jpg" 
                   alt="Palcon Dairy Multi-Purpose Cooperative Community Assembly" 
-                  class="hero-slide w-full h-full object-cover object-top"
+                  class="hero-slide"
                   onerror="this.onerror=null; this.src='https://placehold.co/800x600/0BA652/ffffff?text=Cooperative+Members';"
                 />
                 <!-- Slide 3: Provincial Recognition Award -->
                 <img 
                   src="da-plaque-nov2026.jpg" 
                   alt="Palcon Dairy MPC Plaque of Recognition - Province of Quezon" 
-                  class="hero-slide w-full h-full object-cover object-top"
+                  class="hero-slide"
                   onerror="this.onerror=null; this.src='https://placehold.co/800x600/0BA652/ffffff?text=Quezon+Recognition';"
                 />
                 <!-- Slide 4: 50th Gawad Saka National Finalist -->
                 <img 
                   src="gemma-chavez-award.jpg" 
                   alt="Gemma E. Chavez - 50th Gawad Saka National Finalist" 
-                  class="hero-slide w-full h-full object-cover object-top"
+                  class="hero-slide"
                   onerror="this.onerror=null; this.src='https://placehold.co/800x600/0BA652/ffffff?text=Gawad+Saka+Finalist';"
                 />
                 <!-- Slide 5: Cluster Development Plan Presentation -->
                 <img 
                   src="cluster-development-plan.jpg" 
                   alt="Cluster Development Plan Presentation and Certification" 
-                  class="hero-slide w-full h-full object-cover object-top"
+                  class="hero-slide"
                   onerror="this.onerror=null; this.src='https://placehold.co/800x600/0BA652/ffffff?text=Cluster+Development+Plan';"
                 />
-                
-                <div class="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent z-[3] pointer-events-none"></div>
 
                 <!-- Previous / Next Controls -->
-                <button type="button" id="hero-prev-btn" aria-label="Previous photo" class="hero-carousel-arrow absolute left-3 top-[38%] -translate-y-1/2 z-[6] w-9 h-9 rounded-full bg-white/85 hover:bg-white text-brand-900 hover:text-[#0BA652] shadow-md flex items-center justify-center backdrop-blur-sm cursor-pointer">
+                <button type="button" id="hero-prev-btn" aria-label="Previous photo" class="hero-carousel-arrow absolute left-3 top-1/2 -translate-y-1/2 z-[6] w-9 h-9 rounded-full bg-white/90 hover:bg-white text-brand-900 hover:text-[#0BA652] shadow-md flex items-center justify-center backdrop-blur-sm cursor-pointer">
                   <i data-lucide="chevron-left" class="w-5 h-5"></i>
                 </button>
-                <button type="button" id="hero-next-btn" aria-label="Next photo" class="hero-carousel-arrow absolute right-3 top-[38%] -translate-y-1/2 z-[6] w-9 h-9 rounded-full bg-white/85 hover:bg-white text-brand-900 hover:text-[#0BA652] shadow-md flex items-center justify-center backdrop-blur-sm cursor-pointer">
+                <button type="button" id="hero-next-btn" aria-label="Next photo" class="hero-carousel-arrow absolute right-3 top-1/2 -translate-y-1/2 z-[6] w-9 h-9 rounded-full bg-white/90 hover:bg-white text-brand-900 hover:text-[#0BA652] shadow-md flex items-center justify-center backdrop-blur-sm cursor-pointer">
                   <i data-lucide="chevron-right" class="w-5 h-5"></i>
                 </button>
 
                 <!-- Slide Indicator Pills -->
-                <div id="hero-carousel-dots" class="absolute top-4 right-4 z-[6] flex items-center gap-1.5 bg-brand-dark/45 backdrop-blur-md px-2.5 py-1.5 rounded-full"></div>
+                <div id="hero-carousel-dots" class="absolute top-4 right-4 z-[6] flex items-center gap-1.5 bg-brand-dark/55 backdrop-blur-md px-2.5 py-1.5 rounded-full"></div>
+              </div>
 
-                <div class="absolute bottom-4 left-4 right-4 z-[5] bg-white/95 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-emerald-100/80 shadow-lg">
-                  <div class="grid grid-cols-2 divide-x divide-emerald-100">
-                    
-                    <div class="flex items-center gap-3 pr-2 sm:pr-4">
-                      <div class="w-11 h-11 rounded-full bg-brand-100 flex items-center justify-center shrink-0">
-                        <i data-lucide="milk" class="w-6 h-6 text-[#0BA652]"></i>
-                      </div>
-                      <div>
-                        <div class="text-xl sm:text-2xl font-extrabold text-brand-900 tracking-tight">1,250+ L</div>
-                        <div class="text-xs font-semibold text-gray-500" id="stat-milk-label">Daily Milk Collected</div>
-                      </div>
+              <!-- Cooperative Metrics Card -->
+              <div class="bg-white/95 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-emerald-100/80 shadow-lg">
+                <div class="grid grid-cols-2 divide-x divide-emerald-100">
+                  
+                  <div class="flex items-center gap-3 pr-2 sm:pr-4">
+                    <div class="w-11 h-11 rounded-full bg-brand-100 flex items-center justify-center shrink-0">
+                      <i data-lucide="milk" class="w-6 h-6 text-[#0BA652]"></i>
                     </div>
-
-                    <div class="flex items-center gap-3 pl-3 sm:pl-6">
-                      <div class="w-11 h-11 rounded-full bg-brand-100 flex items-center justify-center shrink-0 font-bold text-[#0BA652] text-lg">
-                        ₱
-                      </div>
-                      <div>
-                        <div class="text-xl sm:text-2xl font-extrabold text-brand-900 tracking-tight">₱36.74+ Base</div>
-                        <div class="text-xs font-semibold text-gray-500" id="stat-payout-label">Base + ₱0.74 Prem + ₱1/L Gas</div>
-                      </div>
+                    <div>
+                      <div class="text-xl sm:text-2xl font-extrabold text-brand-900 tracking-tight">1,250+ L</div>
+                      <div class="text-xs font-semibold text-gray-500" id="stat-milk-label">Daily Milk Collected</div>
                     </div>
-
                   </div>
-                </div>
 
+                  <div class="flex items-center gap-3 pl-3 sm:pl-6">
+                    <div class="w-11 h-11 rounded-full bg-brand-100 flex items-center justify-center shrink-0 font-bold text-[#0BA652] text-lg">
+                      ₱
+                    </div>
+                    <div>
+                      <div class="text-xl sm:text-2xl font-extrabold text-brand-900 tracking-tight">₱36.74+ Base</div>
+                      <div class="text-xs font-semibold text-gray-500" id="stat-payout-label">Base + ₱0.74 Prem + ₱1/L Gas</div>
+                    </div>
+                  </div>
+
+                </div>
               </div>
             </div>
 
